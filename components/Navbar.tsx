@@ -1,37 +1,20 @@
-import Link from "next/link";
-import Image from "next/image";
-import { assets } from "@/assets/assets";
+import ContactBtn from "./ui/ContactBtn";
+import Logo from "./Header/Logo";
+import NavList from "./Header/NavList";
+import MobileMenuBtn from "./ui/MobileMenuBtn";
+import ToggleTheme from "./ui/ToggleTheme";
 
 function Navbar() {
   return (
-    <section>
-      <nav className="w-full flex items-center justify-between">
-        <Link href="/">
-          <Image
-            src={assets.logo}
-            alt="logo-img"
-            className="w-28 cursor-pointer mr-14"
-          />
-        </Link>
-        <ul>
-          <li>
-            <Link href="#Home">Home</Link>
-          </li>
-          <li>
-            <Link href="#Home">Home</Link>
-          </li>
-          <li>
-            <Link href="#Home">Home</Link>
-          </li>
-          <li>
-            <Link href="#Home">Home</Link>
-          </li>
-          <li>
-            <Link href="#Home">Home</Link>
-          </li>
-        </ul>
-      </nav>
-    </section>
+    <nav className="xl:px[8%] fixed z-50 flex w-full items-center justify-between px-5 py-4 lg:px-8">
+      <Logo />
+      <NavList />
+      <div className="flex items-center gap-4">
+        <ContactBtn />
+        <ToggleTheme />
+        <MobileMenuBtn />
+      </div>
+    </nav>
   );
 }
 
