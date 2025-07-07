@@ -8,7 +8,7 @@ function Logo() {
       <Image
         src={assets.logo}
         alt="logo-img"
-        className="mr-14 w-12 cursor-pointer bg-transparent"
+        className="mr-14 w-28 cursor-pointer bg-transparent"
       />
     </Link>
   );
