@@ -1,21 +1,30 @@
 import Link from "next/link";
+import type React from "react";
 
-function NavList() {
+type Props = {
+  className?: string;
+  sideMenuRef?: React.RefObject<HTMLUListElement | null>;
+  children?: React.ReactNode;
+  closeMenu?: () => void;
+};
+
+function NavList({ className, sideMenuRef, children, closeMenu }: Props) {
   return (
-    <ul className="font-Ovo hidden items-center gap-6 rounded-full bg-white px-12 py-3 opacity-50 shadow-sm md:flex lg:gap-8">
-      <li>
+    <ul ref={sideMenuRef} className={className ?? ""}>
+      {children}
+      <li onClick={closeMenu}>
         <Link href="#top">Home</Link>
       </li>
-      <li>
+      <li onClick={closeMenu}>
         <Link href="#about">About me</Link>
       </li>
-      <li>
+      <li onClick={closeMenu}>
         <Link href="#services">Services</Link>
       </li>
-      <li>
+      <li onClick={closeMenu}>
         <Link href="#works">My works</Link>
       </li>
-      <li>
+      <li onClick={closeMenu}>
         <Link href="#contact">Contact me</Link>
       </li>
     </ul>
