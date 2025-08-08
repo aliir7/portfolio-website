@@ -1,4 +1,4 @@
-import Navbar from "../Navbar";
+import Navbar from "./Navbar";
 import HeaderGradient from "./HeaderGradient";
 
 function Header() {

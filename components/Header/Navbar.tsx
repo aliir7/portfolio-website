@@ -1,10 +1,10 @@
 "use client";
 
-import ContactBtn from "./ui/ContactBtn";
-import Logo from "./Header/Logo";
-import NavList from "./Header/NavList";
-import MobileMenuBtn from "./ui/MobileMenuBtn";
-import ToggleTheme from "./ui/ToggleTheme";
+import ContactBtn from "../ui/ContactBtn";
+import Logo from "./Logo";
+import NavList from "./NavList";
+import MobileMenuBtn from "../ui/MobileMenuBtn";
+import ToggleTheme from "../ui/ToggleTheme";
 import { useRef } from "react";
 import { HiXMark } from "react-icons/hi2";
 
