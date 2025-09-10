@@ -1,11 +1,62 @@
 @import "tailwindcss";
 
-@theme {
-  --color-lightHover: #fcf4ff;
-  --color-darkHover: #2a004a;
-  --color-darkTheme: #11001f;
-  --shadow-black: 4px 4px 0 #000;
-  --shadow-white: 4px 4px 0 #fff;
-  --font-Outfit: "Outfit", "sans-serif";
-  --font-Ovo: "Ovo", "serif";
+@custom-variant dark (&:is(.dark *));
+
+@font-face {
+  font-family: "Vazir";
+  src: url("./fonts/Vazir.ttf") format("truetype");
+}
+
+:root {
+  /* Light Mode */
+  --background: #ffffff;
+  --foreground: #111111;
+
+  --primary: #4f46e5; /* بنفش */
+  --primary-foreground: #ffffff;
+
+  --secondary: #f97316; /* نارنجی */
+  --secondary-foreground: #ffffff;
+
+  --muted: #f1f5f9;
+  --muted-foreground: #64748b;
+
+  --accent: #0ea5e9; /* آبی فیروزه‌ای */
+  --accent-foreground: #ffffff;
+}
+
+.dark {
+  /* Dark Mode */
+  --background: #0f172a;
+  --foreground: #f8fafc;
+
+  --primary: #6366f1; /* بنفش روشن‌تر */
+  --primary-foreground: #f8fafc;
+
+  --secondary: #fb923c; /* نارنجی ملایم */
+  --secondary-foreground: #111111;
+
+  --muted: #1e293b;
+  --muted-foreground: #94a3b8;
+
+  --accent: #22d3ee; /* آبی روشن */
+  --accent-foreground: #0f172a;
+}
+
+/* section:nth-child(1) {
+  background-color: #f97316;
+}
+section:nth-child(2) {
+  background-color: lawngreen;
+}
+section:nth-child(3) {
+  background-color: goldenrod;
+}
+section:nth-child(4) {
+  background-color: hotpink; */
+
+@layer utilities {
+  .wrapper {
+    @apply mx-auto pr-4 pl-4 sm:min-w-sm md:min-w-md lg:min-w-lg xl:min-w-xl 2xl:min-w-2xl;
+  }
 }

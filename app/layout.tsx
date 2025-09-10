@@ -1,21 +1,17 @@
 import type { Metadata } from "next";
-import { Outfit, Ovo } from "next/font/google";
+import Vazir from "next/font/local";
 import "./globals.css";
-
-const outfit = Outfit({
-  subsets: ["latin"],
-  weight: ["400", "500", "600", "700"],
-});
-
-const ovo = Ovo({
-  subsets: ["latin"],
-  weight: ["400"],
-});
+import { ThemeProvider } from "next-themes";
 
 export const metadata: Metadata = {
   title: "Portfolio - AliRezaei",
   description: "Personal website for resume",
 };
+
+const vazir = Vazir({
+  src: "./fonts/Vazir.ttf",
+  display: "swap",
+});
 
 export default function RootLayout({
   children,
@@ -23,11 +19,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="scroll-smooth">
+    <html lang="fa" dir="rtl" className="snap-y snap-mandatory scroll-smooth">
       <body
-        className={`${outfit.className} ${ovo.className} overflow-x-hidden leading-8 antialiased`}
+        className={`${vazir.className} "min-h-screen overflow-x-hidden bg-gradient-to-b from-[#12071f] to-[#2f204e] text-white antialiased`}
       >
-        {children}
+        <ThemeProvider defaultTheme="light" enableSystem>
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );
