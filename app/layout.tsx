@@ -14,8 +14,13 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="fa" dir="rtl" className="h-full scroll-smooth">
-      <body className={cn("min-h-screen bg-background font-sans antialiased")}>
+    <html
+      lang="fa"
+      dir="rtl"
+      className="h-full scroll-smooth"
+      suppressHydrationWarning
+    >
+      <body className={cn("min-h-screen font-sans antialiased")}>
         {children}
       </body>
     </html>

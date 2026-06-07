@@ -13,6 +13,7 @@
     "@remixicon/react": "^4.9.0",
     "class-variance-authority": "^0.7.1",
     "clsx": "^2.1.1",
+    "framer-motion": "^12.40.0",
     "next": "16.2.7",
     "radix-ui": "^1.4.3",
     "react": "19.2.7",
@@ -28,6 +29,8 @@
     "@types/react-dom": "^19",
     "eslint": "^10",
     "eslint-config-next": "16.2.7",
+    "prettier": "^3.8.3",
+    "prettier-plugin-tailwindcss": "^0.8.0",
     "tailwindcss": "^4",
     "typescript": "^6"
   }

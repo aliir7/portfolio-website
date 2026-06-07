@@ -9,41 +9,45 @@
   src: url("/fonts/Yekan.woff2") format("woff2");
   font-weight: normal;
   font-style: normal;
+  font-display: swap;
 }
 
+/* 
+  در Tailwind v4، متغیرهای لایه Theme مستقیماً از متغیرهای CSS استفاده می‌کنند.
+  ما تمام نام‌ها را بر اساس استاندارد shadcn/ui تعریف کرده‌ایم.
+*/
 @theme inline {
   --font-sans: "Yekan", "Jost", ui-sans-serif, system-ui, sans-serif;
   --font-heading:
     "Montserrat Alternates", "Yekan", ui-sans-serif, system-ui, sans-serif;
 
-  /* Zoe Miller palette */
-  --color-background: var(--body-color);
-  --color-foreground: var(--text-color);
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
 
-  --color-card: var(--container-color);
-  --color-card-foreground: var(--title-color);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
 
-  --color-popover: var(--container-color);
-  --color-popover-foreground: var(--title-color);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
 
-  --color-primary: var(--first-color);
-  --color-primary-foreground: var(--white-color);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
 
-  --color-secondary: hsl(var(--hue), 30%, 84%);
-  --color-secondary-foreground: var(--title-color);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
 
-  --color-muted: hsl(var(--hue), 30%, 88%);
-  --color-muted-foreground: var(--text-color);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
 
-  --color-accent: hsl(var(--hue), 30%, 88%);
-  --color-accent-foreground: var(--title-color);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
 
-  --color-destructive: oklch(0.577 0.245 27.325);
-  --color-destructive-foreground: oklch(0.985 0 0);
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
 
-  --color-border: var(--border-color);
-  --color-input: var(--border-color);
-  --color-ring: var(--first-color);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
 
   --radius-sm: calc(var(--radius) * 0.6);
   --radius-md: calc(var(--radius) * 0.8);
@@ -52,65 +56,92 @@
   --radius-2xl: calc(var(--radius) * 1.8);
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
-
-  /* shadcn extras */
-  --color-sidebar: var(--container-color);
-  --color-sidebar-foreground: var(--title-color);
-  --color-sidebar-primary: var(--first-color);
-  --color-sidebar-primary-foreground: var(--white-color);
-  --color-sidebar-accent: hsl(var(--hue), 30%, 88%);
-  --color-sidebar-accent-foreground: var(--title-color);
-  --color-sidebar-border: var(--border-color);
-  --color-sidebar-ring: var(--first-color);
-
-  --color-chart-1: var(--first-color);
-  --color-chart-2: hsl(calc(var(--hue) - 20), 50%, 45%);
-  --color-chart-3: hsl(calc(var(--hue) + 20), 45%, 45%);
-  --color-chart-4: hsl(var(--hue), 20%, 55%);
-  --color-chart-5: hsl(var(--hue), 10%, 35%);
 }
 
-:root {
-  /* Zoe Miller original tokens */
-  --hue: 165;
+@layer base {
+  :root {
+    --hue: 165;
 
-  --first-color: hsl(var(--hue), 60%, 40%);
-  --title-color: hsl(var(--hue), 4%, 12%);
-  --text-color: hsl(var(--hue), 4%, 20%);
-  --body-color: hsl(var(--hue), 30%, 92%);
-  --container-color: hsl(0, 0%, 100%);
-  --border-color: hsl(var(--hue), 4%, 16%);
-  --white-color: hsl(0, 0%, 100%);
-  --shadow-color: hsla(var(--hue), 80%, 10%, 0.2);
+    /* استانداردسازی متغیرهای رنگی برای Light Mode */
+    --background: hsl(var(--hue), 30%, 92%);
+    --foreground: hsl(var(--hue), 4%, 20%);
 
-  --radius: 0.625rem;
-}
+    --card: hsl(0, 0%, 100%);
+    --card-foreground: hsl(var(--hue), 4%, 12%);
 
-@font-face {
-  font-family: "Yekan";
-  src: url("/fonts/Yekan.woff2") format("woff2");
-  font-weight: normal;
-  font-style: normal;
-  font-display: swap;
+    --popover: hsl(0, 0%, 100%);
+    --popover-foreground: hsl(var(--hue), 4%, 12%);
+
+    --primary: hsl(var(--hue), 60%, 40%);
+    --primary-foreground: hsl(0, 0%, 100%);
+
+    --secondary: hsl(var(--hue), 30%, 84%);
+    --secondary-foreground: hsl(var(--hue), 4%, 12%);
+
+    --muted: hsl(var(--hue), 30%, 88%);
+    --muted-foreground: hsl(var(--hue), 4%, 20%);
+
+    --accent: hsl(var(--hue), 30%, 88%);
+    --accent-foreground: hsl(var(--hue), 4%, 12%);
+
+    --destructive: oklch(0.577 0.245 27.325);
+    --destructive-foreground: oklch(0.985 0 0);
+
+    --border: hsl(var(--hue), 4%, 16%);
+    --input: hsl(var(--hue), 4%, 16%);
+    --ring: hsl(var(--hue), 60%, 40%);
+
+    --radius: 0.625rem;
+
+    /* متغیرهای کاستوم افکت‌ها */
+    --shadow-color: hsla(var(--hue), 80%, 10%, 0.2);
+    --stroke-color: hsl(var(--hue), 4%, 12%);
+  }
+
+  /* استانداردسازی متغیرهای رنگی برای Dark Mode */
+  .dark {
+    --background: hsl(var(--hue), 12%, 10%);
+    --foreground: hsl(0, 0%, 80%);
+
+    --card: hsl(var(--hue), 10%, 14%);
+    --card-foreground: hsl(0, 0%, 98%);
+
+    --popover: hsl(var(--hue), 10%, 14%);
+    --popover-foreground: hsl(0, 0%, 98%);
+
+    --primary: hsl(var(--hue), 60%, 40%);
+    --primary-foreground: hsl(0, 0%, 100%);
+
+    --secondary: hsl(var(--hue), 10%, 20%);
+    --secondary-foreground: hsl(0, 0%, 98%);
+
+    --muted: hsl(var(--hue), 10%, 20%);
+    --muted-foreground: hsl(0, 0%, 80%);
+
+    --accent: hsl(var(--hue), 10%, 20%);
+    --accent-foreground: hsl(0, 0%, 98%);
+
+    --border: hsl(var(--hue), 8%, 28%);
+    --input: hsl(var(--hue), 8%, 28%);
+    --ring: hsl(var(--hue), 60%, 40%);
+
+    --shadow-color: hsla(0, 0%, 0%, 0.4);
+    --stroke-color: hsl(0, 0%, 98%);
+  }
 }
 
 @layer base {
   * {
     @apply border-border outline-ring/50;
-    box-sizing: border-box;
   }
 
   html {
     scroll-behavior: smooth;
-    @apply font-sans;
   }
 
   body {
-    direction: rtl;
-    @apply bg-background text-foreground antialiased font-sans;
-    background-color: var(--background);
-    color: var(--foreground);
-    font-family: var(--font-sans);
+    /* تخصیص رنگ‌های پس‌زمینه و متن مستقیماً از کلاس‌های Tailwind انجام می‌شود */
+    @apply text-foreground font-sans antialiased;
   }
 
   h1,
@@ -119,30 +150,15 @@
   h4,
   h5,
   h6 {
-    @apply font-heading;
-    color: var(--title-color);
-    font-weight: 600;
-  }
-
-  a {
-    text-decoration: none;
-  }
-
-  ul {
-    list-style: none;
-  }
-
-  img {
-    max-width: 100%;
-    height: auto;
+    /* تیترها به رنگ card-foreground (همان title-color قبلی) نگاشت شده‌اند */
+    @apply font-heading text-card-foreground font-semibold;
   }
 }
 
-.dark {
-  --body-color: hsl(var(--hue), 10%, 10%);
-  --title-color: hsl(0, 0%, 98%);
-  --text-color: hsl(0, 0%, 90%);
-  --container-color: hsl(var(--hue), 10%, 14%);
-  --border-color: hsl(var(--hue), 8%, 24%);
-  --white-color: hsl(0, 0%, 100%);
+@layer utilities {
+  .stroke-custom {
+    -webkit-text-stroke: 1px var(--stroke-color);
+    text-shadow: 4px 4px var(--shadow-color);
+    color: var(--color-primary);
+  }
 }
