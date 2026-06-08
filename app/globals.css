@@ -156,6 +156,14 @@
 }
 
 @layer utilities {
+  .ease-cubic {
+    transition-timing-function: cubic-bezier(0.3, 0, 0.3, 1);
+  }
+
+  .shadow-4px {
+    box-shadow: 4px 4px var(--shadow-color);
+  }
+
   .stroke-custom {
     -webkit-text-stroke: 1px var(--stroke-color);
     text-shadow: 4px 4px var(--shadow-color);

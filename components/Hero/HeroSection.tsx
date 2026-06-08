@@ -1,6 +1,7 @@
 import Link from "next/link";
 import SocialList from "./SocialList";
 import Image from "next/image";
+import { CTAButtons } from "./CTAButtons";
 
 const HeroSection = () => {
   return (
@@ -43,20 +44,13 @@ const HeroSection = () => {
             </div>
 
             {/* دکمه‌های اقدام (Call to Actions) */}
-            <div className="flex flex-wrap items-center gap-8 pt-6">
-              <Link
-                href="/cv.pdf"
-                className="border-border hover:border-primary hover:bg-primary translate-y-0 rounded-full border-2 bg-white px-8 py-3.5 text-sm font-bold shadow-[4px_4px_0px] transition-all hover:translate-x-1 hover:translate-y-1 hover:text-white hover:shadow-none md:text-base"
-              >
-                دانلود رزومه
-              </Link>
-              <Link
-                href="#skills"
-                className="hover:text-primary flex items-center gap-4 text-sm font-bold transition-colors md:text-base"
-              >
-                <div className="bg-secondary-foreground h-px w-12"></div>
-                مهارت‌های من
-              </Link>
+            <div className="flex items-center">
+              <CTAButtons
+                resumeUrl="/path-to-resume.pdf"
+                skillsUrl="#skills"
+                resumeText="رزومه من"
+                skillsText="مهارت‌های من"
+              />
             </div>
           </div>
 
