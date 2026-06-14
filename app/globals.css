@@ -2,6 +2,10 @@
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
 
+/* // Import Swiper styles */
+@import "swiper/css";
+@import "swiper/css/pagination";
+
 @custom-variant dark (&:is(.dark *));
 
 @font-face {
@@ -11,6 +15,14 @@
   font-style: normal;
   font-display: swap;
 }
+
+/* @font-face {
+  font-family: "Jost";
+  src: url("/fonts/Jost.ttf") format("true-type");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+} */
 
 /* 
   در Tailwind v4، متغیرهای لایه Theme مستقیماً از متغیرهای CSS استفاده می‌کنند.
@@ -153,9 +165,38 @@
     /* تیترها به رنگ card-foreground (همان title-color قبلی) نگاشت شده‌اند */
     @apply font-heading text-card-foreground font-semibold;
   }
+
+  #services .services-swiper-wrap .services-pagination {
+    position: static; /* چون پایین اسلایدر و خارجشه */
+    width: 100%;
+  }
+
+  #services .services-pagination .swiper-pagination-bullet {
+    position: relative;
+    border: 2px solid var(--border);
+    opacity: 1;
+    transition: transform 0.3s;
+    margin: 0 8px !important;
+  }
+
+  #services .services-pagination .swiper-pagination-bullet-active {
+    background-color: var(--primary);
+    transform: scale(1.4);
+    border-width: 1px;
+  }
+
+  #services
+    .services-pagination
+    .swiper-pagination-bullets
+    .swiper-pagination-bullet:not(:last-child) {
+    margin-right: 1.25rem;
+  }
 }
 
 @layer utilities {
+  .container {
+    @apply mx-auto max-w-330 px-6;
+  }
   .ease-cubic {
     transition-timing-function: cubic-bezier(0.3, 0, 0.3, 1);
   }

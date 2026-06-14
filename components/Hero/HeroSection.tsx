@@ -7,11 +7,11 @@ const HeroSection = () => {
   return (
     <section className="relative flex min-h-screen items-center overflow-hidden pt-24 pb-12">
       {/* سایدبار دکوری سمت راست */}
-      <div className="absolute top-0 right-8 bottom-0 z-10 hidden flex-col items-center lg:flex">
+      {/* <div className="absolute top-0 right-8 bottom-0 z-10 hidden flex-col items-center lg:flex">
         <div className="border-border mt-32 h-5 w-5 rounded-full border-2 bg-white"></div>
         <div className="h-full w-px bg-gray-400"></div>
         <div className="border-border mb-20 h-5 w-5 rounded-full border-2 bg-white"></div>
-      </div>
+      </div> */}
 
       <div className="relative z-10 container mx-auto px-6 lg:pr-24 lg:pl-12">
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-8">

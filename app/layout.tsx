@@ -2,9 +2,8 @@ import type { Metadata } from "next";
 import "./globals.css";
 import { cn } from "@/lib/utils";
 
-// متادیتای پروژه (می‌توانی تغییر دهی)
 export const metadata: Metadata = {
-  title: "پورتفولیوی زوئی میلر",
+  title: "پورتفولیوی علی رضایی",
   description: "نمونه کارها و رزومه حرفه‌ای",
 };
 
