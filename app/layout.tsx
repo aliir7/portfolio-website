@@ -1,6 +1,8 @@
 import type { Metadata } from "next";
 import "./globals.css";
 import { cn } from "@/lib/utils";
+import Header from "@/components/Header/Header";
+import { ThemeProvider } from "next-themes";
 
 export const metadata: Metadata = {
   title: "پورتفولیوی علی رضایی",
@@ -20,7 +22,10 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className={cn("min-h-screen font-sans antialiased")}>
-        {children}
+        <ThemeProvider storageKey="theme" defaultTheme="light">
+          <Header />
+          {children}
+        </ThemeProvider>
       </body>
     </html>
   );

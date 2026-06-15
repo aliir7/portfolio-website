@@ -12,6 +12,7 @@ export const navLinks = [
   { name: "خانه", href: "#home", icon: Home },
   { name: "خدمات", href: "#services", icon: Briefcase },
   { name: "مهارت‌ها", href: "#skills", icon: Briefcase },
+  { name: "نمونه کارها", href: "#works", icon: Briefcase },
   { name: "رزومه", href: "#resume", icon: FileText },
   { name: "تماس", href: "#contact", icon: Mail },
 ];

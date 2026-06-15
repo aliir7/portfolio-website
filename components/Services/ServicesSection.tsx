@@ -29,7 +29,7 @@ export const ServicesSection = () => {
           }}
           breakpoints={{
             768: { slidesPerView: 2 },
-            1200: { slidesPerView: 2 },
+            1200: { slidesPerView: 3 },
           }}
         >
           {services.map((service) => (

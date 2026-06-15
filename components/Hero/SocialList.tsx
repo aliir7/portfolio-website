@@ -12,17 +12,18 @@ const SocialList = () => {
             <Button
               key={item.label}
               asChild
-              variant="ghost"
+              variant="ctaLink"
               size="icon"
-              className="border-border/60 bg-background/60 h-11 w-11 rounded-full border backdrop-blur-sm"
+              className="h-11 w-11 backdrop-blur-sm"
             >
               <Link
                 href={item.href}
                 target="_blank"
                 rel="noreferrer"
                 aria-label={item.label}
+                className="ease-custom transition-colors duration-700"
               >
-                <Icon className="h-4 w-4" />
+                <Icon className="h-5 w-5" />
               </Link>
             </Button>
           );
