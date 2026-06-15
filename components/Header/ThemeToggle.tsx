@@ -21,12 +21,12 @@ const ThemeToggle = ({ className }: { className?: string }) => {
       aria-label="تغییر تم"
       className={`rounded-full p-2 transition focus-visible:ring-0 focus-visible:ring-offset-0 ${className}`}
       onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-      variant="cta"
+      variant="ctaLink"
     >
       {theme === "dark" ? (
-        <RiSunLine className="h-5 w-5" />
+        <RiSunLine className="size-5" />
       ) : (
-        <RiMoonLine className="h-5 w-5" />
+        <RiMoonLine className="size-5" />
       )}
     </Button>
   );
