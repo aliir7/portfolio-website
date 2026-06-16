@@ -3,7 +3,7 @@ import { ServicesSection } from "../Services/ServicesSection";
 
 const Home = () => {
   return (
-    <main className="md:container">
+    <main>
       {/* Background accents */}
       {/* <div className="pointer-events-none absolute inset-0 -z-10">
         <div className="absolute inset-x-0 top-0 h-[40rem] bg-gradient-to-b from-primary/10 via-transparent to-transparent" />

@@ -1,6 +1,7 @@
 import { navLinks } from "@/lib/constants";
 import Link from "next/link";
 import SocialList from "../Hero/SocialList";
+import Shape from "../ui/shape";
 
 function NavItem() {
   return (
@@ -18,6 +19,9 @@ function NavItem() {
       <div className="mt-5">
         <SocialList />
       </div>
+      {/* <div className="relative">
+        <Shape className="-left-18" />
+      </div> */}
     </div>
   );
 }

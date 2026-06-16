@@ -2,18 +2,12 @@ import Link from "next/link";
 import SocialList from "./SocialList";
 import Image from "next/image";
 import { CTAButtons } from "./CTAButtons";
+import Shape from "../ui/shape";
 
 const HeroSection = () => {
   return (
-    <section className="relative flex min-h-screen items-center overflow-hidden pt-24 pb-12">
-      {/* سایدبار دکوری سمت راست */}
-      {/* <div className="absolute top-0 right-8 bottom-0 z-10 hidden flex-col items-center lg:flex">
-        <div className="border-border mt-32 h-5 w-5 rounded-full border-2 bg-white"></div>
-        <div className="h-full w-px bg-gray-400"></div>
-        <div className="border-border mb-20 h-5 w-5 rounded-full border-2 bg-white"></div>
-      </div> */}
-
-      <div className="relative z-10 container mx-auto px-6 lg:pr-24 lg:pl-12">
+    <section className="section-gradient home-section relative flex min-h-screen items-center overflow-hidden pt-24 pb-12">
+      <div className="home-container relative z-10 mx-auto px-6 lg:pr-24 lg:pl-12">
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-8">
           {/* ستون راست: محتوای متنی */}
           <div className="z-10 flex flex-col space-y-6">
@@ -87,7 +81,7 @@ const HeroSection = () => {
             </div>
 
             {/* نشان‌های شناور (Badges) */}
-            <div className="border-card-foreground absolute top-1/4 -right-6 z-20 flex cursor-default items-center gap-3 rounded-full border-2 bg-white px-5 py-3 shadow-[4px_4px_0px_var(--title-color)] transition-transform hover:-translate-y-1 md:right-15">
+            <div className="border-card-foreground shadow-card-foreground absolute top-1/7 -right-2 z-20 flex cursor-default items-center gap-3 rounded-full border-2 bg-white px-5 py-3 shadow-[4px_4px_0px] transition-transform hover:-translate-y-1 md:top-1/4 md:right-2">
               <span className="text-card-foreground text-xl font-black lg:text-3xl">
                 ۱۲+
               </span>
@@ -98,7 +92,7 @@ const HeroSection = () => {
               </span>
             </div>
 
-            <div className="border-card-foreground absolute bottom-12 -left-4 z-20 flex cursor-default items-center gap-3 rounded-full border-2 bg-white px-5 py-3 shadow-[4px_4px_0px_var(--title-color)] transition-transform hover:-translate-y-1 md:left-25">
+            <div className="border-card-foreground shadow-card-foreground absolute bottom-12 -left-1 z-20 flex cursor-default items-center gap-3 rounded-full border-2 bg-white px-5 py-3 shadow-[4px_4px_0px] transition-transform hover:-translate-y-1 md:left-10">
               <span className="text-card-foreground text-xl font-black lg:text-3xl">
                 ۳۳۰
               </span>
@@ -109,6 +103,10 @@ const HeroSection = () => {
               </span>
             </div>
           </div>
+        </div>
+        {/* right Deco */}
+        <div className="hidden md:block">
+          <Shape className="absolute" containerClassName="-right-18" />
         </div>
       </div>
     </section>

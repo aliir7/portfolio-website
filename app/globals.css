@@ -72,43 +72,60 @@
 }
 
 @layer base {
-  :root {
-    --hue: 165;
+  @layer base {
+    :root {
+      /* ========== متغیرهای پایه (از تصویر) ========== */
+      --hue: 165;
+      --second-hue: 37;
 
-    /* استانداردسازی متغیرهای رنگی برای Light Mode */
-    --background: hsl(var(--hue), 30%, 92%);
-    --foreground: hsl(var(--hue), 4%, 20%);
+      /* --body-color: hsl(var(--second-hue), 30%, 92%); */
+      --background: hsl(var(--second-hue), 30%, 92%);
 
-    --card: hsl(0, 0%, 100%);
-    --card-foreground: hsl(var(--hue), 4%, 12%);
+      /* --text-color: hsl(var(--second-hue), 4%, 20%); */
+      --foreground: hsl(var(--second-hue), 4%, 20%);
 
-    --popover: hsl(0, 0%, 100%);
-    --popover-foreground: hsl(var(--hue), 4%, 12%);
+      /* --container-color: hsl(var(--second-hue), 0%, 100%); */
+      --card: hsl(var(--second-hue), 0%, 100%);
+      --popover: hsl(var(--second-hue), 0%, 100%);
 
-    --primary: hsl(var(--hue), 60%, 40%);
-    --primary-foreground: hsl(0, 0%, 100%);
+      /* --title-color: hsl(var(--second-hue), 4%, 12%); */
+      --card-foreground: hsl(var(--second-hue), 4%, 12%);
+      --popover-foreground: hsl(var(--second-hue), 4%, 12%);
 
-    --secondary: hsl(var(--hue), 30%, 84%);
-    --secondary-foreground: hsl(var(--hue), 4%, 12%);
+      /* --first-color: hsl(var(--hue), 60%, 40%); */
+      --primary: hsl(var(--hue), 60%, 40%);
+      --ring: hsl(var(--hue), 60%, 40%);
 
-    --muted: hsl(var(--hue), 30%, 88%);
-    --muted-foreground: hsl(var(--hue), 4%, 20%);
+      /* --white-color: hsl(var(--second-hue), 0%, 100%); */
+      --primary-foreground: hsl(var(--second-hue), 0%, 100%);
 
-    --accent: hsl(var(--hue), 30%, 88%);
-    --accent-foreground: hsl(var(--hue), 4%, 12%);
+      /* --border-color: hsl(var(--second-hue), 4%, 16%); */
+      --border: hsl(var(--second-hue), 4%, 16%);
+      --input: hsl(var(--second-hue), 4%, 16%);
 
-    --destructive: oklch(0.577 0.245 27.325);
-    --destructive-foreground: oklch(0.985 0 0);
+      /* ========== رنگ‌های ترکیبی استاندارد Shadcn ========== */
+      /* برای حالت‌های Hover و المان‌های ثانویه از مقادیر نزدیک به پس‌زمینه استفاده می‌کنیم */
+      --secondary: hsl(var(--second-hue), 20%, 86%);
+      --secondary-foreground: hsl(var(--second-hue), 4%, 12%);
 
-    --border: hsl(var(--hue), 4%, 16%);
-    --input: hsl(var(--hue), 4%, 16%);
-    --ring: hsl(var(--hue), 60%, 40%);
+      --muted: hsl(var(--second-hue), 20%, 86%);
+      --muted-foreground: hsl(var(--second-hue), 4%, 40%);
 
-    --radius: 0.625rem;
+      --accent: hsl(var(--second-hue), 20%, 86%);
+      --accent-foreground: hsl(var(--second-hue), 4%, 12%);
 
-    /* متغیرهای کاستوم افکت‌ها */
-    --shadow-color: hsla(var(--hue), 80%, 10%, 0.2);
-    --stroke-color: hsl(var(--hue), 4%, 12%);
+      --destructive: oklch(0.577 0.245 27.325);
+      --destructive-foreground: oklch(0.985 0 0);
+
+      --radius: 0.625rem;
+
+      /* ========== متغیرهای کاستوم افکت‌ها (از تصویر) ========== */
+      --shadow-color: hsla(var(--second-hue), 80%, 10%, 0.2);
+      /* هماهنگ‌سازی Stroke با title-color */
+      --stroke-color: hsl(var(--second-hue), 4%, 12%);
+    }
+
+    /* تنظیمات حالت Dark سر جای خود باقی می‌ماند... */
   }
 
   /* استانداردسازی متغیرهای رنگی برای Dark Mode */
@@ -154,7 +171,7 @@
 
   body {
     /* تخصیص رنگ‌های پس‌زمینه و متن مستقیماً از کلاس‌های Tailwind انجام می‌شود */
-    @apply text-foreground font-sans antialiased;
+    @apply bg-background text-foreground font-sans antialiased;
   }
 
   h1,
@@ -195,9 +212,37 @@
 }
 
 @layer utilities {
+  /* =========================================
+     Containers
+  ========================================= */
   .container {
     @apply mx-auto max-w-330 px-6;
   }
+
+  .container-custom {
+    max-width: 1320px;
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+  }
+
+  .container-custom:not(.home-container .nav) {
+    padding-block: 3.75rem;
+  }
+
+  /* =========================================
+     Section Gradients
+  ========================================= */
+  .section-gradient:nth-child(odd) {
+    background: linear-gradient(0deg, var(--card) 0%, var(--background) 100%);
+  }
+
+  .section-gradient:nth-child(even) {
+    background: linear-gradient(180deg, var(--card) 0%, var(--background) 100%);
+  }
+
+  /* =========================================
+     Custom Effects & Transitions
+  ========================================= */
   .ease-cubic {
     transition-timing-function: cubic-bezier(0.3, 0, 0.3, 1);
   }
@@ -209,6 +254,6 @@
   .stroke-custom {
     -webkit-text-stroke: 1px var(--stroke-color);
     text-shadow: 4px 4px var(--shadow-color);
-    color: var(--color-primary);
+    color: var(--primary);
   }
 }
