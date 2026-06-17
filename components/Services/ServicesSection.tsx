@@ -6,6 +6,7 @@ import "swiper/css";
 import "swiper/css/pagination";
 import { services } from "@/lib/constants";
 import ServiceCard from "./ServiceCard";
+import Shape from "../ui/shape";
 
 export const ServicesSection = () => {
   return (
@@ -41,6 +42,8 @@ export const ServicesSection = () => {
 
         {/* 👇 این کاملاً خارج از خود swiper است */}
         <div className="services-pagination mt-8 flex justify-center" />
+        {/* shape */}
+        <Shape containerClassName="-left-18" />
       </div>
     </section>
   );

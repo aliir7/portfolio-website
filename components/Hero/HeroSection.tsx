@@ -106,7 +106,11 @@ const HeroSection = () => {
         </div>
         {/* right Deco */}
         <div className="hidden md:block">
-          <Shape className="absolute" containerClassName="-right-18" />
+          <Shape
+            width={226}
+            className="absolute -bottom-51.5 -left-11.5 h-56.5 max-w-56.5"
+            containerClassName="-right-18"
+          />
         </div>
       </div>
     </section>

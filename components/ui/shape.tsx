@@ -27,10 +27,7 @@ const Shape = ({
         alt={alt}
         width={width}
         height={height}
-        className={cn(
-          "-right-50 -bottom-51.5 block h-56.5 w-full max-w-56.5 object-contain",
-          className,
-        )}
+        className={cn("block object-cover", className)}
         {...props}
       />
     </div>

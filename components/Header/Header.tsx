@@ -5,7 +5,7 @@ import NavMenu from "./NavMenu";
 
 const Header = () => {
   return (
-    <header className="fixed top-0 right-0 z-1000 w-full">
+    <header className="fixed top-0 right-0 z-1000 w-full overflow-hidden">
       <nav className="container-custom nav flex h-20 max-w-385 items-center justify-between">
         {/* logo */}
         <Link href="/" className="text-xl font-bold">
