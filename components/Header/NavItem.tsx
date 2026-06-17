@@ -1,27 +1,30 @@
 import { navLinks } from "@/lib/constants";
 import Link from "next/link";
 import SocialList from "../Hero/SocialList";
-import Shape from "../ui/shape";
 
-function NavItem() {
+type NavItemProps = {
+  onNavigate?: () => void;
+};
+
+function NavItem({ onNavigate }: NavItemProps) {
   return (
-    <div className="fixed top-0 right-0 h-full w-lg pt-36 pr-38">
-      <ul className="space-y-4 text-lg">
+    <div className="h-full w-full px-7 pt-20 sm:px-6 md:px-12">
+      <ul className="space-y-3 text-base sm:text-lg">
         {navLinks.map((item, index) => (
           <li
             key={index}
-            className="hover:text-primary font-bold transition-all duration-500 hover:-translate-x-0.5"
+            className="hover:text-primary font-bold transition-all duration-300 hover:-translate-x-0.5"
           >
-            <Link href={item.href}>{item.name}</Link>
+            <Link href={item.href} onClick={onNavigate}>
+              {item.name}
+            </Link>
           </li>
         ))}
       </ul>
-      <div className="mt-5">
+
+      <div className="mt-6">
         <SocialList />
       </div>
-      {/* <div className="relative">
-        <Shape className="-left-18" />
-      </div> */}
     </div>
   );
 }

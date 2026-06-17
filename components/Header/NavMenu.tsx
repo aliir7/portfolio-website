@@ -1,6 +1,7 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { RiEqualLine, RiCloseLine } from "@remixicon/react";
 import {
   Sheet,
   SheetContent,
@@ -14,32 +15,72 @@ import NavItem from "./NavItem";
 const NavMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
 
+  // Close with press ESC handler
+  useEffect(() => {
+    if (!isOpen) return;
+
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+
+    const handleKeyDown = (event: KeyboardEvent) => {
+      if (event.key === "Escape") {
+        setIsOpen(false);
+      }
+    };
+
+    document.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      document.body.style.overflow = originalOverflow;
+      document.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isOpen]);
+
   return (
     <Sheet open={isOpen} onOpenChange={setIsOpen}>
       <SheetTrigger asChild>
         <Button
-          variant="link"
-          className="relative h-7 w-7 p-0 hover:no-underline"
-          aria-label="Toggle Menu"
+          variant="ghost"
+          size="icon"
+          className="relative h-10 w-10 hover:bg-transparent"
+          aria-label={isOpen ? "بستن منو" : "باز کردن منو"}
         >
-          {/* المان نگهدارنده خطوط منو */}
-          <div
-            className={`ease-custom before:bg-foreground after:bg-foreground absolute left-0 h-full w-full transition-transform duration-300 before:absolute before:left-0 before:h-0.5 before:w-full before:transition-all before:duration-300 before:content-[''] after:absolute after:left-0 after:h-0.5 after:w-full after:transition-all after:duration-300 after:content-[''] ${
+          <span
+            className={`absolute inset-0 flex items-center justify-center transition-all duration-700 ${
               isOpen
-                ? "before:top-3.25 before:rotate-45 after:bottom-3.25 after:-rotate-45"
-                : "before:top-1.75 after:bottom-1.75"
-            } `}
-          ></div>
+                ? "scale-75 rotate-90 opacity-0"
+                : "scale-100 rotate-0 opacity-100"
+            }`}
+          >
+            <RiEqualLine className="size-8" />
+          </span>
+
+          <span
+            className={`absolute inset-0 flex items-center justify-center transition-all duration-700 ${
+              isOpen
+                ? "scale-100 rotate-0 opacity-100"
+                : "scale-75 -rotate-90 opacity-0"
+            }`}
+          >
+            <RiCloseLine className="size-8" />
+          </span>
         </Button>
       </SheetTrigger>
 
-      <SheetContent className="z-1000" side="right" showCloseButton={false}>
+      <SheetContent
+        side="right"
+        showCloseButton={false}
+        className="z-1000 w-[82vw] max-w-80 translate-x-full p-0 shadow-lg transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] data-[state=open]:translate-x-0"
+        onEscapeKeyDown={() => setIsOpen(false)}
+        onPointerDownOutside={() => setIsOpen(false)}
+        onInteractOutside={() => setIsOpen(false)}
+      >
         <SheetTitle className="sr-only">منوی ناوبری</SheetTitle>
         <SheetDescription className="sr-only">
           لینک‌های دسترسی سایت
         </SheetDescription>
 
-        <NavItem />
+        <NavItem onNavigate={() => setIsOpen(false)} />
       </SheetContent>
     </Sheet>
   );
