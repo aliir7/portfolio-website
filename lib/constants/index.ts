@@ -1,3 +1,4 @@
+import { Skill } from "@/types";
 import {
   RiHomeLine as Home,
   RiBriefcaseLine as Briefcase,
@@ -70,5 +71,44 @@ export const services = [
     subtitle: "سئوی فنی و داخلی",
     description:
       "افزایش دیده‌شدن وب‌سایت در نتایج جستجو از طریق سئوی فنی، بهینه‌سازی عملکرد و رعایت استانداردهای موتورهای جستجو.",
+  },
+];
+
+export const skillsData: Skill[] = [
+  {
+    name: "React & Next.js",
+    value: 95,
+    description:
+      "توسعه اپلیکیشن‌های مقیاس‌پذیر و بهینه با تمرکز بر SSR، SSG و تجربه کاربری مدرن.",
+  },
+  {
+    name: "TypeScript",
+    value: 90,
+    description:
+      "پیاده‌سازی معماری کد Type-safe برای کاهش خطاها و افزایش پایداری در پروژه‌های بزرگ.",
+  },
+  {
+    name: "Tailwind & UI/UX",
+    value: 85,
+    description:
+      "طراحی رابط‌های کاربری ریسپانسیو، زیبا و کاربرپسند با استفاده از اکوسیستم Shadcn و Tailwind.",
+  },
+  {
+    name: "Backend & APIs",
+    value: 80,
+    description:
+      "تجربه در توسعه RESTful API و مدیریت ارتباط بین کلاینت و سرور با استفاده از Node.js و Express.",
+  },
+  {
+    name: "Databases & ORM",
+    value: 85,
+    description:
+      "طراحی دیتابیس‌های رابطه‌ای و غیررابطه‌ای با تسلط بر PostgreSQL، MongoDB و Drizzle ORM.",
+  },
+  {
+    name: "Performance & Architecture",
+    value: 75,
+    description:
+      "بهینه‌سازی عملکرد وب‌سایت، پیاده‌سازی معماری تمیز (Clean Architecture) و مدیریت کدهای نگهداشت‌پذیر.",
   },
 ];

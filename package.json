@@ -10,6 +10,7 @@
     "deps:update": "npx npm-check-updates -u && pnpm install"
   },
   "dependencies": {
+    "@radix-ui/react-progress": "^1.1.10",
     "@radix-ui/react-slot": "^1.2.5",
     "@remixicon/react": "^4.9.0",
     "class-variance-authority": "^0.7.1",
