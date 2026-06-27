@@ -1,12 +1,37 @@
-import { navLinks } from "@/lib/constants";
+"use client";
+
+import { cn } from "@/lib/utils";
 import Link from "next/link";
-import ThemeToggle from "./ThemeToggle";
+import { useEffect, useState } from "react";
 import NavMenu from "./NavMenu";
+import ThemeToggle from "./ThemeToggle";
 
 const Header = () => {
+  const [isScrolled, setIsScrolled] = useState<boolean>(false);
+
+  // useEffect for scrolling handler
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY >= 20);
+    };
+
+    // add event listener
+    window.addEventListener("scroll", handleScroll);
+
+    // clean up event listener
+    return () => {
+      window.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
   return (
-    <header className="fixed top-0 right-0 z-1000 w-full overflow-hidden">
-      <nav className="container-custom nav flex h-20 max-w-385 items-center justify-between">
+    <header
+      className={cn(
+        "fixed top-0 right-0 z-1000 w-full transition-all duration-500",
+        isScrolled ? "bg-white shadow-md" : "bg-transparent",
+      )}
+    >
+      <nav className="nav container flex h-20 max-w-385 items-center justify-between">
         {/* logo */}
         <Link href="/" className="text-xl font-bold">
           رضایی
