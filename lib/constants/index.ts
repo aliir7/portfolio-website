@@ -1,4 +1,4 @@
-import { Skill } from "@/types";
+import { Project, Skill } from "@/types";
 import {
   RiHomeLine as Home,
   RiBriefcaseLine as Briefcase,
@@ -110,5 +110,48 @@ export const skillsData: Skill[] = [
     value: 75,
     description:
       "بهینه‌سازی عملکرد وب‌سایت، پیاده‌سازی معماری تمیز (Clean Architecture) و مدیریت کدهای نگهداشت‌پذیر.",
+  },
+];
+
+export const projects: Project[] = [
+  {
+    id: "1",
+    title: "Anima Home",
+    slug: "anima-home",
+    description:
+      "Full-stack interior design and furniture platform with admin dashboard.",
+    category: "fullstack",
+    techStack: [
+      "Next.js",
+      "TypeScript",
+      "PostgreSQL",
+      "Drizzle ORM",
+      "Auth.js",
+    ],
+    image: "/assets/img/placeholder.svg",
+    liveUrl: "https://anima-home.ir",
+    repoUrl: "https://github.com/aliir7/anima-home",
+    createdAt: "2025-01-15T00:00:00.000Z",
+  },
+  {
+    id: "2",
+    title: "Admin Dashboard",
+    slug: "admin-dashboard",
+    description:
+      "Analytics dashboard with charts, data tables, and role-based access.",
+    category: "dashboard",
+    techStack: ["React", "TypeScript", "Tailwind CSS", "shadcn/ui"],
+    image: "/assets/img/placeholder.svg",
+    createdAt: "2025-03-20T00:00:00.000Z",
+  },
+  {
+    id: "3",
+    title: "Landing Page",
+    slug: "landing-page",
+    description: "Modern responsive marketing landing page.",
+    category: "frontend",
+    techStack: ["Next.js", "Tailwind CSS", "Framer Motion"],
+    image: "/assets/img/placeholder.svg",
+    createdAt: "2025-05-10T00:00:00.000Z",
   },
 ];

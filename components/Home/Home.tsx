@@ -1,6 +1,7 @@
 import HeroSection from "../Hero/HeroSection";
 import { ServicesSection } from "../Services/ServicesSection";
 import SkillsSection from "../Skills/SkillsSection";
+import WorksSection from "../Works/WorksSection";
 
 const Home = () => {
   return (
@@ -8,6 +9,7 @@ const Home = () => {
       <HeroSection />
       <ServicesSection />
       <SkillsSection />
+      <WorksSection />
     </main>
   );
 };
