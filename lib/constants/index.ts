@@ -159,3 +159,53 @@ export const projects: Project[] = [
     createdAt: "2025-05-10T00:00:00.000Z",
   },
 ];
+
+// lib/constants/index.ts
+
+export const resumeData = [
+  // آیتم‌های مربوط به تحصیلات
+  {
+    id: "edu-1",
+    category: "education",
+    title: "دوره‌های CoderHouse",
+    content:
+      "گذراندن دوره‌های تخصصی توسعه وب، تمرکز بر مفاهیم فرانت‌اند مدرن، معماری کامپوننت‌محور و یادگیری ابزارهایی نظیر React و Next.js.",
+  },
+  {
+    id: "edu-2",
+    category: "education",
+    title: "آکادمی ملی هنرهای لویو",
+    content:
+      "تحصیل در زمینه طراحی و هنرهای تجسمی که دیدگاه بصری قوی در طراحی رابط کاربری (UI) به من داد.",
+  },
+  {
+    id: "edu-3",
+    category: "education",
+    title: "IT Future",
+    content:
+      "گذراندن دوره‌های پایه برنامه‌نویسی و آشنایی با ساختارهای داده و الگوریتم‌ها.",
+  },
+
+  // آیتم‌های مربوط به تجربیات کاری
+  {
+    id: "exp-1",
+    category: "experience",
+    title: "UI Head & Manager",
+    content:
+      "مدیریت تیم طراحی و نظارت بر استانداردهای بصری پروژه‌های بزرگ در استودیو.",
+  },
+  {
+    id: "exp-2",
+    category: "experience",
+    title: "UI/UX Specialist - Kana Design Studio (2018 - 2020)",
+    content:
+      "توسعه‌دهنده فرانت‌اند با تجربه در پیاده‌سازی رابط‌های کاربری واکنش‌گرا، کار با Tailwind CSS و بهینه‌سازی عملکرد پروژه‌ها.",
+  },
+  {
+    id: "exp-3",
+    category: "experience",
+    title: "Plugins Developer",
+    content:
+      "توسعه افزونه‌های اختصاصی برای سیستم‌های مدیریت محتوا و بهبود کارایی سایت‌های مشتریان.",
+  },
+];

@@ -1,5 +1,5 @@
-import Image, { ImageProps } from "next/image";
 import { cn } from "@/lib/utils";
+import Image, { ImageProps } from "next/image";
 
 // با این ساختار، تمام پراپ‌های Image را دریافت می‌کنیم و مقادیر ضروری را Optional در نظر می‌گیریم
 interface ShapeProps extends Partial<ImageProps> {
