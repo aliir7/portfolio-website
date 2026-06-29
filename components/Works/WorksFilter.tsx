@@ -9,7 +9,6 @@ const filters: { label: string; value: FilterCategory }[] = [
   { label: "فرانت‌اند", value: "frontend" },
   { label: "فول‌استک", value: "fullstack" },
   { label: "داشبورد", value: "dashboard" },
-  { label: "وب‌اپلیکیشن", value: "web-app" },
 ];
 
 const WorksFilter = () => {
@@ -27,7 +26,7 @@ const WorksFilter = () => {
           <TabsTrigger
             key={filter.value}
             value={filter.value}
-            className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-full px-6 py-3 transition-all"
+            className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-full px-6 py-4 transition-all"
           >
             {filter.label}
           </TabsTrigger>

@@ -7,11 +7,7 @@ export type Skill = {
 // این تایپ دقیقاً منطبق با schema بک‌اند است
 // وقتی API آماده شد، فقط کافی است از این تایپ استفاده شود
 
-export type ProjectCategory =
-  | "frontend"
-  | "fullstack"
-  | "dashboard"
-  | "web-app";
+export type ProjectCategory = "frontend" | "fullstack" | "dashboard";
 
 export interface Project {
   id: string;

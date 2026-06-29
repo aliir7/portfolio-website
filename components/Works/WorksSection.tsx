@@ -4,7 +4,7 @@ import WorksGrid from "./WorksGrid";
 
 const WorksSection = () => {
   return (
-    <section id="works" className="custom-container py-6">
+    <section id="works" className="container-custom py-16">
       <div className="mx-auto max-w-2xl text-center">
         <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
           نمونه‌کارهای من
@@ -15,8 +15,10 @@ const WorksSection = () => {
           مقیاس‌پذیر و حرفه‌ای نشان می‌دهند.
         </p>
       </div>
+
       <WorksFilter />
-      <div>
+
+      <div className="mt-10">
         <WorksGrid projects={projects} />
       </div>
     </section>

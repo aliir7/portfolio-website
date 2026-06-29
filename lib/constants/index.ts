@@ -1,12 +1,12 @@
 import { Project, Skill } from "@/types";
 import {
-  RiHomeLine as Home,
   RiBriefcaseLine as Briefcase,
   RiFileTextLine as FileText,
-  RiMailLine as Mail,
-  RiInstagramLine as Instagram,
   RiGithubLine as Github,
+  RiHomeLine as Home,
+  RiInstagramLine as Instagram,
   RiLinkedinLine as Linkedin,
+  RiMailLine as Mail,
 } from "@remixicon/react";
 
 export const navLinks = [
@@ -116,10 +116,10 @@ export const skillsData: Skill[] = [
 export const projects: Project[] = [
   {
     id: "1",
-    title: "Anima Home",
+    title: "آنیماهوم",
     slug: "anima-home",
     description:
-      "Full-stack interior design and furniture platform with admin dashboard.",
+      "پلتفرم فول‌استک طراحی داخلی و فروش مبلمان همراه با پنل مدیریت.",
     category: "fullstack",
     techStack: [
       "Next.js",
@@ -135,23 +135,27 @@ export const projects: Project[] = [
   },
   {
     id: "2",
-    title: "Admin Dashboard",
+    title: "پنل ادمین",
     slug: "admin-dashboard",
     description:
-      "Analytics dashboard with charts, data tables, and role-based access.",
+      "داشبورد تحلیلی با نمودارها، جدول داده و سطح دسترسی مبتنی بر نقش.",
     category: "dashboard",
     techStack: ["React", "TypeScript", "Tailwind CSS", "shadcn/ui"],
     image: "/assets/img/placeholder.svg",
+    liveUrl: "https://anima-home.ir",
+    repoUrl: "https://github.com/aliir7/anima-home",
     createdAt: "2025-03-20T00:00:00.000Z",
   },
   {
     id: "3",
-    title: "Landing Page",
+    title: "صفحه فرود",
     slug: "landing-page",
-    description: "Modern responsive marketing landing page.",
+    description: "صفحه فرود مدرن و واکنش‌گرا برای معرفی و بازاریابی محصول.",
     category: "frontend",
     techStack: ["Next.js", "Tailwind CSS", "Framer Motion"],
     image: "/assets/img/placeholder.svg",
+    liveUrl: "https://anima-home.ir",
+    repoUrl: "https://github.com/aliir7/anima-home",
     createdAt: "2025-05-10T00:00:00.000Z",
   },
 ];
