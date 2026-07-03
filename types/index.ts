@@ -21,5 +21,13 @@ export interface Project {
   repoUrl?: string;
   createdAt: string; // ISO date از بک‌اند
 }
+export type ResumeItemType = {
+  id: string;
+  category: "education" | "experience";
+  organization: string;
+  title: string;
+  date: string;
+  content: string;
+};
 
 export type FilterCategory = "all" | ProjectCategory;

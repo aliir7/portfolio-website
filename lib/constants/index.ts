@@ -161,51 +161,66 @@ export const projects: Project[] = [
 ];
 
 // lib/constants/index.ts
-
 export const resumeData = [
-  // آیتم‌های مربوط به تحصیلات
+  // =========================
+  // Education
+  // =========================
   {
     id: "edu-1",
     category: "education",
-    title: "دوره‌های CoderHouse",
+    organization: "آکادمی سون لرن",
+    title: "دوره جامع توسعه وب Full Stack",
+    date: "۱۴۰۱ - ۱۴۰۲",
     content:
-      "گذراندن دوره‌های تخصصی توسعه وب، تمرکز بر مفاهیم فرانت‌اند مدرن، معماری کامپوننت‌محور و یادگیری ابزارهایی نظیر React و Next.js.",
+      "یادگیری اصول توسعه وب از HTML و CSS تا JavaScript، React، Next.js، Node.js، Express و MongoDB همراه با انجام پروژه‌های عملی.",
   },
   {
     id: "edu-2",
     category: "education",
-    title: "آکادمی ملی هنرهای لویو",
+    organization: "مطالعه و آموزش خودآموز",
+    title: "مسیر تخصصی Front-End Development",
+    date: "۱۴۰۲ تاکنون",
     content:
-      "تحصیل در زمینه طراحی و هنرهای تجسمی که دیدگاه بصری قوی در طراحی رابط کاربری (UI) به من داد.",
+      "مطالعه مستمر مستندات رسمی React، Next.js، Tailwind CSS، TypeScript و یادگیری معماری پروژه‌های مدرن، بهینه‌سازی عملکرد و طراحی رابط کاربری.",
   },
   {
     id: "edu-3",
     category: "education",
-    title: "IT Future",
+    organization: "دوره‌های تکمیلی",
+    title: "Git، SEO و ابزارهای توسعه",
+    date: "۱۴۰۳ تاکنون",
     content:
-      "گذراندن دوره‌های پایه برنامه‌نویسی و آشنایی با ساختارهای داده و الگوریتم‌ها.",
+      "تسلط بر Git و GitHub، اصول سئو تکنیکال، Responsive Design، REST API و استفاده از ابزارهای مدرن توسعه مانند Shadcn UI و Radix UI.",
   },
 
-  // آیتم‌های مربوط به تجربیات کاری
+  // =========================
+  // Experience
+  // =========================
   {
     id: "exp-1",
     category: "experience",
-    title: "UI Head & Manager",
+    organization: "فریلنسر",
+    title: "توسعه‌دهنده Front-End",
+    date: "۱۴۰۲ تاکنون",
     content:
-      "مدیریت تیم طراحی و نظارت بر استانداردهای بصری پروژه‌های بزرگ در استودیو.",
+      "طراحی و توسعه رابط‌های کاربری مدرن با React، Next.js و Tailwind CSS، پیاده‌سازی صفحات Responsive و تبدیل طراحی UI به کد تمیز و بهینه.",
   },
   {
     id: "exp-2",
     category: "experience",
-    title: "UI/UX Specialist - Kana Design Studio (2018 - 2020)",
+    organization: "پروژه‌های وردپرس",
+    title: "طراح و توسعه‌دهنده وب",
+    date: "۱۴۰۱ تاکنون",
     content:
-      "توسعه‌دهنده فرانت‌اند با تجربه در پیاده‌سازی رابط‌های کاربری واکنش‌گرا، کار با Tailwind CSS و بهینه‌سازی عملکرد پروژه‌ها.",
+      "طراحی و توسعه وب‌سایت‌های شرکتی، فروشگاهی و شخصی با WordPress، سفارشی‌سازی قالب‌ها، بهینه‌سازی سرعت و سئو تکنیکال.",
   },
   {
     id: "exp-3",
     category: "experience",
-    title: "Plugins Developer",
+    organization: "پروژه‌های شخصی",
+    title: "توسعه‌دهنده Full Stack",
+    date: "۱۴۰۳ تاکنون",
     content:
-      "توسعه افزونه‌های اختصاصی برای سیستم‌های مدیریت محتوا و بهبود کارایی سایت‌های مشتریان.",
+      "توسعه پروژه‌های Full Stack با MERN Stack شامل سیستم احراز هویت، پنل مدیریت، APIهای RESTful و معماری ماژولار با تمرکز بر Clean Code.",
   },
 ];
