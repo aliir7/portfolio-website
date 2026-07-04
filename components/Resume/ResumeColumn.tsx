@@ -1,29 +1,21 @@
 import { ResumeItemType } from "@/types";
 import ResumeItem from "./ResumeItem";
 
-interface ResumeColumnProps {
+type Props = {
   title: string;
   items: ResumeItemType[];
-}
+};
 
-const ResumeColumn = ({ title, items }: ResumeColumnProps) => {
+const ResumeColumn = ({ title, items }: Props) => {
   return (
     <div>
-      {/* Column Heading */}
       <div className="mb-4">
         <h3 className="text-center text-2xl font-semibold">{title}</h3>
         <span className="border-border mt-2 block h-px w-full border-b-2" />
       </div>
-
-      {/* Timeline Items */}
-      <div className="space-y-2">
-        {items.map((item, index) => (
-          <ResumeItem
-            key={item.id}
-            item={item}
-            isFirst={index === 0}
-            isLast={index === items.length - 1}
-          />
+      <div className="gap-y-4">
+        {items.map((item) => (
+          <ResumeItem key={item.id} item={item} />
         ))}
       </div>
     </div>

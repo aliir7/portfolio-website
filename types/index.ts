@@ -23,7 +23,7 @@ export interface Project {
 }
 export type ResumeItemType = {
   id: string;
-  category: "education" | "experience";
+  category: "education" | "experience" | string;
   organization: string;
   title: string;
   date: string;

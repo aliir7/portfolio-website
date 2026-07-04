@@ -1,11 +1,12 @@
 import { resumeData } from "@/lib/constants";
-import Shape from "../ui/shape";
 import ResumeColumn from "./ResumeColumn";
 
-const education = resumeData.filter((item) => item.category === "education");
-
-const experience = resumeData.filter((item) => item.category === "experience");
-
+const educationItems = resumeData.filter(
+  (item) => item.category === "education",
+);
+const experienceItems = resumeData.filter(
+  (item) => item.category === "experience",
+);
 const ResumeSection = () => {
   return (
     <section id="resume" className="container-custom relative py-16">
@@ -27,9 +28,9 @@ const ResumeSection = () => {
 
         {/* Resume Columns */}
         <div className="grid gap-8 lg:grid-cols-2">
-          <ResumeColumn title="تحصیلات و دوره‌ها" items={education} />
+          <ResumeColumn title="تحصیلات و دوره‌ها" items={educationItems} />
 
-          <ResumeColumn title="سوابق شغلی" items={experience} />
+          <ResumeColumn title="سوابق شغلی" items={experienceItems} />
         </div>
       </div>
     </section>
