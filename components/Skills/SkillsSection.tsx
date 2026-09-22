@@ -1,11 +1,16 @@
 import SkillItem from "./SkillItem";
+import RevealSection from "../ui/reveal-section";
 
 const SkillsSection = () => {
   return (
-    <section id="skills" className="custom-container mx-auto py-6">
+    <RevealSection
+      id="skills"
+      delay={0.2}
+      className="container-custom section-gradient relative"
+    >
       <h2 className="mb-8 text-center text-3xl font-bold">مهارت های من</h2>
       <SkillItem />
-    </section>
+    </RevealSection>
   );
 };
 

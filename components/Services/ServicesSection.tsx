@@ -7,15 +7,22 @@ import "swiper/css/pagination";
 import { services } from "@/lib/constants";
 import ServiceCard from "./ServiceCard";
 import Shape from "../ui/shape";
+import RevealSection from "../ui/reveal-section";
 
 export const ServicesSection = () => {
   return (
-    <section id="services" className="container mx-auto px-6 py-24 lg:py-32">
+    <RevealSection
+      id="services"
+      delay={0.1}
+      className="container mx-auto px-6 py-24 lg:py-32"
+    >
       <div className="mb-20 text-center">
         <h2 className="text-4xl font-bold tracking-tight md:text-6xl">
-          What I Do
+          خدمات من
         </h2>
-        <p className="text-primary mt-3 text-lg font-semibold">My Services</p>
+        <p className="text-primary mt-3 text-lg font-semibold">
+          راهکارهای تخصصی برای رشد کسب‌وکار شما
+        </p>
       </div>
 
       <div className="services-swiper-wrap relative">
@@ -45,6 +52,6 @@ export const ServicesSection = () => {
         {/* shape */}
         <Shape containerClassName="-left-18" />
       </div>
-    </section>
+    </RevealSection>
   );
 };

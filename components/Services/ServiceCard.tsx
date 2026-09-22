@@ -1,6 +1,7 @@
 import { RiArrowLeftLine } from "@remixicon/react";
 import { Button } from "../ui/button";
 import Image from "next/image";
+import Link from "next/link";
 
 type Props = {
   title: string;
@@ -20,8 +21,8 @@ const ServiceCard = ({ title, subtitle, description }: Props) => {
       </div>
 
       <div className="group-hover:text-primary mt-auto flex items-center gap-2 pt-10 font-semibold group-hover:cursor-pointer">
-        <Button variant="ctaLink" className="text-lg hover:cursor-pointer">
-          بیشتر بدانید
+        <Button variant="ctaLink" className="text-lg hover:cursor-pointer" asChild>
+          <Link href="#contact">بیشتر بدانید</Link>
         </Button>
         <RiArrowLeftLine
           size={20}

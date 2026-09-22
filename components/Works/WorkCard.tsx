@@ -43,7 +43,7 @@ const WorkCard = ({ project }: WorkCardProps) => {
           <CardAction>
             <Badge
               variant="outline"
-              className="bg-primary px-3 py-2 text-zinc-100 capitalize"
+              className="bg-primary px-3 py-2 text-primary-foreground capitalize"
             >
               {project.category}
             </Badge>
@@ -61,7 +61,7 @@ const WorkCard = ({ project }: WorkCardProps) => {
         </CardContent>
 
         {/* FOOTER – anchor for shape */}
-        <CardFooter className="relative z-10 gap-3 border-none bg-white">
+        <CardFooter className="relative z-10 gap-3 border-none bg-card">
           {project.repoUrl && (
             <Button variant="ctaLink" asChild>
               <Link

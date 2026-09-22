@@ -3,10 +3,15 @@ import SocialList from "./SocialList";
 import Image from "next/image";
 import { CTAButtons } from "./CTAButtons";
 import Shape from "../ui/shape";
+import RevealSection from "../ui/reveal-section";
 
 const HeroSection = () => {
   return (
-    <section className="section-gradient home-section relative flex min-h-screen items-center overflow-hidden pt-24 pb-12">
+    <RevealSection
+      id="hero"
+      delay={0}
+      className="section-gradient home-section relative flex min-h-screen items-center overflow-hidden pt-24 pb-12"
+    >
       <div className="home-container relative z-10 mx-auto px-6 lg:pr-24 lg:pl-12">
         <div className="grid grid-cols-1 items-center gap-12 lg:grid-cols-2 lg:gap-8">
           {/* ستون راست: محتوای متنی */}
@@ -26,7 +31,7 @@ const HeroSection = () => {
               طراح سایت و توسعه‌دهنده فرانت‌اند
             </h2>
 
-            <p className="max-w-lg text-lg text-gray-600 dark:text-gray-400">
+            <p className="text-muted-foreground max-w-lg text-lg">
               من در تهران زندگی می‌کنم. تجربه غنی و بالایی در طراحی رابط کاربری
               و توسعه وبسایت‌های مدرن دارم. من عاشق خلق تجربه‌های دیجیتال
               منحصر‌به‌فرد هستم.
@@ -40,7 +45,7 @@ const HeroSection = () => {
             {/* دکمه‌های اقدام (Call to Actions) */}
             <div className="flex items-center">
               <CTAButtons
-                resumeUrl="/path-to-resume.pdf"
+                resumeUrl="#resume"
                 skillsUrl="#skills"
                 resumeText="رزومه من"
                 skillsText="مهارت‌های من"
@@ -81,7 +86,7 @@ const HeroSection = () => {
             </div>
 
             {/* نشان‌های شناور (Badges) */}
-            <div className="border-card-foreground shadow-card-foreground absolute top-1/7 -right-2 z-20 flex cursor-default items-center gap-3 rounded-full border-2 bg-white px-5 py-3 shadow-[4px_4px_0px] transition-transform hover:-translate-y-1 md:top-1/4 md:right-2">
+            <div className="border-card-foreground shadow-card-foreground absolute top-1/7 -right-2 z-20 flex cursor-default items-center gap-3 rounded-full border-2 bg-card px-5 py-3 shadow-[4px_4px_0px] transition-transform hover:-translate-y-1 md:top-1/4 md:right-2">
               <span className="text-card-foreground text-xl font-black lg:text-3xl">
                 ۱۲+
               </span>
@@ -92,7 +97,7 @@ const HeroSection = () => {
               </span>
             </div>
 
-            <div className="border-card-foreground shadow-card-foreground absolute bottom-12 -left-1 z-20 flex cursor-default items-center gap-3 rounded-full border-2 bg-white px-5 py-3 shadow-[4px_4px_0px] transition-transform hover:-translate-y-1 md:left-10">
+            <div className="border-card-foreground shadow-card-foreground absolute bottom-12 -left-1 z-20 flex cursor-default items-center gap-3 rounded-full border-2 bg-card px-5 py-3 shadow-[4px_4px_0px] transition-transform hover:-translate-y-1 md:left-10">
               <span className="text-card-foreground text-xl font-black lg:text-3xl">
                 ۳۳۰
               </span>
@@ -113,7 +118,7 @@ const HeroSection = () => {
           />
         </div>
       </div>
-    </section>
+    </RevealSection>
   );
 };
 

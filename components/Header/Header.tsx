@@ -28,7 +28,9 @@ const Header = () => {
     <header
       className={cn(
         "fixed top-0 right-0 z-1000 w-full transition-all duration-500",
-        isScrolled ? "bg-white shadow-md" : "bg-transparent",
+        isScrolled
+          ? "bg-background/95 shadow-md backdrop-blur supports-backdrop-filter:backdrop-blur-md"
+          : "bg-transparent",
       )}
     >
       <nav className="nav container flex h-20 max-w-385 items-center justify-between">

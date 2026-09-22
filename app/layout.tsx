@@ -3,6 +3,7 @@ import "./globals.css";
 import { cn } from "@/lib/utils";
 import Header from "@/components/Header/Header";
 import { ThemeProvider } from "next-themes";
+import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
   title: "پورتفولیوی علی رضایی",
@@ -22,9 +23,15 @@ export default function RootLayout({
       suppressHydrationWarning
     >
       <body className={cn("min-h-screen font-sans antialiased")}>
-        <ThemeProvider storageKey="theme" defaultTheme="light">
+        <ThemeProvider
+          attribute="class"
+          storageKey="theme"
+          defaultTheme="system"
+          enableSystem
+        >
           <Header />
           {children}
+          <Toaster richColors position="bottom-left" />
         </ThemeProvider>
       </body>
     </html>

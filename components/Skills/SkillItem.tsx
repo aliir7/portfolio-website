@@ -1,13 +1,7 @@
 import { skillsData } from "@/lib/constants";
 import { Slider } from "../ui/slider";
 
-type Props = {
-  name?: string;
-  value?: number;
-  description?: string;
-};
-
-const SkillItem = ({ name, value, description }: Props) => {
+const SkillItem = () => {
   return (
     <div className="container grid grid-cols-1 gap-x-6 gap-y-16 md:grid-cols-2 lg:grid-cols-3">
       {skillsData.map((skill, index) => (
@@ -15,7 +9,7 @@ const SkillItem = ({ name, value, description }: Props) => {
           {/* Skills Header */}
           <div className="mb-2 flex items-center justify-between">
             <h3 className="text-lg font-semibold">{skill.name}</h3>
-            <span className="font-semibold text-zinc-800">
+            <span className="font-semibold text-foreground">
               {skill.value}
               <span className="text-primary ml-1">%</span>
             </span>
@@ -39,7 +33,7 @@ const SkillItem = ({ name, value, description }: Props) => {
           </div>
 
           {/* Description */}
-          <p className="skills-description text-sm text-zinc-700">
+          <p className="skills-description text-sm text-muted-foreground">
             {skill.description}
           </p>
         </div>

@@ -2,10 +2,15 @@ import { projects } from "@/lib/constants/index";
 import WorksFilter from "./WorksFilter";
 import WorksGrid from "./WorksGrid";
 import Shape from "../ui/shape";
+import RevealSection from "../ui/reveal-section";
 
 const WorksSection = () => {
   return (
-    <section id="works" className="container-custom relative py-16">
+    <RevealSection
+      id="works"
+      delay={0.3}
+      className="container-custom relative py-16"
+    >
       {/* ✅ Decorative Shape */}
       <Shape containerClassName="right-1 p top-55 h-2/3 hidden md:block" />
 
@@ -28,7 +33,7 @@ const WorksSection = () => {
           <WorksGrid projects={projects} />
         </div>
       </div>
-    </section>
+    </RevealSection>
   );
 };
 

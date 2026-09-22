@@ -1,5 +1,7 @@
 import { resumeData } from "@/lib/constants";
 import ResumeColumn from "./ResumeColumn";
+import Shape from "../ui/shape";
+import RevealSection from "../ui/reveal-section";
 
 const educationItems = resumeData.filter(
   (item) => item.category === "education",
@@ -9,31 +11,43 @@ const experienceItems = resumeData.filter(
 );
 const ResumeSection = () => {
   return (
-    <section id="resume" className="container-custom relative py-16">
-      {/* Decorative Shape */}
-      {/* <Shape containerClassName="left-0 top-20 hidden h-1/2 md:block" /> */}
+    <RevealSection
+      id="resume"
+      delay={0.4}
+      className="section-gradient relative overflow-hidden py-20"
+    >
+      <Shape
+        src="/assets/img/shape-1.png"
+        width={220}
+        height={220}
+        className="h-40 w-40 object-contain opacity-60 md:h-52 md:w-52"
+        containerClassName="-left-4 top-16 hidden md:block"
+      />
+      <Shape
+        src="/assets/img/shape-2.png"
+        width={220}
+        height={220}
+        className="h-40 w-40 object-contain opacity-60 md:h-52 md:w-52"
+        containerClassName="right-0 bottom-10 hidden md:block"
+      />
 
-      <div className="relative z-10 mx-auto">
-        {/* Heading */}
-        <div className="mb-14 text-center">
+      <div className="container-custom relative z-10">
+        <div className="mx-auto mb-14 max-w-2xl text-center">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
             رزومه من
           </h2>
-
-          <p className="text-primary mx-auto mt-4 max-w-2xl">
+          <p className="text-muted-foreground mx-auto mt-4 max-w-2xl leading-8">
             مروری بر مسیر آموزشی، تجربیات کاری و مهارت‌های فنی من در دنیای توسعه
             نرم‌افزار.
           </p>
         </div>
 
-        {/* Resume Columns */}
-        <div className="grid gap-8 lg:grid-cols-2">
+        <div className="grid gap-6 lg:grid-cols-2">
           <ResumeColumn title="تحصیلات و دوره‌ها" items={educationItems} />
-
           <ResumeColumn title="سوابق شغلی" items={experienceItems} />
         </div>
       </div>
-    </section>
+    </RevealSection>
   );
 };
 
