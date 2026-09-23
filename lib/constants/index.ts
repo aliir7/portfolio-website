@@ -152,7 +152,7 @@ export const resumeData = [
   {
     id: "edu-1",
     category: "education",
-    organization: "دانشگاه آزاد اسلامی واحد دزفول",
+    organization: "دانشگاه آزاد اسلامی واحد پرند",
     title: "کارشناسی مهندسی عمران",
     date: "۱۳۹۳ - ۱۳۹۶",
     content:
