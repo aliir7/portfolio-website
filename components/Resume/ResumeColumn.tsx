@@ -8,7 +8,7 @@ type Props = {
 
 const ResumeColumn = ({ title, items }: Props) => {
   return (
-    <div className="bg-card/80 rounded-3xl border border-border/60 p-6 shadow-sm backdrop-blur-sm sm:p-8">
+    <div className="bg-card/80 rounded-3xl border border-border/60 p-6 shadow-sm backdrop-blur-sm transition-all duration-300 hover:-translate-y-1 hover:border-card-foreground hover:shadow-4px sm:p-8">
       <div className="mb-8 flex items-center justify-between gap-4 border-b border-border/60 pb-5">
         <div>
           <h3 className="text-xl font-bold sm:text-2xl">{title}</h3>

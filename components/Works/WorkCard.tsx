@@ -15,7 +15,7 @@ import { RiExternalLinkLine, RiGithubLine } from "@remixicon/react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "../ui/button";
-import { useDictionary } from "@/lib/i18n";
+import { useDictionary, useLocale } from "@/lib/i18n";
 
 type WorkCardProps = {
   project: Project;
@@ -23,8 +23,9 @@ type WorkCardProps = {
 
 const WorkCard = ({ project }: WorkCardProps) => {
   const dictionary = useDictionary();
+  const locale = useLocale();
   return (
-    <Card className="group/card relative overflow-hidden pt-0">
+    <Card className="group/card border-border/60 relative overflow-hidden pt-0 [--card-spacing:--spacing(3)] transition-all duration-300 hover:-translate-y-1 hover:border-card-foreground hover:shadow-4px md:[--card-spacing:--spacing(4)]">
       {/* IMAGE */}
       <div className="relative aspect-video overflow-hidden">
         <Image
@@ -38,7 +39,7 @@ const WorkCard = ({ project }: WorkCardProps) => {
 
       {/* MAIN CONTENT WRAPPER – keep content above shape */}
       <div className="relative z-10">
-        <CardHeader className="mt-6 space-y-1.5">
+        <CardHeader className="mt-4 space-y-1.5 md:mt-6">
           <CardTitle className="text-lg">{project.title}</CardTitle>
           <CardDescription className="line-clamp-2">
             {project.description}
@@ -54,7 +55,7 @@ const WorkCard = ({ project }: WorkCardProps) => {
           </CardAction>
         </CardHeader>
 
-        <CardContent className="pb-6">
+        <CardContent className="pb-4 md:pb-6">
           <div className="flex flex-wrap gap-2">
             {project.techStack.map((tech) => (
               <Badge key={tech} variant="outline" className="py-1 text-xs">
@@ -65,7 +66,7 @@ const WorkCard = ({ project }: WorkCardProps) => {
         </CardContent>
 
         {/* FOOTER – anchor for shape */}
-        <CardFooter className="relative z-10 gap-3 border-none bg-card">
+        <CardFooter className="relative z-10 gap-2 border-none bg-card p-3 md:gap-3 md:p-4">
           {project.repoUrl && (
             <Button variant="ctaLink" asChild>
               <Link
@@ -100,7 +101,11 @@ const WorkCard = ({ project }: WorkCardProps) => {
             alt="Decoration Shape 3"
             width={120}
             height={120}
-            className="pointer-events-none absolute -bottom-12 -left-5 z-0 opacity-80 dark:invert md:left-2"
+            className={
+              locale === "fa"
+                ? "pointer-events-none absolute -bottom-8 -left-4 z-0 opacity-80 dark:invert md:-bottom-12 md:left-2"
+                : "pointer-events-none absolute -right-4 -bottom-8 z-0 opacity-80 dark:invert md:right-2 md:-bottom-12"
+            }
           />
         </CardFooter>
       </div>

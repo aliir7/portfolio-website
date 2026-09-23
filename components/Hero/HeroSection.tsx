@@ -36,7 +36,7 @@ const HeroSection = () => {
               {hero.role}
             </h2>
 
-            <p className="max-w-lg text-lg text-gray-600 dark:text-gray-400">
+            <p className="text-muted-foreground max-w-lg text-lg leading-8">
               {hero.bio}
             </p>
 
@@ -89,7 +89,7 @@ const HeroSection = () => {
             </div>
 
             {/* نشان‌های شناور (Badges) */}
-            <div className="border-card-foreground shadow-card-foreground absolute top-1/7 -right-2 z-20 flex cursor-default items-center gap-3 rounded-full border-2 bg-card px-5 py-3 shadow-[4px_4px_0px] transition-transform hover:-translate-y-1 md:top-1/4 md:right-2">
+            <div className="border-card-foreground shadow-card-foreground absolute top-1/7 -right-2 z-20 flex cursor-default items-center gap-3 rounded-full border-2 bg-card/95 px-5 py-3 shadow-[4px_4px_0px] backdrop-blur-sm transition-transform hover:-translate-y-1 md:top-1/4 md:right-2">
               <span className="text-card-foreground text-xl font-black lg:text-3xl">
                 {locale === "fa" ? "۱۲+" : "12+"}
               </span>
@@ -100,7 +100,7 @@ const HeroSection = () => {
               </span>
             </div>
 
-            <div className="border-card-foreground shadow-card-foreground absolute bottom-12 -left-1 z-20 flex cursor-default items-center gap-3 rounded-full border-2 bg-card px-5 py-3 shadow-[4px_4px_0px] transition-transform hover:-translate-y-1 md:left-10">
+            <div className="border-card-foreground shadow-card-foreground absolute bottom-12 -left-1 z-20 flex cursor-default items-center gap-3 rounded-full border-2 bg-card/95 px-5 py-3 shadow-[4px_4px_0px] backdrop-blur-sm transition-transform hover:-translate-y-1 md:left-10">
               <span className="text-card-foreground text-xl font-black lg:text-3xl">
                 {locale === "fa" ? "۳۳۰" : "330"}
               </span>

@@ -116,7 +116,7 @@ export const ContactSection = () => {
         </div>
 
         <div className="mx-auto grid max-w-5xl gap-6 lg:grid-cols-[0.85fr_1.15fr]">
-          <div className="bg-card border-border/60 rounded-3xl border p-6 shadow-sm sm:p-8">
+          <div className="bg-card border-border/60 rounded-3xl border p-6 shadow-sm transition-all duration-300 hover:shadow-4px sm:p-8">
             <h3 className="text-2xl font-bold">{contact.infoTitle}</h3>
             <p className="text-muted-foreground mt-3 text-sm leading-7">
               {contact.infoText}
@@ -158,7 +158,7 @@ export const ContactSection = () => {
 
           <form
             onSubmit={handleSubmit}
-            className="bg-card border-border/60 rounded-3xl border p-6 shadow-sm sm:p-8"
+            className="bg-card border-border/60 rounded-3xl border p-6 shadow-sm transition-all duration-300 hover:shadow-4px sm:p-8"
             noValidate
           >
             <h3 className="mb-6 text-2xl font-bold">{contact.messageTitle}</h3>

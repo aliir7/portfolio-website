@@ -79,7 +79,7 @@
       --second-hue: 37;
 
       /* --body-color: hsl(var(--second-hue), 30%, 92%); */
-      --background: hsl(var(--second-hue), 30%, 92%);
+      --background: hsl(var(--second-hue), 30%, 95%);
 
       /* --text-color: hsl(var(--second-hue), 4%, 20%); */
       --foreground: hsl(var(--second-hue), 4%, 20%);
@@ -100,27 +100,27 @@
       --primary-foreground: hsl(var(--second-hue), 0%, 100%);
 
       /* --border-color: hsl(var(--second-hue), 4%, 16%); */
-      --border: hsl(var(--second-hue), 4%, 16%);
-      --input: hsl(var(--second-hue), 4%, 16%);
+      --border: hsl(var(--second-hue), 4%, 24%);
+      --input: hsl(var(--second-hue), 4%, 24%);
 
       /* ========== رنگ‌های ترکیبی استاندارد Shadcn ========== */
       /* برای حالت‌های Hover و المان‌های ثانویه از مقادیر نزدیک به پس‌زمینه استفاده می‌کنیم */
-      --secondary: hsl(var(--second-hue), 20%, 86%);
+      --secondary: hsl(var(--second-hue), 20%, 89%);
       --secondary-foreground: hsl(var(--second-hue), 4%, 12%);
 
-      --muted: hsl(var(--second-hue), 20%, 86%);
+      --muted: hsl(var(--second-hue), 20%, 89%);
       --muted-foreground: hsl(var(--second-hue), 4%, 40%);
 
-      --accent: hsl(var(--second-hue), 20%, 86%);
+      --accent: hsl(var(--second-hue), 20%, 89%);
       --accent-foreground: hsl(var(--second-hue), 4%, 12%);
 
       --destructive: oklch(0.577 0.245 27.325);
       --destructive-foreground: oklch(0.985 0 0);
 
-      --radius: 0.625rem;
+      --radius: 0.75rem;
 
       /* ========== متغیرهای کاستوم افکت‌ها (از تصویر) ========== */
-      --shadow-color: hsla(var(--second-hue), 80%, 10%, 0.2);
+      --shadow-color: hsla(var(--second-hue), 80%, 10%, 0.16);
       /* هماهنگ‌سازی Stroke با title-color */
       --stroke-color: hsl(var(--second-hue), 4%, 12%);
     }
@@ -178,6 +178,14 @@
   body {
     /* تخصیص رنگ‌های پس‌زمینه و متن مستقیماً از کلاس‌های Tailwind انجام می‌شود */
     @apply bg-background text-foreground font-sans antialiased;
+  }
+
+  ::selection {
+    @apply bg-primary text-primary-foreground;
+  }
+
+  :focus-visible {
+    @apply outline-2 outline-offset-4 outline-primary;
   }
 
   h1,
