@@ -169,6 +169,12 @@
     scroll-behavior: smooth;
   }
 
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 300ms;
+    animation-timing-function: ease-in-out;
+  }
+
   body {
     /* تخصیص رنگ‌های پس‌زمینه و متن مستقیماً از کلاس‌های Tailwind انجام می‌شود */
     @apply bg-background text-foreground font-sans antialiased;

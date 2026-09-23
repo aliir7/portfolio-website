@@ -36,7 +36,7 @@ const ServiceCard = ({ title, subtitle, description }: Props) => {
           alt="Decoration Shape 3"
           width={120}
           height={120}
-          className="absolute -bottom-10 -left-5 z-0 opacity-80 md:left-2"
+          className="absolute -bottom-10 -left-5 z-0 opacity-80 dark:invert md:left-2"
         />
       </div>
     </div>

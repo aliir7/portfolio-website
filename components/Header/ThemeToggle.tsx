@@ -16,19 +16,35 @@ const ThemeToggle = ({ className }: { className?: string }) => {
     return null;
   }
 
+  const toggleTheme = () => {
+    const nextTheme = theme === "dark" ? "light" : "dark";
+    const transitionDocument = document as Document & {
+      startViewTransition?: (update: () => void) => void;
+    };
+
+    if (transitionDocument.startViewTransition) {
+      transitionDocument.startViewTransition(() => setTheme(nextTheme));
+      return;
+    }
+
+    setTheme(nextTheme);
+  };
+
   return (
-    <Button
-      aria-label="تغییر تم"
-      className={`rounded-full p-2 transition focus-visible:ring-0 focus-visible:ring-offset-0 ${className}`}
-      onClick={() => setTheme(theme === "dark" ? "light" : "dark")}
-      variant="ctaLink"
-    >
-      {theme === "dark" ? (
-        <RiSunLine className="size-5" />
-      ) : (
-        <RiMoonLine className="size-5" />
-      )}
-    </Button>
+    <>
+      <Button
+        aria-label="تغییر تم"
+        className={`rounded-full p-2 transition focus-visible:ring-0 focus-visible:ring-offset-0 ${className}`}
+        onClick={toggleTheme}
+        variant="ctaLink"
+      >
+        {theme === "dark" ? (
+          <RiSunLine className="size-5" />
+        ) : (
+          <RiMoonLine className="size-5" />
+        )}
+      </Button>
+    </>
   );
 };
 

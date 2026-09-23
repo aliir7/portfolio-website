@@ -61,7 +61,7 @@ const HeroSection = () => {
               alt="Decoration Shape 1"
               width={160}
               height={160}
-              className="absolute -top-10 right-0 z-0 opacity-80 md:top-10"
+              className="absolute -top-10 right-0 z-0 opacity-80 dark:invert md:top-10"
             />
 
             {/* شیپ ۲ - پایین چپ */}
@@ -70,7 +70,7 @@ const HeroSection = () => {
               alt="Decoration Shape 2"
               width={160}
               height={160}
-              className="absolute -bottom-10 -left-2 z-0 opacity-80 md:left-10"
+              className="absolute -bottom-10 -left-2 z-0 opacity-80 dark:invert md:left-10"
             />
 
             {/* کانتینر ماسک‌کننده (دایره سبز رنگ با overflow-hidden) */}

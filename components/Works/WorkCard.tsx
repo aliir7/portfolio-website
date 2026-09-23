@@ -96,7 +96,7 @@ const WorkCard = ({ project }: WorkCardProps) => {
             alt="Decoration Shape 3"
             width={120}
             height={120}
-            className="pointer-events-none absolute -bottom-12 -left-5 z-0 opacity-80 md:left-2"
+            className="pointer-events-none absolute -bottom-12 -left-5 z-0 opacity-80 dark:invert md:left-2"
           />
         </CardFooter>
       </div>

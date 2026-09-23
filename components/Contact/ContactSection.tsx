@@ -9,6 +9,7 @@ import { toast } from "sonner";
 import { RiMailLine, RiPhoneLine, RiMapPinLine } from "@remixicon/react";
 import { cn } from "@/lib/utils";
 import RevealSection from "../ui/reveal-section";
+import Shape from "../ui/shape";
 
 const contactInfo = [
   {
@@ -82,7 +83,7 @@ export const ContactSection = () => {
   };
 
   const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
   ) => {
     setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
     if (errors[e.target.name as keyof typeof errors]) {
@@ -105,13 +106,13 @@ export const ContactSection = () => {
             با من در تماس باشید
           </h2>
           <p className="text-muted-foreground mx-auto mt-4 max-w-2xl leading-8">
-            برای پیشنهاد پروژه، همکاری یا هر سوالی، لطفاً از فرم زیر استفاده کنید.
-            در اسرع وقت پاسخ خواهم داد.
+            برای پیشنهاد پروژه، همکاری یا هر سوالی، لطفاً از فرم زیر استفاده
+            کنید. در اسرع وقت پاسخ خواهم داد.
           </p>
         </div>
 
         <div className="mx-auto grid max-w-5xl gap-6 lg:grid-cols-[0.85fr_1.15fr]">
-          <div className="bg-card rounded-3xl border border-border/60 p-6 shadow-sm sm:p-8">
+          <div className="bg-card border-border/60 rounded-3xl border p-6 shadow-sm sm:p-8">
             <h3 className="text-2xl font-bold">اطلاعات تماس</h3>
             <p className="text-muted-foreground mt-3 text-sm leading-7">
               برای شروع گفتگو از یکی از راه‌های زیر با من در ارتباط باشید.
@@ -121,15 +122,21 @@ export const ContactSection = () => {
                 <a
                   key={item.title}
                   href={item.href}
-                  className="group bg-background/60 flex items-center gap-4 rounded-2xl border border-border/50 p-4 transition-all hover:-translate-y-0.5 hover:border-primary/50 hover:shadow-md"
+                  className="group bg-background/60 border-border/50 hover:border-primary/50 flex items-center gap-4 rounded-2xl border p-4 transition-all hover:-translate-y-0.5 hover:shadow-md"
                   target={item.href.startsWith("http") ? "_blank" : undefined}
-                  rel={item.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                  rel={
+                    item.href.startsWith("http")
+                      ? "noopener noreferrer"
+                      : undefined
+                  }
                 >
-                  <div className="bg-primary/10 text-primary flex h-12 w-12 shrink-0 items-center justify-center rounded-xl transition-colors group-hover:bg-primary group-hover:text-primary-foreground">
+                  <div className="bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground flex h-12 w-12 shrink-0 items-center justify-center rounded-xl transition-colors">
                     <item.icon className="size-6" />
                   </div>
                   <div className="min-w-0">
-                    <p className="text-sm text-muted-foreground">{item.title}</p>
+                    <p className="text-muted-foreground text-sm">
+                      {item.title}
+                    </p>
                     <p className="truncate font-medium">{item.value}</p>
                   </div>
                 </a>
@@ -139,7 +146,7 @@ export const ContactSection = () => {
 
           <form
             onSubmit={handleSubmit}
-            className="bg-card rounded-3xl border border-border/60 p-6 shadow-sm sm:p-8"
+            className="bg-card border-border/60 rounded-3xl border p-6 shadow-sm sm:p-8"
             noValidate
           >
             <h3 className="mb-6 text-2xl font-bold">پیام خود را بفرستید</h3>
@@ -153,14 +160,19 @@ export const ContactSection = () => {
                   onChange={handleChange}
                   placeholder="نام و نام خانوادگی"
                   className={cn(
-                    errors.name && "border-destructive focus:border-destructive"
+                    errors.name &&
+                      "border-destructive focus:border-destructive",
                   )}
                   aria-invalid={errors.name ? "true" : "false"}
                   aria-describedby={errors.name ? "name-error" : undefined}
                   disabled={isSubmitting}
                 />
                 {errors.name && (
-                  <p id="name-error" className="text-sm text-destructive" role="alert">
+                  <p
+                    id="name-error"
+                    className="text-destructive text-sm"
+                    role="alert"
+                  >
                     {errors.name}
                   </p>
                 )}
@@ -176,14 +188,19 @@ export const ContactSection = () => {
                   onChange={handleChange}
                   placeholder="you@example.com"
                   className={cn(
-                    errors.email && "border-destructive focus:border-destructive"
+                    errors.email &&
+                      "border-destructive focus:border-destructive",
                   )}
                   aria-invalid={errors.email ? "true" : "false"}
                   aria-describedby={errors.email ? "email-error" : undefined}
                   disabled={isSubmitting}
                 />
                 {errors.email && (
-                  <p id="email-error" className="text-sm text-destructive" role="alert">
+                  <p
+                    id="email-error"
+                    className="text-destructive text-sm"
+                    role="alert"
+                  >
                     {errors.email}
                   </p>
                 )}
@@ -200,14 +217,19 @@ export const ContactSection = () => {
                 placeholder="پیام شما..."
                 rows={5}
                 className={cn(
-                  errors.message && "border-destructive focus:border-destructive"
+                  errors.message &&
+                    "border-destructive focus:border-destructive",
                 )}
                 aria-invalid={errors.message ? "true" : "false"}
                 aria-describedby={errors.message ? "message-error" : undefined}
                 disabled={isSubmitting}
               />
               {errors.message && (
-                <p id="message-error" className="text-sm text-destructive" role="alert">
+                <p
+                  id="message-error"
+                  className="text-destructive text-sm"
+                  role="alert"
+                >
                   {errors.message}
                 </p>
               )}
@@ -250,6 +272,13 @@ export const ContactSection = () => {
             </Button>
           </form>
         </div>
+      </div>
+      <div className="hidden md:block">
+        <Shape
+          width={226}
+          className="absolute -bottom-51.5 -left-11.5 h-56.5 max-w-56.5"
+          containerClassName="-right-18"
+        />
       </div>
     </RevealSection>
   );
