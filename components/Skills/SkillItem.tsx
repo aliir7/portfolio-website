@@ -1,6 +1,6 @@
 import { skillsData } from "@/lib/constants";
 import { Slider } from "../ui/slider";
-import { useLocale } from "@/lib/i18n";
+import { toLocaleDigits, useLocale } from "@/lib/i18n";
 
 const SkillItem = () => {
   const locale = useLocale();
@@ -12,7 +12,7 @@ const SkillItem = () => {
           <div className="mb-2 flex items-center justify-between">
             <h3 className="text-lg font-semibold">{skill.name}</h3>
             <span className="font-semibold text-foreground">
-              {skill.value}
+              {toLocaleDigits(skill.value, locale)}
               <span className="text-primary ml-1">%</span>
             </span>
           </div>

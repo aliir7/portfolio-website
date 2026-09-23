@@ -12,7 +12,7 @@ import { RiMailLine, RiPhoneLine, RiMapPinLine } from "@remixicon/react";
 import { cn } from "@/lib/utils";
 import RevealSection from "../ui/reveal-section";
 import Shape from "../ui/shape";
-import { useDictionary, useLocale } from "@/lib/i18n";
+import { toLocaleDigits, useDictionary, useLocale } from "@/lib/i18n";
 
 const contactInfo = [
   {
@@ -145,8 +145,18 @@ export const ContactSection = () => {
                           ? contact.phone
                           : contact.location}
                     </p>
-                    <p className="truncate font-medium">
-                      {item.key === "location" && locale === "en" ? "Tehran, Iran" : item.value}
+                    <p
+                      className={cn(
+                        "truncate font-medium",
+                        item.key === "phone" && "direction-ltr text-right",
+                      )}
+                      dir={item.key === "phone" ? "ltr" : undefined}
+                    >
+                      {item.key === "location" && locale === "en"
+                        ? "Tehran, Iran"
+                        : item.key === "phone"
+                          ? toLocaleDigits(item.value, locale)
+                          : item.value}
                     </p>
                   </div>
                 </a>

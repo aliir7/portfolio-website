@@ -7,6 +7,12 @@ import type { Locale } from "@/i18n/routing";
 
 export type { Locale };
 
+export function toLocaleDigits(value: string | number, locale: Locale) {
+  return String(value).replace(/\d/g, (digit) =>
+    locale === "fa" ? "۰۱۲۳۴۵۶۷۸۹"[Number(digit)] : digit,
+  );
+}
+
 type Dictionary = {
   nav: Record<string, string>;
   common: Record<string, string>;
