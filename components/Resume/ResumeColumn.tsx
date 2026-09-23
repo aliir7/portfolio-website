@@ -15,7 +15,7 @@ const ResumeColumn = ({ title, items }: Props) => {
           <span className="bg-primary mt-3 block h-1 w-12 rounded-full" />
         </div>
         <span className="bg-primary/10 text-primary flex size-10 items-center justify-center rounded-full text-sm font-bold">
-          {items.length.toLocaleString("fa-IR")}
+          {items.length.toLocaleString()}
         </span>
       </div>
       <div className="space-y-8">

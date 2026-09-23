@@ -213,7 +213,7 @@
     .services-pagination
     .swiper-pagination-bullets
     .swiper-pagination-bullet:not(:last-child) {
-    margin-right: 1.25rem;
+    margin-inline-end: 1.25rem;
   }
 }
 

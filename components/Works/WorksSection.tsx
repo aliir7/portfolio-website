@@ -1,10 +1,14 @@
-import { projects } from "@/lib/constants/index";
+"use client";
+
 import WorksFilter from "./WorksFilter";
 import WorksGrid from "./WorksGrid";
 import Shape from "../ui/shape";
 import RevealSection from "../ui/reveal-section";
+import { useDictionary, useLocalizedContent } from "@/lib/i18n";
 
 const WorksSection = () => {
+  const dictionary = useDictionary();
+  const { projects } = useLocalizedContent();
   return (
     <RevealSection
       id="works"
@@ -18,12 +22,11 @@ const WorksSection = () => {
       <div className="relative z-10">
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
-            نمونه‌کارهای من
+            {dictionary.works.title}
           </h2>
 
           <p className="text-primary mt-4">
-            مجموعه‌ای از پروژه‌هایی که تجربه من را در ساخت وب‌اپلیکیشن‌های مدرن،
-            مقیاس‌پذیر و حرفه‌ای نشان می‌دهند.
+            {dictionary.works.subtitle}
           </p>
         </div>
 

@@ -11,9 +11,11 @@ import {
 } from "@/components/ui/sheet";
 import { Button } from "../ui/button";
 import NavItem from "./NavItem";
+import { useDictionary } from "@/lib/i18n";
 
 const NavMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
+  const dictionary = useDictionary();
 
   // Close with press ESC handler
   useEffect(() => {
@@ -43,7 +45,7 @@ const NavMenu = () => {
           variant="ghost"
           size="icon"
           className="relative h-10 w-10 hover:bg-transparent"
-          aria-label={isOpen ? "بستن منو" : "باز کردن منو"}
+          aria-label={isOpen ? dictionary.nav.contact : dictionary.nav.home}
         >
           <span
             className={`absolute inset-0 flex items-center justify-center transition-all duration-700 ${
@@ -75,9 +77,9 @@ const NavMenu = () => {
         onPointerDownOutside={() => setIsOpen(false)}
         onInteractOutside={() => setIsOpen(false)}
       >
-        <SheetTitle className="sr-only">منوی ناوبری</SheetTitle>
+        <SheetTitle className="sr-only">{dictionary.nav.home}</SheetTitle>
         <SheetDescription className="sr-only">
-          لینک‌های دسترسی سایت
+          {Object.values(dictionary.nav).join(", ")}
         </SheetDescription>
 
         <NavItem onNavigate={() => setIsOpen(false)} />

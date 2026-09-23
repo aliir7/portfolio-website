@@ -4,20 +4,23 @@ import { useWorksFilterStore } from "@/lib/store/useWorksFilterStore";
 import { FilterCategory } from "@/types";
 import { Tabs, TabsList, TabsTrigger } from "../ui/tabs";
 
-const filters: { label: string; value: FilterCategory }[] = [
-  { label: "همه پروژه‌ها", value: "all" },
-  { label: "فرانت‌اند", value: "frontend" },
-  { label: "فول‌استک", value: "fullstack" },
-  { label: "داشبورد", value: "dashboard" },
-];
+import { useDictionary, useLocale } from "@/lib/i18n";
 
 const WorksFilter = () => {
   const { category, setCategory } = useWorksFilterStore();
+  const dictionary = useDictionary();
+  const locale = useLocale();
+  const filters: { label: string; value: FilterCategory }[] = [
+    { label: dictionary.common.all, value: "all" },
+    { label: dictionary.common.frontend, value: "frontend" },
+    { label: dictionary.common.fullstack, value: "fullstack" },
+    { label: dictionary.common.dashboard, value: "dashboard" },
+  ];
 
   return (
     <Tabs
       value={category}
-      dir="rtl"
+      dir={locale === "fa" ? "rtl" : "ltr"}
       onValueChange={(value) => setCategory(value as FilterCategory)}
       className="mt-8 flex w-full items-center justify-center"
     >

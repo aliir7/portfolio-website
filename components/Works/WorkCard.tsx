@@ -1,3 +1,5 @@
+"use client";
+
 import { Badge } from "@/components/ui/badge";
 import {
   Card,
@@ -13,12 +15,14 @@ import { RiExternalLinkLine, RiGithubLine } from "@remixicon/react";
 import Image from "next/image";
 import Link from "next/link";
 import { Button } from "../ui/button";
+import { useDictionary } from "@/lib/i18n";
 
 type WorkCardProps = {
   project: Project;
 };
 
 const WorkCard = ({ project }: WorkCardProps) => {
+  const dictionary = useDictionary();
   return (
     <Card className="group/card relative overflow-hidden pt-0">
       {/* IMAGE */}
@@ -43,7 +47,7 @@ const WorkCard = ({ project }: WorkCardProps) => {
           <CardAction>
             <Badge
               variant="outline"
-              className="bg-primary px-3 py-2 text-primary-foreground capitalize"
+              className="bg-primary px-3 py-2 text-zinc-100 capitalize"
             >
               {project.category}
             </Badge>
@@ -71,7 +75,7 @@ const WorkCard = ({ project }: WorkCardProps) => {
                 className="inline-flex items-center gap-1.5 text-sm font-medium"
               >
                 <RiGithubLine className="size-4" />
-                ریپازیتوری
+                {dictionary.common.repository}
               </Link>
             </Button>
           )}
@@ -85,7 +89,7 @@ const WorkCard = ({ project }: WorkCardProps) => {
                 className="inline-flex items-center gap-1.5 text-sm font-medium"
               >
                 <RiExternalLinkLine className="size-4" />
-                مشاهده پروژه
+                {dictionary.common.viewProject}
               </Link>
             </Button>
           )}

@@ -3,6 +3,7 @@
 import { useWorksFilterStore } from "@/lib/store/useWorksFilterStore";
 import { Project } from "@/types";
 import WorkCard from "./WorkCard";
+import { useDictionary } from "@/lib/i18n";
 
 type Props = {
   projects: Project[];
@@ -10,6 +11,7 @@ type Props = {
 
 const WorksGrid = ({ projects }: Props) => {
   const { category } = useWorksFilterStore();
+  const dictionary = useDictionary();
 
   const filtered =
     category === "all"
@@ -19,7 +21,7 @@ const WorksGrid = ({ projects }: Props) => {
   if (filtered.length === 0) {
     return (
       <p className="text-muted-foreground mt-16 text-center">
-        موردی در این دسته‌بندی یافت نشد.
+        {dictionary.common.noProjects}
       </p>
     );
   }

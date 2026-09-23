@@ -1,23 +1,25 @@
-import { navLinks } from "@/lib/constants";
 import Link from "next/link";
 import SocialList from "../Hero/SocialList";
 import Shape from "../ui/shape";
+import { useDictionary, useLocale } from "@/lib/i18n";
 
 type NavItemProps = {
   onNavigate?: () => void;
 };
 
 function NavItem({ onNavigate }: NavItemProps) {
+  const dictionary = useDictionary();
+  const locale = useLocale();
   return (
     <div className="h-full w-full pt-28 pr-26 sm:px-6 md:pr-26">
       <ul className="space-y-3 text-base sm:text-lg">
-        {navLinks.map((item, index) => (
+        {Object.entries(dictionary.nav).map(([key, name], index) => (
           <li
             key={index}
             className="hover:text-primary font-bold transition-all duration-500 hover:-translate-x-0.5"
           >
-            <Link href={item.href} onClick={onNavigate}>
-              {item.name}
+            <Link href={`/${locale}#${key}`} onClick={onNavigate}>
+              {name}
             </Link>
           </li>
         ))}

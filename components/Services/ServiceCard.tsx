@@ -1,7 +1,10 @@
-import { RiArrowLeftLine } from "@remixicon/react";
+"use client";
+
+import { RiArrowLeftLine, RiArrowRightLine } from "@remixicon/react";
 import { Button } from "../ui/button";
 import Image from "next/image";
 import Link from "next/link";
+import { useDictionary, useLocale } from "@/lib/i18n";
 
 type Props = {
   title: string;
@@ -10,6 +13,8 @@ type Props = {
 };
 
 const ServiceCard = ({ title, subtitle, description }: Props) => {
+  const dictionary = useDictionary();
+  const locale = useLocale();
   return (
     <div className="group bg-card border-border/50 relative flex h-105 flex-col rounded-3xl border p-10 transition-all duration-300">
       <div>
@@ -22,12 +27,19 @@ const ServiceCard = ({ title, subtitle, description }: Props) => {
 
       <div className="group-hover:text-primary mt-auto flex items-center gap-2 pt-10 font-semibold group-hover:cursor-pointer">
         <Button variant="ctaLink" className="text-lg hover:cursor-pointer" asChild>
-          <Link href="#contact">بیشتر بدانید</Link>
+          <Link href="#contact">{dictionary.common.more}</Link>
         </Button>
-        <RiArrowLeftLine
-          size={20}
-          className="transition-transform duration-300 group-hover:translate-x-1"
-        />
+        {locale === "fa" ? (
+          <RiArrowLeftLine
+            size={20}
+            className="transition-transform duration-300 group-hover:-translate-x-1"
+          />
+        ) : (
+          <RiArrowRightLine
+            size={20}
+            className="transition-transform duration-300 group-hover:translate-x-1"
+          />
+        )}
       </div>
 
       <div className="">
@@ -36,7 +48,11 @@ const ServiceCard = ({ title, subtitle, description }: Props) => {
           alt="Decoration Shape 3"
           width={120}
           height={120}
-          className="absolute -bottom-10 -left-5 z-0 opacity-80 dark:invert md:left-2"
+          className={
+            locale === "fa"
+              ? "absolute -bottom-10 -left-5 z-0 opacity-80 dark:invert md:left-2"
+              : "absolute -right-5 -bottom-10 z-0 opacity-80 dark:invert md:right-2"
+          }
         />
       </div>
     </div>

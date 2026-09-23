@@ -1,7 +1,9 @@
 import { skillsData } from "@/lib/constants";
 import { Slider } from "../ui/slider";
+import { useLocale } from "@/lib/i18n";
 
 const SkillItem = () => {
+  const locale = useLocale();
   return (
     <div className="container grid grid-cols-1 gap-x-6 gap-y-16 md:grid-cols-2 lg:grid-cols-3">
       {skillsData.map((skill, index) => (
@@ -27,7 +29,7 @@ const SkillItem = () => {
               max={100}
               step={1}
               disabled
-              dir="rtl"
+              dir={locale === "fa" ? "rtl" : "ltr"}
               className="pointer-events-none"
             />
           </div>

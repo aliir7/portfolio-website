@@ -1,11 +1,16 @@
+"use client";
+
 import Link from "next/link";
 import SocialList from "./SocialList";
 import Image from "next/image";
 import { CTAButtons } from "./CTAButtons";
 import Shape from "../ui/shape";
 import RevealSection from "../ui/reveal-section";
+import { useDictionary, useLocale } from "@/lib/i18n";
 
 const HeroSection = () => {
+  const { hero } = useDictionary();
+  const locale = useLocale();
   return (
     <RevealSection
       id="hero"
@@ -17,24 +22,22 @@ const HeroSection = () => {
           {/* ستون راست: محتوای متنی */}
           <div className="z-10 flex flex-col space-y-6">
             <h3 className="text-xl font-medium tracking-wide md:text-2xl">
-              سلام،{" "}
-              <span className="text-primary font-semibold">به دنیای من </span>
-              خوش آمدید
+              {hero.greeting}{" "}
+              <span className="text-primary font-semibold">{hero.welcome} </span>
+              {hero.welcomeEnd}
             </h3>
 
             {/* افکت متن توخالی یکپارچه با کلاس سفارشی */}
             <h1 className="stroke-custom text-7xl font-bold tracking-tighter md:text-8xl lg:text-[100px]">
-              علی رضایی
+              {hero.name}
             </h1>
 
             <h2 className="text-2xl font-bold md:text-3xl">
-              طراح سایت و توسعه‌دهنده فرانت‌اند
+              {hero.role}
             </h2>
 
-            <p className="text-muted-foreground max-w-lg text-lg">
-              من در تهران زندگی می‌کنم. تجربه غنی و بالایی در طراحی رابط کاربری
-              و توسعه وبسایت‌های مدرن دارم. من عاشق خلق تجربه‌های دیجیتال
-              منحصر‌به‌فرد هستم.
+            <p className="max-w-lg text-lg text-gray-600 dark:text-gray-400">
+              {hero.bio}
             </p>
 
             {/* شبکه‌های اجتماعی */}
@@ -47,8 +50,8 @@ const HeroSection = () => {
               <CTAButtons
                 resumeUrl="#resume"
                 skillsUrl="#skills"
-                resumeText="رزومه من"
-                skillsText="مهارت‌های من"
+                resumeText={hero.resume}
+                skillsText={hero.skills}
               />
             </div>
           </div>
@@ -77,7 +80,7 @@ const HeroSection = () => {
             <div className="bg-primary relative z-10 flex h-85 w-85 items-end justify-center overflow-hidden rounded-full md:h-120 md:w-120">
               <Image
                 src="/assets/img/user_img.png"
-                alt="علی رضایی"
+                alt={hero.imageAlt}
                 width={500}
                 height={500}
                 className="object-cover pt-6 drop-shadow-2xl"
@@ -88,23 +91,23 @@ const HeroSection = () => {
             {/* نشان‌های شناور (Badges) */}
             <div className="border-card-foreground shadow-card-foreground absolute top-1/7 -right-2 z-20 flex cursor-default items-center gap-3 rounded-full border-2 bg-card px-5 py-3 shadow-[4px_4px_0px] transition-transform hover:-translate-y-1 md:top-1/4 md:right-2">
               <span className="text-card-foreground text-xl font-black lg:text-3xl">
-                ۱۲+
+                {locale === "fa" ? "۱۲+" : "12+"}
               </span>
               <span className="text-primary text-sm leading-tight font-bold lg:text-xs">
-                سال
+                {hero.years}
                 <br />
-                تجربه
+                {hero.experience}
               </span>
             </div>
 
             <div className="border-card-foreground shadow-card-foreground absolute bottom-12 -left-1 z-20 flex cursor-default items-center gap-3 rounded-full border-2 bg-card px-5 py-3 shadow-[4px_4px_0px] transition-transform hover:-translate-y-1 md:left-10">
               <span className="text-card-foreground text-xl font-black lg:text-3xl">
-                ۳۳۰
+                {locale === "fa" ? "۳۳۰" : "330"}
               </span>
               <span className="text-primary text-xs leading-tight font-bold">
-                پروژه
+                {hero.projects}
                 <br />
-                موفق
+                {hero.successful}
               </span>
             </div>
           </div>

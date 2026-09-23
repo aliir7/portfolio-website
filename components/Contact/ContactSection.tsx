@@ -1,5 +1,7 @@
 "use client";
 
+"use client";
+
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -10,29 +12,32 @@ import { RiMailLine, RiPhoneLine, RiMapPinLine } from "@remixicon/react";
 import { cn } from "@/lib/utils";
 import RevealSection from "../ui/reveal-section";
 import Shape from "../ui/shape";
+import { useDictionary, useLocale } from "@/lib/i18n";
 
 const contactInfo = [
   {
     icon: RiMailLine,
-    title: "ایمیل",
+    key: "email",
     value: "ali.rezaei@example.com",
     href: "mailto:ali.rezaei@example.com",
   },
   {
     icon: RiPhoneLine,
-    title: "تلفن",
+    key: "phone",
     value: "+98 912 345 6789",
     href: "tel:+989123456789",
   },
   {
     icon: RiMapPinLine,
-    title: "موقعیت",
+    key: "location",
     value: "تهران، ایران",
     href: "https://maps.google.com/?q=Tehran,Iran",
   },
 ];
 
 export const ContactSection = () => {
+  const { contact } = useDictionary();
+  const locale = useLocale();
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -43,13 +48,13 @@ export const ContactSection = () => {
 
   const validateForm = () => {
     const newErrors: Partial<typeof formData> = {};
-    if (!formData.name.trim()) newErrors.name = "نام الزامی است";
-    if (!formData.email.trim()) newErrors.email = "ایمیل الزامی است";
+    if (!formData.name.trim()) newErrors.name = contact.requiredName;
+    if (!formData.email.trim()) newErrors.email = contact.requiredEmail;
     else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email))
-      newErrors.email = "فرمت ایمیل نامعتبر است";
-    if (!formData.message.trim()) newErrors.message = "پیام الزامی است";
+      newErrors.email = contact.invalidEmail;
+    if (!formData.message.trim()) newErrors.message = contact.requiredMessage;
     else if (formData.message.trim().length < 10)
-      newErrors.message = "پیام باید حداقل ۱۰ کاراکتر باشد";
+      newErrors.message = contact.shortMessage;
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
@@ -71,12 +76,12 @@ export const ContactSection = () => {
       );
 
       const data = await response.json();
-      if (!response.ok) throw new Error(data.error || "خطا در ارسال پیام");
+      if (!response.ok) throw new Error(data.error || contact.sendError);
 
-      toast.success("پیام شما با موفقیت ارسال شد");
+      toast.success(contact.success);
       setFormData({ name: "", email: "", message: "" });
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : "خطایی رخ داد");
+      toast.error(error instanceof Error ? error.message : contact.unexpectedError);
     } finally {
       setIsSubmitting(false);
     }
@@ -100,27 +105,26 @@ export const ContactSection = () => {
       <div className="container-custom relative z-10">
         <div className="mx-auto mb-14 max-w-2xl text-center">
           <span className="text-primary text-sm font-bold tracking-[0.2em]">
-            شروع یک همکاری تازه
+            {contact.eyebrow}
           </span>
           <h2 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">
-            با من در تماس باشید
+            {contact.title}
           </h2>
           <p className="text-muted-foreground mx-auto mt-4 max-w-2xl leading-8">
-            برای پیشنهاد پروژه، همکاری یا هر سوالی، لطفاً از فرم زیر استفاده
-            کنید. در اسرع وقت پاسخ خواهم داد.
+            {contact.intro}
           </p>
         </div>
 
         <div className="mx-auto grid max-w-5xl gap-6 lg:grid-cols-[0.85fr_1.15fr]">
           <div className="bg-card border-border/60 rounded-3xl border p-6 shadow-sm sm:p-8">
-            <h3 className="text-2xl font-bold">اطلاعات تماس</h3>
+            <h3 className="text-2xl font-bold">{contact.infoTitle}</h3>
             <p className="text-muted-foreground mt-3 text-sm leading-7">
-              برای شروع گفتگو از یکی از راه‌های زیر با من در ارتباط باشید.
+              {contact.infoText}
             </p>
             <div className="space-y-4">
               {contactInfo.map((item) => (
                 <a
-                  key={item.title}
+                key={item.key}
                   href={item.href}
                   className="group bg-background/60 border-border/50 hover:border-primary/50 flex items-center gap-4 rounded-2xl border p-4 transition-all hover:-translate-y-0.5 hover:shadow-md"
                   target={item.href.startsWith("http") ? "_blank" : undefined}
@@ -135,9 +139,17 @@ export const ContactSection = () => {
                   </div>
                   <div className="min-w-0">
                     <p className="text-muted-foreground text-sm">
-                      {item.title}
+                      {item.key === "email"
+                        ? contact.email
+                        : item.key === "phone"
+                          ? contact.phone
+                          : contact.location}
                     </p>
-                    <p className="truncate font-medium">{item.value}</p>
+                    <p className="truncate font-medium">
+                      {item.key === "location" && locale === "en"
+                        ? "Tehran, Iran"
+                        : item.value}
+                    </p>
                   </div>
                 </a>
               ))}
@@ -149,16 +161,16 @@ export const ContactSection = () => {
             className="bg-card border-border/60 rounded-3xl border p-6 shadow-sm sm:p-8"
             noValidate
           >
-            <h3 className="mb-6 text-2xl font-bold">پیام خود را بفرستید</h3>
+            <h3 className="mb-6 text-2xl font-bold">{contact.messageTitle}</h3>
             <div className="grid gap-4 sm:grid-cols-2">
               <div className="space-y-1.5">
-                <Label htmlFor="name">نام کامل</Label>
+                <Label htmlFor="name">{contact.name}</Label>
                 <Input
                   id="name"
                   name="name"
                   value={formData.name}
                   onChange={handleChange}
-                  placeholder="نام و نام خانوادگی"
+                  placeholder={contact.namePlaceholder}
                   className={cn(
                     errors.name &&
                       "border-destructive focus:border-destructive",
@@ -179,7 +191,7 @@ export const ContactSection = () => {
               </div>
 
               <div className="space-y-1.5">
-                <Label htmlFor="email">ایمیل</Label>
+                <Label htmlFor="email">{contact.email}</Label>
                 <Input
                   id="email"
                   name="email"
@@ -208,13 +220,13 @@ export const ContactSection = () => {
             </div>
 
             <div className="space-y-1.5">
-              <Label htmlFor="message">پیام</Label>
+              <Label htmlFor="message">{contact.message}</Label>
               <Textarea
                 id="message"
                 name="message"
                 value={formData.message}
                 onChange={handleChange}
-                placeholder="پیام شما..."
+                placeholder={contact.messagePlaceholder}
                 rows={5}
                 className={cn(
                   errors.message &&
@@ -264,10 +276,10 @@ export const ContactSection = () => {
                       d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                     />
                   </svg>
-                  در حال ارسال...
+                  {contact.submitting}
                 </>
               ) : (
-                "ارسال پیام"
+                contact.submit
               )}
             </Button>
           </form>
