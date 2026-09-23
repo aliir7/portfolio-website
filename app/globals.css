@@ -16,13 +16,13 @@
   font-display: swap;
 }
 
-/* @font-face {
+@font-face {
   font-family: "Jost";
-  src: url("/fonts/Jost.ttf") format("true-type");
-  font-weight: normal;
+  src: url("/fonts/Jost.ttf") format("truetype");
+  font-weight: 100 900;
   font-style: normal;
   font-display: swap;
-} */
+}
 
 /* 
   در Tailwind v4، متغیرهای لایه Theme مستقیماً از متغیرهای CSS استفاده می‌کنند.
@@ -69,6 +69,14 @@
   --radius-3xl: calc(var(--radius) * 2.2);
   --radius-4xl: calc(var(--radius) * 2.6);
   --ease-custom: cubic-bezier(0.3, 0, 0.3, 1);
+}
+
+.font-english {
+  font-family: "Jost", ui-sans-serif, system-ui, sans-serif;
+}
+
+.font-english .font-heading {
+  font-family: "Jost", ui-sans-serif, system-ui, sans-serif;
 }
 
 @layer base {

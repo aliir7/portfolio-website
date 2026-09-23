@@ -24,11 +24,13 @@ const buttonVariants = cva(
         cta: [
           "relative isolate overflow-hidden border-2 border-border bg-card px-10 py-4",
           "text-sm font-bold text-card-foreground shadow-4px",
+          "dark:border-primary/70 dark:bg-primary dark:text-primary-foreground dark:shadow-[0_0_0_1px_color-mix(in_oklch,var(--primary),white_18%),0_8px_24px_-12px_var(--primary)]",
           "rounded-4xl transition-all duration-700 ease-cubic",
           "before:content-[''] before:absolute before:inset-0 before:rounded-[inherit] before:bg-primary",
           "before:scale-[0.3] before:blur-[10px] before:opacity-0 before:-z-10",
           "before:transition-all before:duration-700 before:ease-cubic",
           "hover:border-border hover:text-white hover:before:scale-100 hover:before:blur-0 hover:before:opacity-100",
+          "dark:hover:border-primary dark:hover:bg-primary/90 dark:hover:shadow-[0_0_0_1px_color-mix(in_oklch,var(--primary),white_24%),0_10px_28px_-12px_var(--primary)]",
         ].join(" "),
         ctaLink: [
           "h-auto p-0 bg-transparent border-0 font-bold text-foreground",

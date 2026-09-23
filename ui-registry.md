@@ -86,3 +86,25 @@ Last updated: 2026-09-23
 Cards use a restrained surface treatment with one bold graphic interaction:
 a short upward lift and offset shadow on hover. Avoid adding blur or heavy
 gradients to every card; reserve those effects for contextual surfaces.
+
+### Primary CTA Button
+
+File: `components/ui/button.tsx`
+Last updated: 2026-09-23
+
+| Property         | Class |
+| ---------------- | ----- |
+| Background       | `bg-card`; `dark:bg-primary` |
+| Border           | `border-2 border-border`; `dark:border-primary/70` |
+| Border radius    | `rounded-4xl` |
+| Text — primary   | `text-sm font-bold text-card-foreground`; dark primary foreground |
+| Text — secondary | none |
+| Spacing          | `px-10 py-4` |
+| Hover state      | primary fill with accent shadow in dark mode |
+| Shadow           | `shadow-4px`; dark accent glow |
+| Accent usage     | `bg-primary`, `text-primary-foreground` |
+
+**Pattern notes:**
+Primary actions use a filled accent surface in dark mode so they remain
+visually dominant against dark cards and muted text links. Secondary `ctaLink`
+actions stay quiet and text-based.
