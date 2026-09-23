@@ -133,6 +133,12 @@
       --stroke-color: hsl(var(--second-hue), 4%, 12%);
     }
 
+    @layer components {
+      .glass-panel {
+        @apply border border-white/30 bg-white/55 shadow-xl shadow-black/5 backdrop-blur-xl dark:border-white/10 dark:bg-white/5 dark:shadow-black/20;
+      }
+    }
+
     /* تنظیمات حالت Dark سر جای خود باقی می‌ماند... */
   }
 
