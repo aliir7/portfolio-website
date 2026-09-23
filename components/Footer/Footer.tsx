@@ -1,12 +1,11 @@
 "use client";
 
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { RiArrowUpLine, RiHeart3Fill } from "@remixicon/react";
-import { useDictionary, useLocale } from "@/lib/i18n";
+import { useDictionary } from "@/lib/i18n";
 
 const Footer = () => {
   const dictionary = useDictionary();
-  const locale = useLocale();
   return (
     <footer className="bg-background relative border-t border-border/60">
       <div className="container-custom py-7">
@@ -20,7 +19,7 @@ const Footer = () => {
             {dictionary.footer.by}
           </p>
           <Link
-            href={`/${locale}#home`}
+            href="/#home"
             aria-label={dictionary.footer.backToTop}
             title={dictionary.footer.backToTop}
             className="bg-primary text-primary-foreground absolute end-5 top-0 z-20 flex size-12 -translate-y-1/2 items-center justify-center rounded-full border-4 border-background shadow-lg transition-transform hover:-translate-y-[60%] hover:shadow-xl focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"

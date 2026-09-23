@@ -1,4 +1,4 @@
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import SocialList from "../Hero/SocialList";
 import Shape from "../ui/shape";
 import { useDictionary, useLocale } from "@/lib/i18n";
@@ -25,7 +25,7 @@ function NavItem({ onNavigate }: NavItemProps) {
               isPersian ? "hover:-translate-x-0.5" : "hover:translate-x-0.5"
             }`}
           >
-            <Link href={`/${locale}#${key}`} onClick={onNavigate}>
+            <Link href={`/#${key}`} onClick={onNavigate}>
               {name}
             </Link>
           </li>

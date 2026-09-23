@@ -1,7 +1,7 @@
 "use client";
 
 import { cn } from "@/lib/utils";
-import Link from "next/link";
+import { Link } from "@/i18n/navigation";
 import { useEffect, useState } from "react";
 import NavMenu from "./NavMenu";
 import ThemeToggle from "./ThemeToggle";
@@ -39,7 +39,7 @@ const Header = () => {
     >
       <nav className="nav container flex h-20 max-w-385 items-center justify-between">
         {/* logo */}
-        <Link href={`/${locale}`} className="text-xl font-bold">
+        <Link href="/" className="text-xl font-bold">
           {locale === "fa" ? "رضایی" : "Rezaei"}
         </Link>
         <div className="flex flex-row-reverse items-center gap-4">

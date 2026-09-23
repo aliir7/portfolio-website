@@ -1,10 +1,11 @@
 "use client";
 
-import { createContext, useContext } from "react";
+import { useLocale as useIntlLocale, useTranslations } from "next-intl";
 import { useEffect } from "react";
 import { projects, resumeData, services, skillsData } from "@/lib/constants";
+import type { Locale } from "@/i18n/routing";
 
-export type Locale = "fa" | "en";
+export type { Locale };
 
 type Dictionary = {
   nav: Record<string, string>;
@@ -18,44 +19,30 @@ type Dictionary = {
   footer: Record<string, string>;
 };
 
-export const dictionaries: Record<Locale, Dictionary> = {
-  fa: {
-    nav: { home: "خانه", services: "خدمات", skills: "مهارت‌ها", works: "نمونه کارها", resume: "رزومه", contact: "تماس" },
-    common: { more: "بیشتر بدانید", repository: "ریپازیتوری", viewProject: "مشاهده پروژه", all: "همه پروژه‌ها", frontend: "فرانت‌اند", fullstack: "فول‌استک", dashboard: "داشبورد", noProjects: "موردی در این دسته‌بندی یافت نشد", theme: "تغییر تم", language: "English" },
-    hero: { greeting: "سلام،", welcome: "به دنیای من", welcomeEnd: "خوش آمدید", name: "علی رضایی", role: "طراح سایت و توسعه‌دهنده فرانت‌اند", bio: "من در تهران زندگی می‌کنم. تجربه غنی و بالایی در طراحی رابط کاربری و توسعه وبسایت‌های مدرن دارم. من عاشق خلق تجربه‌های دیجیتال منحصر‌به‌فرد هستم.", resume: "رزومه من", skills: "مهارت‌های من", years: "سال", experience: "تجربه", projects: "پروژه", successful: "موفق", imageAlt: "علی رضایی" },
-    services: { title: "خدمات من", subtitle: "راهکارهای تخصصی برای رشد کسب‌وکار شما" },
-    skills: { title: "مهارت های من" },
-    works: { title: "نمونه‌کارهای من", subtitle: "مجموعه‌ای از پروژه‌هایی که تجربه من را در ساخت وب‌اپلیکیشن‌های مدرن، مقیاس‌پذیر و حرفه‌ای نشان می‌دهند." },
-    resume: { title: "رزومه من", subtitle: "مروری بر مسیر آموزشی، تجربیات کاری و مهارت‌های فنی من در دنیای توسعه نرم‌افزار.", education: "تحصیلات و دوره‌ها", experience: "سوابق شغلی" },
-    contact: { eyebrow: "شروع یک همکاری تازه", title: "با من در تماس باشید", intro: "برای پیشنهاد پروژه، همکاری یا هر سوالی، لطفاً از فرم زیر استفاده کنید. در اسرع وقت پاسخ خواهم داد.", infoTitle: "اطلاعات تماس", infoText: "برای شروع گفتگو از یکی از راه‌های زیر با من در ارتباط باشید.", messageTitle: "پیام خود را بفرستید", name: "نام کامل", namePlaceholder: "نام و نام خانوادگی", email: "ایمیل", message: "پیام", messagePlaceholder: "پیام شما...", submit: "ارسال پیام", submitting: "در حال ارسال...", requiredName: "نام الزامی است", requiredEmail: "ایمیل الزامی است", invalidEmail: "فرمت ایمیل نامعتبر است", requiredMessage: "پیام الزامی است", shortMessage: "پیام باید حداقل ۱۰ کاراکتر باشد", success: "پیام شما با موفقیت ارسال شد", sendError: "خطا در ارسال پیام", unexpectedError: "خطایی رخ داد", location: "موقعیت", phone: "تلفن" },
-    footer: { eyebrow: "آماده ساختن چیزی متفاوت هستید؟", ctaTitle: "بیایید ایده بعدی شما را به واقعیت تبدیل کنیم.", ctaAction: "شروع یک گفتگو", tagline: "تجربه‌های دیجیتال ماندگار می‌سازم.", backToTop: "بازگشت به بالا", rights: "تمامی حقوق محفوظ است.", madeWith: "ساخته شده با", by: "توسط علی رضایی" },
-  },
-  en: {
-    nav: { home: "Home", services: "Services", skills: "Skills", works: "Works", resume: "Resume", contact: "Contact" },
-    common: { more: "Learn more", repository: "Repository", viewProject: "View project", all: "All projects", frontend: "Frontend", fullstack: "Full-stack", dashboard: "Dashboard", noProjects: "No projects found in this category", theme: "Change theme", language: "فارسی" },
-    hero: { greeting: "Hello,", welcome: "Welcome to", welcomeEnd: "my world", name: "Ali Rezaei", role: "Web Designer & Frontend Developer", bio: "I live in Tehran and have extensive experience designing user interfaces and developing modern websites. I love creating unique digital experiences.", resume: "My resume", skills: "My skills", years: "Years", experience: "Experience", projects: "Projects", successful: "Successful", imageAlt: "Ali Rezaei" },
-    services: { title: "My services", subtitle: "Specialized solutions for growing your business" },
-    skills: { title: "My skills" },
-    works: { title: "My works", subtitle: "A collection of projects that showcase my experience building modern, scalable, and professional web applications." },
-    resume: { title: "My resume", subtitle: "An overview of my education, work experience, and technical skills in software development.", education: "Education & courses", experience: "Work experience" },
-    contact: { eyebrow: "Start a new collaboration", title: "Get in touch", intro: "For a project proposal, collaboration, or any question, please use the form below. I will get back to you as soon as possible.", infoTitle: "Contact information", infoText: "Reach out through one of the following ways to start a conversation.", messageTitle: "Send your message", name: "Full name", namePlaceholder: "Your name", email: "Email", message: "Message", messagePlaceholder: "Your message...", submit: "Send message", submitting: "Sending...", requiredName: "Name is required", requiredEmail: "Email is required", invalidEmail: "Invalid email format", requiredMessage: "Message is required", shortMessage: "Message must be at least 10 characters", success: "Your message was sent successfully", sendError: "Failed to send message", unexpectedError: "Something went wrong", location: "Location", phone: "Phone" },
-    footer: { eyebrow: "Ready to build something different?", ctaTitle: "Let’s turn your next idea into a digital experience.", ctaAction: "Start a conversation", tagline: "Creating digital experiences that last.", backToTop: "Back to top", rights: "All rights reserved.", madeWith: "Made with", by: "by Ali Rezaei" },
-  },
-};
-
-const LocaleContext = createContext<Locale>("fa");
-
-export function LocaleProvider({ locale, children }: { locale: Locale; children: React.ReactNode }) {
-  return <LocaleContext.Provider value={locale}>{children}</LocaleContext.Provider>;
-}
+const sectionKeys = {
+  nav: ["home", "services", "skills", "works", "resume", "contact"],
+  common: ["more", "repository", "viewProject", "all", "frontend", "fullstack", "dashboard", "noProjects", "theme", "language"],
+  hero: ["greeting", "welcome", "welcomeEnd", "name", "role", "bio", "resume", "skills", "years", "experience", "projects", "successful", "imageAlt"],
+  services: ["title", "subtitle"],
+  skills: ["title"],
+  works: ["title", "subtitle"],
+  resume: ["title", "subtitle", "education", "experience"],
+  contact: ["eyebrow", "title", "intro", "infoTitle", "infoText", "messageTitle", "name", "namePlaceholder", "email", "message", "messagePlaceholder", "submit", "submitting", "requiredName", "requiredEmail", "invalidEmail", "requiredMessage", "shortMessage", "success", "sendError", "unexpectedError", "location", "phone"],
+  footer: ["backToTop", "rights", "madeWith", "by"],
+} as const;
 
 export function useLocale() {
-  return useContext(LocaleContext);
+  return useIntlLocale() as Locale;
 }
 
-export function useDictionary() {
-  const locale = useLocale();
-  return dictionaries[locale];
+export function useDictionary(): Dictionary {
+  const t = useTranslations();
+  return Object.fromEntries(
+    Object.entries(sectionKeys).map(([section, keys]) => [
+      section,
+      Object.fromEntries(keys.map((key) => [key, t(`${section}.${key}`)])),
+    ]),
+  ) as Dictionary;
 }
 
 export function useDocumentLocale() {
@@ -68,20 +55,95 @@ export function useDocumentLocale() {
 }
 
 const englishServices = [
-    ["Frontend development", "React and Next.js", "Modern, fast, and responsive web applications focused on user experience, SEO, and clean code."],
-    ["Full-stack development", "Node.js and PostgreSQL", "Complete systems with authentication, databases, REST APIs, and scalable, secure admin panels."],
-    ["MERN Stack development", "MongoDB, Express, and React", "Full-stack applications built with MongoDB, Express.js, React, and Node.js from database design to deployment."],
-    ["WordPress website design", "Business and personal websites", "Responsive, search-optimized WordPress websites tailored to each business's needs."],
-    ["SEO optimization", "Technical and on-page SEO", "Improving search visibility through technical SEO, performance optimization, and search engine best practices."],
+  ["Frontend development", "React and Next.js", "Modern, fast, and responsive web applications focused on user experience, SEO, and clean code."],
+  ["Website design and development", "WordPress and UI", "Personal and business websites focused on clean structure, responsiveness, and strong performance."],
+  ["API development", "Node.js and REST API", "Reliable RESTful APIs with Node.js connecting interfaces, services, and databases."],
+  ["Search engine optimization", "Technical and on-page SEO", "Improving page structure, performance, and visibility using Search Console, Ahrefs, and keyword analysis."],
+  ["Product development collaboration", "Git and teamwork", "Problem solving, maintainable code, and version control with Git across real and freelance projects."],
+];
+
+const englishSkills = [
+  "Modern and optimized user interfaces with React, Next.js, and a focus on user experience.",
+  "Type-safe code architecture to reduce errors and improve stability in large projects.",
+  "Responsive interfaces with Tailwind CSS, shadcn/ui, and modern design tools.",
+  "RESTful API development and client-server communication with Node.js and Express.",
+  "Hands-on experience with PostgreSQL, MongoDB, MySQL, Prisma, and Drizzle ORM.",
+  "Performance optimization, code organization, and maintainable development with Git.",
+];
+
+const englishResume = [
+  {
+    id: "edu-1",
+    category: "education",
+    organization: "Azad University of Dezful",
+    title: "Bachelor of Civil Engineering",
+    date: "2014 - 2017",
+    content: "Studied civil engineering while building a professional path in web development.",
+  },
+  {
+    id: "edu-2",
+    category: "education",
+    organization: "Maktabkhooneh",
+    title: "Specialized Web Development Courses",
+    date: "2022",
+    content: "Completed Node.js, React, Git, and front-end web design courses totaling more than 130 hours.",
+  },
+  {
+    id: "edu-3",
+    category: "education",
+    organization: "Self-directed learning",
+    title: "Front-end Developer",
+    date: "2023 - Present",
+    content: "Continuous study of React, Next.js, TypeScript, Tailwind CSS, REST APIs, and modern development tools.",
+  },
+  {
+    id: "exp-1",
+    category: "experience",
+    organization: "Freelance work",
+    title: "Front-end Developer",
+    date: "March 2024 - Present",
+    content: "Building websites and user interfaces with React, Next.js, and Tailwind CSS, focusing on clean code, problem solving, and user experience.",
+  },
+  {
+    id: "exp-2",
+    category: "experience",
+    organization: "Personal and freelance projects",
+    title: "Web Designer and WordPress Developer",
+    date: "2022 - Present",
+    content: "Designing and developing personal and business websites with WordPress while optimizing their structure and performance.",
+  },
+  {
+    id: "exp-3",
+    category: "experience",
+    organization: "Continuous learning and development",
+    title: "Web Developer",
+    date: "2023 - Present",
+    content: "Building practice and production projects with React, Next.js, Node.js, REST APIs, PostgreSQL, MongoDB, and MySQL.",
+  },
 ];
 
 export function useLocalizedContent() {
-    const locale = useLocale();
-    if (locale === "fa") return { services, skills: skillsData, projects, resume: resumeData };
-    return {
-      services: services.map((item, index) => ({ ...item, title: englishServices[index][0], subtitle: englishServices[index][1], description: englishServices[index][2] })),
-      skills: skillsData.map((item) => ({ ...item, description: item.description.replace("توسعه اپلیکیشن‌های مقیاس‌پذیر و بهینه با تمرکز بر SSR، SSG و تجربه کاربری مدرن.", "Scalable, optimized applications focused on SSR, SSG, and modern user experience.").replace("پیاده‌سازی معماری کد Type-safe برای کاهش خطاها و افزایش پایداری در پروژه‌های بزرگ.", "Type-safe architecture that reduces errors and improves stability in large projects.").replace("طراحی رابط‌های کاربری ریسپانسیو، زیبا و کاربرپسند با استفاده از اکوسیستم Shadcn و Tailwind.", "Beautiful, responsive interfaces built with the Shadcn and Tailwind ecosystem.").replace("تجربه در توسعه RESTful API و مدیریت ارتباط بین کلاینت و سرور با استفاده از Node.js و Express.", "Experience building RESTful APIs and client-server communication with Node.js and Express.").replace("طراحی دیتابیس‌های رابطه‌ای و غیررابطه‌ای با تسلط بر PostgreSQL، MongoDB و Drizzle ORM.", "Relational and non-relational database design with PostgreSQL, MongoDB, and Drizzle ORM.").replace("بهینه‌سازی عملکرد وب‌سایت، پیاده‌سازی معماری تمیز (Clean Architecture) و مدیریت کدهای نگهداشت‌پذیر.", "Website performance optimization, clean architecture, and maintainable code.") })),
-      projects: projects.map((item) => ({ ...item, title: { "1": "Anima Home", "2": "Admin dashboard", "3": "Landing page" }[item.id] ?? item.title, description: { "1": "A full-stack interior design and furniture platform with an admin panel.", "2": "An analytics dashboard with charts, data tables, and role-based access.", "3": "A modern, responsive landing page for product marketing." }[item.id] ?? item.description })),
-      resume: resumeData.map((item) => ({ ...item, organization: { "edu-1": "SevenLearn Academy", "edu-2": "Self-directed study", "edu-3": "Additional courses", "exp-1": "Freelance", "exp-2": "WordPress projects", "exp-3": "Personal projects" }[item.id] ?? item.organization, title: { "edu-1": "Complete Full-stack Web Development", "edu-2": "Frontend Development specialization", "edu-3": "Git, SEO, and development tools", "exp-1": "Frontend Developer", "exp-2": "Web Designer and Developer", "exp-3": "Full-stack Developer" }[item.id] ?? item.title, date: { "edu-1": "2022 - 2023", "edu-2": "2023 - Present", "edu-3": "2024 - Present", "exp-1": "2023 - Present", "exp-2": "2022 - Present", "exp-3": "2024 - Present" }[item.id] ?? item.date, content: { "edu-1": "Learning web development fundamentals from HTML and CSS to JavaScript, React, Next.js, Node.js, Express, and MongoDB through practical projects.", "edu-2": "Continuous study of official React, Next.js, Tailwind CSS, and TypeScript documentation, modern project architecture, performance, and UI design.", "edu-3": "Proficiency with Git and GitHub, technical SEO, responsive design, REST APIs, and modern tools such as Shadcn UI and Radix UI.", "exp-1": "Designing and developing modern interfaces with React, Next.js, and Tailwind CSS, building responsive pages, and turning UI designs into clean, optimized code.", "exp-2": "Designing and developing business, ecommerce, and personal WordPress websites, customizing themes, and optimizing speed and technical SEO.", "exp-3": "Building MERN full-stack projects with authentication, admin panels, RESTful APIs, and modular architecture focused on clean code." }[item.id] ?? item.content })),
-    };
+  const locale = useLocale();
+  if (locale === "fa") return { services, skills: skillsData, projects, resume: resumeData };
+  return {
+    services: services.map((item, index) => ({
+      ...item,
+      title: englishServices[index][0],
+      subtitle: englishServices[index][1],
+      description: englishServices[index][2],
+    })),
+    skills: skillsData.map((item, index) => ({
+      ...item,
+      description: englishSkills[index] ?? item.description,
+    })),
+    projects: projects.map((item) => ({
+      ...item,
+      description: {
+        "1": "An online store built with Next.js 16 and a modern user interface.",
+        "2": "A web project for showcasing and selling home and decor products.",
+        "3": "A React interface for displaying cryptocurrency information and data.",
+      }[item.id] ?? item.description,
+    })),
+    resume: englishResume,
+  };
 }

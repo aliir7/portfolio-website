@@ -1,0 +1,11 @@
+{
+  "nav": {"home":"Home","services":"Services","skills":"Skills","works":"Works","resume":"Resume","contact":"Contact"},
+  "common": {"more":"Learn more","repository":"Repository","viewProject":"View project","all":"All projects","frontend":"Frontend","fullstack":"Full-stack","dashboard":"Dashboard","noProjects":"No projects found in this category","theme":"Change theme","language":"فارسی"},
+  "hero": {"greeting":"Hello,","welcome":"Welcome to","welcomeEnd":"my world","name":"Ali Rezaei","role":"React & Next.js Developer","bio":"I am a Tehran-based web developer who has been pursuing software development since 2022. I focus on building modern user interfaces with React and Next.js.","resume":"My resume","skills":"My skills","years":"Years","experience":"Experience","projects":"Projects","successful":"Projects","imageAlt":"Ali Rezaei"},
+  "services":{"title":"My services","subtitle":"Specialized solutions for growing your business"},
+  "skills":{"title":"My skills"},
+  "works":{"title":"My works","subtitle":"A collection of projects that showcase my experience building modern, scalable, and professional web applications."},
+  "resume":{"title":"My resume","subtitle":"An overview of my education, work experience, and technical skills in software development.","education":"Education & courses","experience":"Work experience"},
+  "contact":{"eyebrow":"Start a new collaboration","title":"Get in touch","intro":"For a project proposal, collaboration, or any question, please use the form below. I will get back to you as soon as possible.","infoTitle":"Contact information","infoText":"Reach out through one of the following ways to start a conversation.","messageTitle":"Send your message","name":"Full name","namePlaceholder":"Your name","email":"Email","message":"Message","messagePlaceholder":"Your message...","submit":"Send message","submitting":"Sending...","requiredName":"Name is required","requiredEmail":"Email is required","invalidEmail":"Invalid email format","requiredMessage":"Message is required","shortMessage":"Message must be at least 10 characters","success":"Your message was sent successfully","sendError":"Failed to send message","unexpectedError":"Something went wrong","location":"Location","phone":"Phone"},
+  "footer":{"backToTop":"Back to top","rights":"All rights reserved.","madeWith":"Made with","by":"by Ali Rezaei"}
+}

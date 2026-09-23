@@ -18,14 +18,14 @@ const contactInfo = [
   {
     icon: RiMailLine,
     key: "email",
-    value: "ali.rezaei@example.com",
-    href: "mailto:ali.rezaei@example.com",
+    value: "alirezaeii.dev@gmail.com",
+    href: "mailto:alirezaeii.dev@gmail.com",
   },
   {
     icon: RiPhoneLine,
     key: "phone",
-    value: "+98 912 345 6789",
-    href: "tel:+989123456789",
+    value: "0902 925 3481",
+    href: "tel:+989029253481",
   },
   {
     icon: RiMapPinLine,
@@ -146,9 +146,7 @@ export const ContactSection = () => {
                           : contact.location}
                     </p>
                     <p className="truncate font-medium">
-                      {item.key === "location" && locale === "en"
-                        ? "Tehran, Iran"
-                        : item.value}
+                      {item.key === "location" && locale === "en" ? "Tehran, Iran" : item.value}
                     </p>
                   </div>
                 </a>
@@ -198,7 +196,7 @@ export const ContactSection = () => {
                   type="email"
                   value={formData.email}
                   onChange={handleChange}
-                  placeholder="you@example.com"
+                  placeholder="alirezaeii.dev@gmail.com"
                   className={cn(
                     errors.email &&
                       "border-destructive focus:border-destructive",

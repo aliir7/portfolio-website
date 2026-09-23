@@ -4,8 +4,6 @@ import {
   RiFileTextLine as FileText,
   RiGithubLine as Github,
   RiHomeLine as Home,
-  RiInstagramLine as Instagram,
-  RiLinkedinLine as Linkedin,
   RiMailLine as Mail,
 } from "@remixicon/react";
 
@@ -20,19 +18,9 @@ export const navLinks = [
 
 export const socialLinks = [
   {
-    label: "LinkedIn",
-    href: "https://linkedin.com",
-    icon: Linkedin,
-  },
-  {
     label: "GitHub",
-    href: "https://github.com",
+    href: "https://github.com/aliir7",
     icon: Github,
-  },
-  {
-    label: "Instagram",
-    href: "https://instagram.com",
-    icon: Instagram,
   },
 ];
 
@@ -42,35 +30,35 @@ export const services = [
     title: "توسعه فرانت‌اند",
     subtitle: "React و Next.js",
     description:
-      "طراحی و توسعه وب‌اپلیکیشن‌های مدرن، سریع و ریسپانسیو با تمرکز بر تجربه کاربری، سئو و کدنویسی استاندارد.",
+      "توسعه رابط‌های کاربری مدرن و ریسپانسیو با React و Next.js، از پیاده‌سازی کامپوننت‌ها تا بهینه‌سازی تجربه کاربری.",
   },
   {
     id: 2,
-    title: "توسعه فول‌استک",
-    subtitle: "Node.js و PostgreSQL",
+    title: "طراحی و توسعه وب‌سایت",
+    subtitle: "WordPress و رابط کاربری",
     description:
-      "پیاده‌سازی سیستم‌های کامل شامل احراز هویت، پایگاه داده، APIهای REST و پنل‌های مدیریتی با معماری مقیاس‌پذیر و امن.",
+      "طراحی و توسعه وب‌سایت‌های شخصی و کسب‌وکاری با تمرکز بر ساختار تمیز، واکنش‌گرایی و عملکرد مناسب.",
   },
   {
     id: 3,
-    title: "توسعه MERN Stack",
-    subtitle: "MongoDB، Express و React",
+    title: "توسعه API",
+    subtitle: "Node.js و REST API",
     description:
-      "توسعه اپلیکیشن‌های فول‌استک با استفاده از MongoDB، Express.js، React و Node.js از طراحی دیتابیس تا استقرار نهایی.",
+      "ساخت APIهای RESTful با Node.js و اتصال پایدار بین رابط کاربری، سرویس‌ها و پایگاه داده.",
   },
   {
     id: 4,
-    title: "طراحی سایت وردپرسی",
-    subtitle: "وب‌سایت‌های شرکتی و شخصی",
+    title: "بهینه‌سازی برای موتورهای جستجو",
+    subtitle: "SEO تکنیکال و داخلی",
     description:
-      "طراحی و راه‌اندازی وب‌سایت‌های وردپرسی ریسپانسیو و بهینه برای موتورهای جستجو متناسب با نیاز کسب‌وکارها.",
+      "بهبود ساختار صفحات، عملکرد و قابلیت دیده‌شدن وب‌سایت با استفاده از Google Search Console، Ahrefs و ابزارهای تحلیل کلمات کلیدی.",
   },
   {
     id: 5,
-    title: "بهینه‌سازی سئو",
-    subtitle: "سئوی فنی و داخلی",
+    title: "همکاری در توسعه محصول",
+    subtitle: "Git و کار تیمی",
     description:
-      "افزایش دیده‌شدن وب‌سایت در نتایج جستجو از طریق سئوی فنی، بهینه‌سازی عملکرد و رعایت استانداردهای موتورهای جستجو.",
+      "مشارکت در حل مسئله، نوشتن کد قابل نگهداری و مدیریت نسخه با Git در پروژه‌های واقعی و فریلنسری.",
   },
 ];
 
@@ -79,7 +67,7 @@ export const skillsData: Skill[] = [
     name: "React & Next.js",
     value: 95,
     description:
-      "توسعه اپلیکیشن‌های مقیاس‌پذیر و بهینه با تمرکز بر SSR، SSG و تجربه کاربری مدرن.",
+      "توسعه رابط‌های کاربری مدرن و بهینه با React، Next.js و تمرکز بر تجربه کاربری.",
   },
   {
     name: "TypeScript",
@@ -91,7 +79,7 @@ export const skillsData: Skill[] = [
     name: "Tailwind & UI/UX",
     value: 85,
     description:
-      "طراحی رابط‌های کاربری ریسپانسیو، زیبا و کاربرپسند با استفاده از اکوسیستم Shadcn و Tailwind.",
+      "طراحی رابط‌های کاربری ریسپانسیو با Tailwind CSS، Shadcn UI و ابزارهای طراحی.",
   },
   {
     name: "Backend & APIs",
@@ -103,60 +91,56 @@ export const skillsData: Skill[] = [
     name: "Databases & ORM",
     value: 85,
     description:
-      "طراحی دیتابیس‌های رابطه‌ای و غیررابطه‌ای با تسلط بر PostgreSQL، MongoDB و Drizzle ORM.",
+      "آشنایی عملی با PostgreSQL، MongoDB، MySQL و ابزارهایی مانند Prisma و Drizzle ORM.",
   },
   {
     name: "Performance & Architecture",
     value: 75,
     description:
-      "بهینه‌سازی عملکرد وب‌سایت، پیاده‌سازی معماری تمیز (Clean Architecture) و مدیریت کدهای نگهداشت‌پذیر.",
+      "بهینه‌سازی عملکرد، ساختاردهی کد و توسعه پروژه‌های قابل نگهداری با Git.",
   },
 ];
 
 export const projects: Project[] = [
   {
     id: "1",
-    title: "آنیماهوم",
-    slug: "anima-home",
+    title: "Fashionito Next.js Shop",
+    slug: "fashionito-nextjs-shop",
     description:
-      "پلتفرم فول‌استک طراحی داخلی و فروش مبلمان همراه با پنل مدیریت.",
+      "فروشگاه آنلاین توسعه‌یافته با Next.js 16 و رابط کاربری مدرن.",
     category: "fullstack",
     techStack: [
       "Next.js",
       "TypeScript",
-      "PostgreSQL",
-      "Drizzle ORM",
-      "Auth.js",
+      "React",
+      "Tailwind CSS",
     ],
     image: "/assets/img/placeholder.svg",
-    liveUrl: "https://anima-home.ir",
+    repoUrl: "https://github.com/aliir7/Fashionito-Nextjs-Shop",
+    createdAt: "2026-09-23T00:00:00.000Z",
+  },
+  {
+    id: "2",
+    title: "Anima Home",
+    slug: "anima-home",
+    description:
+      "پروژه وب برای معرفی و فروش محصولات خانه و دکوراسیون.",
+    category: "fullstack",
+    techStack: ["Next.js", "TypeScript", "React"],
+    image: "/assets/img/placeholder.svg",
     repoUrl: "https://github.com/aliir7/anima-home",
     createdAt: "2025-01-15T00:00:00.000Z",
   },
   {
-    id: "2",
-    title: "پنل ادمین",
-    slug: "admin-dashboard",
-    description:
-      "داشبورد تحلیلی با نمودارها، جدول داده و سطح دسترسی مبتنی بر نقش.",
-    category: "dashboard",
-    techStack: ["React", "TypeScript", "Tailwind CSS", "shadcn/ui"],
-    image: "/assets/img/placeholder.svg",
-    liveUrl: "https://anima-home.ir",
-    repoUrl: "https://github.com/aliir7/anima-home",
-    createdAt: "2025-03-20T00:00:00.000Z",
-  },
-  {
     id: "3",
-    title: "صفحه فرود",
-    slug: "landing-page",
-    description: "صفحه فرود مدرن و واکنش‌گرا برای معرفی و بازاریابی محصول.",
+    title: "Crypto React",
+    slug: "crypto-react",
+    description: "رابط کاربری React برای نمایش اطلاعات و داده‌های رمزارزها.",
     category: "frontend",
-    techStack: ["Next.js", "Tailwind CSS", "Framer Motion"],
+    techStack: ["React", "JavaScript", "CSS"],
     image: "/assets/img/placeholder.svg",
-    liveUrl: "https://anima-home.ir",
-    repoUrl: "https://github.com/aliir7/anima-home",
-    createdAt: "2025-05-10T00:00:00.000Z",
+    repoUrl: "https://github.com/aliir7/crypto-react",
+    createdAt: "2024-10-01T00:00:00.000Z",
   },
 ];
 
@@ -168,29 +152,29 @@ export const resumeData = [
   {
     id: "edu-1",
     category: "education",
-    organization: "آکادمی سون لرن",
-    title: "دوره جامع توسعه وب Full Stack",
-    date: "۱۴۰۱ - ۱۴۰۲",
+    organization: "دانشگاه آزاد اسلامی واحد دزفول",
+    title: "کارشناسی مهندسی عمران",
+    date: "۱۳۹۳ - ۱۳۹۶",
     content:
-      "یادگیری اصول توسعه وب از HTML و CSS تا JavaScript، React، Next.js، Node.js، Express و MongoDB همراه با انجام پروژه‌های عملی.",
+      "تحصیل در رشته مهندسی عمران و توسعه مسیر حرفه‌ای در حوزه برنامه‌نویسی وب.",
   },
   {
     id: "edu-2",
     category: "education",
-    organization: "مطالعه و آموزش خودآموز",
-    title: "مسیر تخصصی Front-End Development",
-    date: "۱۴۰۲ تاکنون",
+    organization: "مکتب‌خونه",
+    title: "دوره‌های تخصصی توسعه وب",
+    date: "۱۴۰۱",
     content:
-      "مطالعه مستمر مستندات رسمی React، Next.js، Tailwind CSS، TypeScript و یادگیری معماری پروژه‌های مدرن، بهینه‌سازی عملکرد و طراحی رابط کاربری.",
+      "گذراندن دوره‌های Node.js، React JS، Git و طراحی وب Front-End با مجموع بیش از ۱۳۰ ساعت آموزش.",
   },
   {
     id: "edu-3",
     category: "education",
-    organization: "دوره‌های تکمیلی",
-    title: "Git، SEO و ابزارهای توسعه",
-    date: "۱۴۰۳ تاکنون",
+    organization: "یادگیری خودآموز",
+    title: "توسعه‌دهنده Front-End",
+    date: "۱۴۰۲ تاکنون",
     content:
-      "تسلط بر Git و GitHub، اصول سئو تکنیکال، Responsive Design، REST API و استفاده از ابزارهای مدرن توسعه مانند Shadcn UI و Radix UI.",
+      "مطالعه مستمر React، Next.js، TypeScript، Tailwind CSS، REST API و ابزارهای مدرن توسعه.",
   },
 
   // =========================
@@ -199,28 +183,28 @@ export const resumeData = [
   {
     id: "exp-1",
     category: "experience",
-    organization: "فریلنسر",
-    title: "توسعه‌دهنده Front-End",
-    date: "۱۴۰۲ تاکنون",
+    organization: "فعالیت فریلنسری",
+    title: "برنامه‌نویس Front-End",
+    date: "اسفند ۱۴۰۲ تاکنون",
     content:
-      "طراحی و توسعه رابط‌های کاربری مدرن با React، Next.js و Tailwind CSS، پیاده‌سازی صفحات Responsive و تبدیل طراحی UI به کد تمیز و بهینه.",
+      "توسعه وب‌سایت‌ها و رابط‌های کاربری با React، Next.js و Tailwind CSS، با تمرکز بر کدنویسی تمیز، حل مسئله و تجربه کاربری.",
   },
   {
     id: "exp-2",
     category: "experience",
-    organization: "پروژه‌های وردپرس",
-    title: "طراح و توسعه‌دهنده وب",
+    organization: "پروژه‌های شخصی و فریلنسری",
+    title: "طراح وب و توسعه‌دهنده WordPress",
     date: "۱۴۰۱ تاکنون",
     content:
-      "طراحی و توسعه وب‌سایت‌های شرکتی، فروشگاهی و شخصی با WordPress، سفارشی‌سازی قالب‌ها، بهینه‌سازی سرعت و سئو تکنیکال.",
+      "طراحی و توسعه وب‌سایت‌های شخصی و کسب‌وکاری با WordPress و بهینه‌سازی ساختار و عملکرد آن‌ها.",
   },
   {
     id: "exp-3",
     category: "experience",
-    organization: "پروژه‌های شخصی",
-    title: "توسعه‌دهنده Full Stack",
-    date: "۱۴۰۳ تاکنون",
+    organization: "یادگیری و توسعه مستمر",
+    title: "توسعه‌دهنده وب",
+    date: "۱۴۰۲ تاکنون",
     content:
-      "توسعه پروژه‌های Full Stack با MERN Stack شامل سیستم احراز هویت، پنل مدیریت، APIهای RESTful و معماری ماژولار با تمرکز بر Clean Code.",
+      "ساخت پروژه‌های تمرینی و واقعی با React، Next.js، Node.js، REST API و پایگاه‌های داده PostgreSQL، MongoDB و MySQL.",
   },
 ];
