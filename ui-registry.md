@@ -44,6 +44,27 @@ The header stays visually quiet at the top of the page and becomes a translucent
 bordered navigation surface after scrolling. This preserves the hero composition
 while keeping navigation legible.
 
+### Portfolio Footer
+
+File: `components/Footer/Footer.tsx`
+Last updated: 2026-09-23
+
+| Property         | Class |
+| ---------------- | ----- |
+| Background       | `bg-background` |
+| Border           | `border-t border-border/60` |
+| Border radius    | none |
+| Text — primary   | `text-card-foreground` |
+| Text — secondary | `text-muted-foreground` |
+| Spacing          | `py-7` |
+| Hover state      | `hover:text-primary` |
+| Shadow           | none |
+| Accent usage     | `text-primary` for labels and heart icon |
+
+**Pattern notes:**
+The footer is intentionally reduced to a compact legal/credit bar containing
+copyright, author credit, and a back-to-top link.
+
 ### Portfolio Content Card
 
 File: `components/Services/ServiceCard.tsx`, `components/Works/WorkCard.tsx`, `components/Resume/ResumeColumn.tsx`

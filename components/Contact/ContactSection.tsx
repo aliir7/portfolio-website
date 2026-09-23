@@ -104,15 +104,15 @@ export const ContactSection = () => {
     >
       <div className="container-custom relative z-10">
         <div className="mx-auto mb-14 max-w-2xl text-center">
-          <span className="text-primary text-sm font-bold tracking-[0.2em]">
-            {contact.eyebrow}
-          </span>
           <h2 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">
             {contact.title}
           </h2>
           <p className="text-muted-foreground mx-auto mt-4 max-w-2xl leading-8">
             {contact.intro}
           </p>
+          <span className="text-primary mt-5 block text-sm font-bold tracking-[0.2em]">
+            {contact.eyebrow}
+          </span>
         </div>
 
         <div className="mx-auto grid max-w-5xl gap-6 lg:grid-cols-[0.85fr_1.15fr]">

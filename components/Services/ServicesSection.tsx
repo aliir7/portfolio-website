@@ -48,7 +48,7 @@ export const ServicesSection = () => {
           }}
         >
           {services.map((service) => (
-            <SwiperSlide key={service.id} className="!h-auto">
+            <SwiperSlide key={service.id} className="h-auto">
               <ServiceCard {...service} />
             </SwiperSlide>
           ))}

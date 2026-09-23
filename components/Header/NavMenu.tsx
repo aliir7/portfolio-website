@@ -11,11 +11,12 @@ import {
 } from "@/components/ui/sheet";
 import { Button } from "../ui/button";
 import NavItem from "./NavItem";
-import { useDictionary } from "@/lib/i18n";
+import { useDictionary, useLocale } from "@/lib/i18n";
 
 const NavMenu = () => {
   const [isOpen, setIsOpen] = useState(false);
   const dictionary = useDictionary();
+  const locale = useLocale();
 
   // Close with press ESC handler
   useEffect(() => {
@@ -70,9 +71,13 @@ const NavMenu = () => {
       </SheetTrigger>
 
       <SheetContent
-        side="right"
+        side={locale === "fa" ? "right" : "left"}
         showCloseButton={false}
-        className="z-1000 w-[82vw] max-w-80 translate-x-full p-0 shadow-lg transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] data-[state=open]:translate-x-0"
+        className={`z-1000 w-[82vw] max-w-80 p-0 shadow-lg transition-transform duration-700 ease-[cubic-bezier(0.22,1,0.36,1)] ${
+          locale === "fa"
+            ? "translate-x-full data-[state=open]:translate-x-0"
+            : "-translate-x-full data-[state=open]:translate-x-0"
+        }`}
         onEscapeKeyDown={() => setIsOpen(false)}
         onPointerDownOutside={() => setIsOpen(false)}
         onInteractOutside={() => setIsOpen(false)}

@@ -15,6 +15,7 @@ type Dictionary = {
   works: Record<string, string>;
   resume: Record<string, string>;
   contact: Record<string, string>;
+  footer: Record<string, string>;
 };
 
 export const dictionaries: Record<Locale, Dictionary> = {
@@ -27,6 +28,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     works: { title: "نمونه‌کارهای من", subtitle: "مجموعه‌ای از پروژه‌هایی که تجربه من را در ساخت وب‌اپلیکیشن‌های مدرن، مقیاس‌پذیر و حرفه‌ای نشان می‌دهند." },
     resume: { title: "رزومه من", subtitle: "مروری بر مسیر آموزشی، تجربیات کاری و مهارت‌های فنی من در دنیای توسعه نرم‌افزار.", education: "تحصیلات و دوره‌ها", experience: "سوابق شغلی" },
     contact: { eyebrow: "شروع یک همکاری تازه", title: "با من در تماس باشید", intro: "برای پیشنهاد پروژه، همکاری یا هر سوالی، لطفاً از فرم زیر استفاده کنید. در اسرع وقت پاسخ خواهم داد.", infoTitle: "اطلاعات تماس", infoText: "برای شروع گفتگو از یکی از راه‌های زیر با من در ارتباط باشید.", messageTitle: "پیام خود را بفرستید", name: "نام کامل", namePlaceholder: "نام و نام خانوادگی", email: "ایمیل", message: "پیام", messagePlaceholder: "پیام شما...", submit: "ارسال پیام", submitting: "در حال ارسال...", requiredName: "نام الزامی است", requiredEmail: "ایمیل الزامی است", invalidEmail: "فرمت ایمیل نامعتبر است", requiredMessage: "پیام الزامی است", shortMessage: "پیام باید حداقل ۱۰ کاراکتر باشد", success: "پیام شما با موفقیت ارسال شد", sendError: "خطا در ارسال پیام", unexpectedError: "خطایی رخ داد", location: "موقعیت", phone: "تلفن" },
+    footer: { eyebrow: "آماده ساختن چیزی متفاوت هستید؟", ctaTitle: "بیایید ایده بعدی شما را به واقعیت تبدیل کنیم.", ctaAction: "شروع یک گفتگو", tagline: "تجربه‌های دیجیتال ماندگار می‌سازم.", backToTop: "بازگشت به بالا", rights: "تمامی حقوق محفوظ است.", madeWith: "ساخته شده با", by: "توسط علی رضایی" },
   },
   en: {
     nav: { home: "Home", services: "Services", skills: "Skills", works: "Works", resume: "Resume", contact: "Contact" },
@@ -37,6 +39,7 @@ export const dictionaries: Record<Locale, Dictionary> = {
     works: { title: "My works", subtitle: "A collection of projects that showcase my experience building modern, scalable, and professional web applications." },
     resume: { title: "My resume", subtitle: "An overview of my education, work experience, and technical skills in software development.", education: "Education & courses", experience: "Work experience" },
     contact: { eyebrow: "Start a new collaboration", title: "Get in touch", intro: "For a project proposal, collaboration, or any question, please use the form below. I will get back to you as soon as possible.", infoTitle: "Contact information", infoText: "Reach out through one of the following ways to start a conversation.", messageTitle: "Send your message", name: "Full name", namePlaceholder: "Your name", email: "Email", message: "Message", messagePlaceholder: "Your message...", submit: "Send message", submitting: "Sending...", requiredName: "Name is required", requiredEmail: "Email is required", invalidEmail: "Invalid email format", requiredMessage: "Message is required", shortMessage: "Message must be at least 10 characters", success: "Your message was sent successfully", sendError: "Failed to send message", unexpectedError: "Something went wrong", location: "Location", phone: "Phone" },
+    footer: { eyebrow: "Ready to build something different?", ctaTitle: "Let’s turn your next idea into a digital experience.", ctaAction: "Start a conversation", tagline: "Creating digital experiences that last.", backToTop: "Back to top", rights: "All rights reserved.", madeWith: "Made with", by: "by Ali Rezaei" },
   },
 };
 
