@@ -6,7 +6,7 @@ const siteUrl = "https://www.alirezaeii.ir";
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
   title: {
-    default: "پورتفولیوی علی رضایی",
+    default: "علی رضایی | برنامه‌نویس React و Next.js",
     template: "%s | علی رضایی",
   },
   description: "نمونه‌کارها، مهارت‌ها و رزومه علی رضایی، برنامه‌نویس React و Next.js ساکن تهران.",

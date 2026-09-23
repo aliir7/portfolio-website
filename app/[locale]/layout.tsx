@@ -7,12 +7,12 @@ const siteUrl = "https://www.alirezaeii.ir";
 
 const localeMetadata = {
   fa: {
-    title: "پورتفولیوی علی رضایی",
+    title: "علی رضایی | برنامه‌نویس React و Next.js",
     description: "نمونه‌کارها و رزومه علی رضایی، برنامه‌نویس React و Next.js ساکن تهران.",
     locale: "fa_IR",
   },
   en: {
-    title: "Ali Rezaei Portfolio",
+    title: "Ali Rezaei | React & Next.js Developer",
     description: "The portfolio and resume of Ali Rezaei, a React and Next.js developer based in Tehran.",
     locale: "en_US",
   },
@@ -24,7 +24,7 @@ export async function generateMetadata({ params }: { params: Promise<{ locale: s
 
   const content = localeMetadata[locale];
   return {
-    title: content.title,
+    title: { absolute: content.title },
     description: content.description,
     alternates: {
       canonical: `/${locale}`,
