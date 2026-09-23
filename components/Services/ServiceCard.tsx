@@ -16,7 +16,7 @@ const ServiceCard = ({ title, subtitle, description }: Props) => {
   const dictionary = useDictionary();
   const locale = useLocale();
   return (
-    <div className="group bg-card border-border/50 relative flex h-105 flex-col rounded-3xl border p-10 transition-all duration-300">
+    <div className="group bg-card border-border/50 relative flex min-h-88 flex-col overflow-hidden rounded-3xl border p-6 transition-all duration-300 md:h-105 md:p-10">
       <div>
         <h3 className="text-muted-foreground text-xl font-semibold">{title}</h3>
 

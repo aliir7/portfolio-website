@@ -30,9 +30,13 @@ export const ServicesSection = () => {
 
       <div className="services-swiper-wrap relative">
         <Swiper
+          key={locale}
           modules={[Pagination, Autoplay]}
+          dir={locale === "fa" ? "rtl" : "ltr"}
+          className="w-full overflow-hidden"
           spaceBetween={30}
           slidesPerView={1}
+          watchOverflow
           autoplay={{ delay: 5000 }}
           pagination={{
             clickable: true,
@@ -44,7 +48,7 @@ export const ServicesSection = () => {
           }}
         >
           {services.map((service) => (
-            <SwiperSlide key={service.id}>
+            <SwiperSlide key={service.id} className="!h-auto">
               <ServiceCard {...service} />
             </SwiperSlide>
           ))}
