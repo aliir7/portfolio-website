@@ -8,13 +8,13 @@ import {
   DropdownMenu,
   DropdownMenuContent,
   DropdownMenuItem,
-  DropdownMenuLabel,
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 
 export default function LanguageToggle({ label }: { label: string }) {
   const locale = useLocale();
+
   const languages = [
     { value: "fa" as const, label: "فارسی" },
     { value: "en" as const, label: "English" },
@@ -38,25 +38,26 @@ export default function LanguageToggle({ label }: { label: string }) {
           <RiArrowDownSLine className="text-muted-foreground size-4" />
         </Button>
       </DropdownMenuTrigger>
+
       <DropdownMenuContent align="end" className="min-w-36">
-        {languages.map((language) => (
-          <DropdownMenuItem
-            key={language.value}
-            asChild
-            className="justify-between"
-          >
-            <Link
-              href="/"
-              locale={language.value}
-              onClick={() => setLocaleCookie(language.value)}
-            >
-              <span>{language.label}</span>
-              {locale === language.value && (
-                <RiCheckLine className="text-primary size-4" />
-              )}
-              <DropdownMenuSeparator />
-            </Link>
-          </DropdownMenuItem>
+        {languages.map((language, index) => (
+          <div key={language.value}>
+            <DropdownMenuItem asChild className="justify-between">
+              <Link
+                href="/"
+                locale={language.value}
+                onClick={() => setLocaleCookie(language.value)}
+              >
+                <span>{language.label}</span>
+
+                {locale === language.value && (
+                  <RiCheckLine className="text-primary size-4" />
+                )}
+              </Link>
+            </DropdownMenuItem>
+
+            {index < languages.length - 1 && <DropdownMenuSeparator />}
+          </div>
         ))}
       </DropdownMenuContent>
     </DropdownMenu>

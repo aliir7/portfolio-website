@@ -85,61 +85,59 @@
 }
 
 @layer base {
-  @layer base {
-    :root {
-      --background: #fafafa;
-      --foreground: #18181b;
+  :root {
+    --background: #fafafa;
+    --foreground: #18181b;
 
-      --card: #ffffff;
-      --card-foreground: #18181b;
-      --popover: #ffffff;
-      --popover-foreground: #18181b;
+    --card: #ffffff;
+    --card-foreground: #18181b;
+    --popover: #ffffff;
+    --popover-foreground: #18181b;
 
-      --primary: #e11d48;
-      --primary-hover: #be123c;
-      --primary-light: #fb7185;
-      --primary-dark: #9f1239;
-      --burgundy: #4c0519;
-      --burgundy-dark: #240006;
-      --ring: #e11d48;
-      --primary-foreground: #ffffff;
+    --primary: #e11d48;
+    --primary-hover: #be123c;
+    --primary-light: #fb7185;
+    --primary-dark: #9f1239;
+    --burgundy: #4c0519;
+    --burgundy-dark: #240006;
+    --ring: #e11d48;
+    --primary-foreground: #ffffff;
 
-      --border: #e4e4e7;
-      --input: #e4e4e7;
+    --border: #e4e4e7;
+    --input: #e4e4e7;
 
-      --secondary: #f4f4f5;
-      --secondary-foreground: #3f3f46;
-      --muted: #f4f4f5;
-      --muted-foreground: #71717a;
-      --accent: #f4f4f5;
-      --accent-foreground: #3f3f46;
+    --secondary: #f4f4f5;
+    --secondary-foreground: #3f3f46;
+    --muted: #f4f4f5;
+    --muted-foreground: #71717a;
+    --accent: #f4f4f5;
+    --accent-foreground: #3f3f46;
 
-      --destructive: #be123c;
-      --destructive-foreground: #ffffff;
+    --destructive: #be123c;
+    --destructive-foreground: #ffffff;
 
-      --radius: 0.75rem;
+    --radius: 0.75rem;
 
-      --shadow-color: rgb(225 29 72 / 0.24);
-      --hero-shadow: #09090b;
-      --hero-shape-shadow: #09090b;
-      --pagination-shadow: rgb(9 9 11 / 0.42);
-      --stroke-color: #4c0519;
+    --shadow-color: rgb(225 29 72 / 0.24);
+    --hero-shadow: #09090b;
+    --hero-shape-shadow: #09090b;
+    --pagination-shadow: rgb(9 9 11 / 0.42);
+    --stroke-color: #4c0519;
+  }
+
+  @layer components {
+    .glass-panel {
+      @apply border border-white/30 bg-white/55 shadow-xl shadow-black/5 backdrop-blur-xl dark:border-white/10 dark:bg-white/5 dark:shadow-black/20;
     }
 
-    @layer components {
-      .glass-panel {
-        @apply border border-white/30 bg-white/55 shadow-xl shadow-black/5 backdrop-blur-xl dark:border-white/10 dark:bg-white/5 dark:shadow-black/20;
-      }
+    .hero-shape {
+      filter: brightness(0);
+      opacity: 0.72;
+    }
 
-      .hero-shape {
-        filter: brightness(0);
-        opacity: 0.72;
-      }
-
-      .dark .hero-shape {
-        filter: brightness(0) invert(1);
-        opacity: 0.78;
-      }
+    .dark .hero-shape {
+      filter: brightness(0) invert(1);
+      opacity: 0.78;
     }
 
     /* تنظیمات حالت Dark سر جای خود باقی می‌ماند... */
@@ -209,7 +207,7 @@
   }
 
   :focus-visible {
-    @apply outline-2 outline-offset-4 outline-primary;
+    @apply outline-primary outline-2 outline-offset-4;
   }
 
   h1,

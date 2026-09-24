@@ -9,7 +9,8 @@ export const metadata: Metadata = {
     default: "علی رضایی | برنامه‌نویس React و Next.js",
     template: "%s | علی رضایی",
   },
-  description: "نمونه‌کارها، مهارت‌ها و رزومه علی رضایی، برنامه‌نویس React و Next.js ساکن تهران.",
+  description:
+    "نمونه‌کارها، مهارت‌ها و رزومه علی رضایی، برنامه‌نویس React و Next.js ساکن تهران.",
   applicationName: "پورتفولیوی علی رضایی",
   authors: [{ name: "علی رضایی", url: siteUrl }],
   creator: "علی رضایی",
@@ -29,13 +30,15 @@ export const metadata: Metadata = {
     locale: "fa_IR",
     url: siteUrl,
     title: "پورتفولیوی علی رضایی",
-    description: "نمونه‌کارها، مهارت‌ها و رزومه علی رضایی، برنامه‌نویس React و Next.js.",
+    description:
+      "نمونه‌کارها، مهارت‌ها و رزومه علی رضایی، برنامه‌نویس React و Next.js.",
     images: [{ url: "/assets/img/user_img.png", alt: "علی رضایی" }],
   },
   twitter: {
     card: "summary_large_image",
     title: "پورتفولیوی علی رضایی",
-    description: "نمونه‌کارها، مهارت‌ها و رزومه علی رضایی، برنامه‌نویس React و Next.js.",
+    description:
+      "نمونه‌کارها، مهارت‌ها و رزومه علی رضایی، برنامه‌نویس React و Next.js.",
     images: ["/assets/img/user_img.png"],
   },
   robots: {
@@ -51,9 +54,16 @@ export const metadata: Metadata = {
   },
 };
 
-export default function RootLayout({ children }: Readonly<{ children: React.ReactNode }>) {
+export default function RootLayout({
+  children,
+}: Readonly<{ children: React.ReactNode }>) {
   return (
-    <html lang="fa" dir="rtl" className="h-full scroll-smooth" suppressHydrationWarning>
+    <html
+      lang="fa"
+      dir="rtl"
+      className="h-full scroll-smooth"
+      suppressHydrationWarning
+    >
       <body className="min-h-screen font-sans antialiased">{children}</body>
     </html>
   );
