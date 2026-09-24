@@ -40,7 +40,13 @@ const Header = () => {
       <nav className="nav container flex h-20 max-w-385 items-center justify-between">
         {/* logo */}
         <Link href="/" className="text-xl font-bold">
-          <Image src="/assets/img/logo.png" alt="Logo" width={40} height={40} />
+          <Image
+            src="/assets/img/logo.png"
+            alt="Logo"
+            width={40}
+            height={40}
+            loading="eager"
+          />
         </Link>
         <div className="flex flex-row-reverse items-center gap-4">
           {/* nav btns */}

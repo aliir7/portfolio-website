@@ -7,9 +7,9 @@ import { useDictionary } from "@/lib/i18n";
 const Footer = () => {
   const dictionary = useDictionary();
   return (
-    <footer className="bg-background relative border-t border-border/60">
+    <footer className="bg-background border-primary/50 relative border-t">
       <div className="container-custom py-7">
-        <div className="flex flex-col gap-4 text-sm md:flex-row md:items-center md:justify-between">
+        <div className="flex flex-col items-center gap-4 text-sm md:flex-row md:items-center md:justify-between">
           <p className="text-muted-foreground">
             © {new Date().getFullYear()} {dictionary.footer.rights}
           </p>
@@ -22,7 +22,7 @@ const Footer = () => {
             href="/#home"
             aria-label={dictionary.footer.backToTop}
             title={dictionary.footer.backToTop}
-            className="bg-primary text-primary-foreground absolute end-5 top-0 z-20 flex size-12 -translate-y-1/2 items-center justify-center rounded-full border-4 border-background shadow-lg transition-transform hover:-translate-y-[60%] hover:shadow-xl focus-visible:ring-2 focus-visible:ring-primary focus-visible:ring-offset-2 focus-visible:ring-offset-background"
+            className="bg-primary text-primary-foreground border-secondary-foreground focus-visible:ring-primary focus-visible:ring-offset-background absolute inset-e-5 top-0 z-20 flex size-12 -translate-y-1/2 items-center justify-center rounded-full border shadow-lg transition-transform hover:translate-y-[-60%] hover:shadow-xl focus-visible:ring-2 focus-visible:ring-offset-2"
           >
             <RiArrowUpLine className="size-5" />
           </Link>
