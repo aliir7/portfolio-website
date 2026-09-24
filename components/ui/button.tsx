@@ -9,7 +9,7 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default: "bg-primary text-primary-foreground hover:bg-primary/80",
+        default: "bg-primary text-primary-foreground hover:bg-primary-hover",
         outline:
           "border-border bg-background hover:bg-muted hover:text-foreground aria-expanded:bg-muted aria-expanded:text-foreground dark:border-input dark:bg-input/30 dark:hover:bg-input/50",
         secondary:
@@ -22,15 +22,14 @@ const buttonVariants = cva(
 
         // --- واریانت‌های سفارشی شما ---
         cta: [
-          "relative isolate overflow-hidden border-2 border-border bg-card px-10 py-4",
-          "text-sm font-bold text-card-foreground shadow-4px",
-          "dark:border-primary/70 dark:bg-primary dark:text-primary-foreground dark:shadow-[0_0_0_1px_color-mix(in_oklch,var(--primary),white_18%),0_8px_24px_-12px_var(--primary)]",
+          "relative isolate overflow-hidden border-2 border-primary bg-primary px-10 py-4",
+          "text-sm font-bold text-primary-foreground shadow-4px",
+          "shadow-[0_8px_24px_-12px_var(--primary)]",
           "rounded-4xl transition-all duration-700 ease-cubic",
-          "before:content-[''] before:absolute before:inset-0 before:rounded-[inherit] before:bg-primary",
+          "before:content-[''] before:absolute before:inset-0 before:rounded-[inherit] before:bg-primary-hover",
           "before:scale-[0.3] before:blur-[10px] before:opacity-0 before:-z-10",
           "before:transition-all before:duration-700 before:ease-cubic",
-          "hover:border-border hover:text-white hover:before:scale-100 hover:before:blur-0 hover:before:opacity-100",
-          "dark:hover:border-primary dark:hover:bg-primary/90 dark:hover:shadow-[0_0_0_1px_color-mix(in_oklch,var(--primary),white_24%),0_10px_28px_-12px_var(--primary)]",
+          "hover:border-primary-hover hover:bg-primary-hover hover:text-white hover:before:scale-100 hover:before:blur-0 hover:before:opacity-100 hover:shadow-[0_12px_32px_-12px_var(--primary-hover)]",
         ].join(" "),
         ctaLink: [
           "h-auto p-0 bg-transparent border-0 font-bold text-foreground",

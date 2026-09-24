@@ -25,7 +25,7 @@ const WorkCard = ({ project }: WorkCardProps) => {
   const dictionary = useDictionary();
   const locale = useLocale();
   return (
-    <Card className="group/card border-border/60 relative overflow-hidden pt-0 [--card-spacing:--spacing(3)] transition-all duration-300 hover:-translate-y-1 hover:border-card-foreground hover:shadow-4px md:[--card-spacing:--spacing(4)]">
+    <Card className="group/card border-border/60 hover:border-card-foreground hover:shadow-4px relative overflow-hidden pt-0 transition-all duration-300 [--card-spacing:--spacing(3)] hover:-translate-y-1 md:[--card-spacing:--spacing(4)]">
       {/* IMAGE */}
       <div className="relative aspect-video overflow-hidden">
         <Image
@@ -48,7 +48,7 @@ const WorkCard = ({ project }: WorkCardProps) => {
           <CardAction>
             <Badge
               variant="outline"
-              className="bg-primary px-3 py-2 text-zinc-100 capitalize"
+              className="bg-primary text-primary-foreground px-3 py-3 capitalize"
             >
               {project.category}
             </Badge>
@@ -56,9 +56,13 @@ const WorkCard = ({ project }: WorkCardProps) => {
         </CardHeader>
 
         <CardContent className="pb-4 md:pb-6">
-          <div className="flex flex-wrap gap-2">
+          <div className="mt-2 flex flex-wrap gap-2 md:mt-4">
             {project.techStack.map((tech) => (
-              <Badge key={tech} variant="outline" className="py-1 text-xs">
+              <Badge
+                key={tech}
+                variant="outline"
+                className="border-foreground dark:border-primary px-2 py-2 text-center text-xs capitalize"
+              >
                 {tech}
               </Badge>
             ))}
@@ -66,9 +70,9 @@ const WorkCard = ({ project }: WorkCardProps) => {
         </CardContent>
 
         {/* FOOTER – anchor for shape */}
-        <CardFooter className="relative z-10 gap-2 border-none bg-card p-3 md:gap-3 md:p-4">
+        <CardFooter className="bg-card relative z-10 gap-2 overflow-hidden border-none p-3 md:gap-3 md:p-4">
           {project.repoUrl && (
-            <Button variant="ctaLink" asChild>
+            <Button className="relative z-10" variant="ctaLink" asChild>
               <Link
                 href={project.repoUrl}
                 target="_blank"
@@ -82,7 +86,7 @@ const WorkCard = ({ project }: WorkCardProps) => {
           )}
 
           {project.liveUrl && (
-            <Button variant="ctaLink" asChild>
+            <Button className="relative z-10" variant="ctaLink" asChild>
               <Link
                 href={project.liveUrl}
                 target="_blank"
@@ -103,8 +107,8 @@ const WorkCard = ({ project }: WorkCardProps) => {
             height={120}
             className={
               locale === "fa"
-                ? "pointer-events-none absolute -bottom-8 -left-4 z-0 opacity-80 dark:invert md:-bottom-12 md:left-2"
-                : "pointer-events-none absolute -right-4 -bottom-8 z-0 opacity-80 dark:invert md:right-2 md:-bottom-12"
+                ? "pointer-events-none absolute -bottom-14 -left-8 z-0 opacity-35 md:-bottom-12 md:left-2 md:opacity-80 dark:invert"
+                : "pointer-events-none absolute -right-8 -bottom-14 z-0 opacity-35 md:right-2 md:-bottom-12 md:opacity-80 dark:invert"
             }
           />
         </CardFooter>

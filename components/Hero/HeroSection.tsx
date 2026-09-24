@@ -64,7 +64,7 @@ const HeroSection = () => {
               alt="Decoration Shape 1"
               width={160}
               height={160}
-              className="absolute -top-10 right-0 z-0 opacity-80 dark:invert md:top-10"
+              className="hero-shape absolute -top-10 right-0 z-0 md:top-10"
             />
 
             {/* شیپ ۲ - پایین چپ */}
@@ -73,11 +73,11 @@ const HeroSection = () => {
               alt="Decoration Shape 2"
               width={160}
               height={160}
-              className="absolute -bottom-10 -left-2 z-0 opacity-80 dark:invert md:left-10"
+              className="hero-shape absolute -bottom-10 -left-2 z-0 md:left-10"
             />
 
             {/* کانتینر ماسک‌کننده (دایره سبز رنگ با overflow-hidden) */}
-            <div className="bg-primary relative z-10 flex h-85 w-85 items-end justify-center overflow-hidden rounded-full md:h-120 md:w-120">
+            <div className="bg-primary relative z-10 flex h-85 w-85 items-end justify-center overflow-hidden rounded-full shadow-[0_24px_70px_-24px_var(--primary)] md:h-120 md:w-120">
               <Image
                 src="/assets/img/user_img.png"
                 alt={hero.imageAlt}
@@ -89,7 +89,7 @@ const HeroSection = () => {
             </div>
 
             {/* نشان‌های شناور (Badges) */}
-            <div className="border-card-foreground shadow-card-foreground absolute top-1/7 -right-2 z-20 flex cursor-default items-center gap-3 rounded-full border-2 bg-card/95 px-5 py-3 shadow-[4px_4px_0px] backdrop-blur-sm transition-transform hover:-translate-y-1 md:top-1/4 md:right-2">
+            <div className="border-foreground absolute top-1/7 -right-2 z-20 flex cursor-default items-center gap-3 rounded-full border-2 bg-card/95 px-5 py-3 shadow-[0_10px_28px_-14px_var(--hero-shadow),3px_3px_0_var(--hero-shadow)] backdrop-blur-sm transition-transform hover:-translate-y-1 dark:border-white md:top-1/4 md:right-2">
               <span className="text-card-foreground text-xl font-black lg:text-3xl">
                 {toLocaleDigits("12", locale)}+
               </span>
@@ -100,7 +100,7 @@ const HeroSection = () => {
               </span>
             </div>
 
-            <div className="border-card-foreground shadow-card-foreground absolute bottom-12 -left-1 z-20 flex cursor-default items-center gap-3 rounded-full border-2 bg-card/95 px-5 py-3 shadow-[4px_4px_0px] backdrop-blur-sm transition-transform hover:-translate-y-1 md:left-10">
+            <div className="border-foreground absolute bottom-12 -left-1 z-20 flex cursor-default items-center gap-3 rounded-full border-2 bg-card/95 px-5 py-3 shadow-[0_10px_28px_-14px_var(--hero-shadow),3px_3px_0_var(--hero-shadow)] backdrop-blur-sm transition-transform hover:-translate-y-1 dark:border-white md:left-10">
               <span className="text-card-foreground text-xl font-black lg:text-3xl">
                 {toLocaleDigits("330", locale)}
               </span>

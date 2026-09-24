@@ -43,6 +43,11 @@
   --color-popover-foreground: var(--popover-foreground);
 
   --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-light: var(--primary-light);
+  --color-primary-dark: var(--primary-dark);
+  --color-burgundy: var(--burgundy);
+  --color-burgundy-dark: var(--burgundy-dark);
   --color-primary-foreground: var(--primary-foreground);
 
   --color-secondary: var(--secondary);
@@ -82,60 +87,58 @@
 @layer base {
   @layer base {
     :root {
-      /* ========== متغیرهای پایه (از تصویر) ========== */
-      --hue: 165;
-      --second-hue: 37;
+      --background: #fafafa;
+      --foreground: #18181b;
 
-      /* --body-color: hsl(var(--second-hue), 30%, 92%); */
-      --background: hsl(var(--second-hue), 30%, 95%);
+      --card: #ffffff;
+      --card-foreground: #18181b;
+      --popover: #ffffff;
+      --popover-foreground: #18181b;
 
-      /* --text-color: hsl(var(--second-hue), 4%, 20%); */
-      --foreground: hsl(var(--second-hue), 4%, 20%);
+      --primary: #e11d48;
+      --primary-hover: #be123c;
+      --primary-light: #fb7185;
+      --primary-dark: #9f1239;
+      --burgundy: #4c0519;
+      --burgundy-dark: #240006;
+      --ring: #e11d48;
+      --primary-foreground: #ffffff;
 
-      /* --container-color: hsl(var(--second-hue), 0%, 100%); */
-      --card: hsl(var(--second-hue), 0%, 100%);
-      --popover: hsl(var(--second-hue), 0%, 100%);
+      --border: #e4e4e7;
+      --input: #e4e4e7;
 
-      /* --title-color: hsl(var(--second-hue), 4%, 12%); */
-      --card-foreground: hsl(var(--second-hue), 4%, 12%);
-      --popover-foreground: hsl(var(--second-hue), 4%, 12%);
+      --secondary: #f4f4f5;
+      --secondary-foreground: #3f3f46;
+      --muted: #f4f4f5;
+      --muted-foreground: #71717a;
+      --accent: #f4f4f5;
+      --accent-foreground: #3f3f46;
 
-      /* --first-color: hsl(var(--hue), 60%, 40%); */
-      --primary: hsl(var(--hue), 60%, 40%);
-      --ring: hsl(var(--hue), 60%, 40%);
-
-      /* --white-color: hsl(var(--second-hue), 0%, 100%); */
-      --primary-foreground: hsl(var(--second-hue), 0%, 100%);
-
-      /* --border-color: hsl(var(--second-hue), 4%, 16%); */
-      --border: hsl(var(--second-hue), 4%, 24%);
-      --input: hsl(var(--second-hue), 4%, 24%);
-
-      /* ========== رنگ‌های ترکیبی استاندارد Shadcn ========== */
-      /* برای حالت‌های Hover و المان‌های ثانویه از مقادیر نزدیک به پس‌زمینه استفاده می‌کنیم */
-      --secondary: hsl(var(--second-hue), 20%, 89%);
-      --secondary-foreground: hsl(var(--second-hue), 4%, 12%);
-
-      --muted: hsl(var(--second-hue), 20%, 89%);
-      --muted-foreground: hsl(var(--second-hue), 4%, 40%);
-
-      --accent: hsl(var(--second-hue), 20%, 89%);
-      --accent-foreground: hsl(var(--second-hue), 4%, 12%);
-
-      --destructive: oklch(0.577 0.245 27.325);
-      --destructive-foreground: oklch(0.985 0 0);
+      --destructive: #be123c;
+      --destructive-foreground: #ffffff;
 
       --radius: 0.75rem;
 
-      /* ========== متغیرهای کاستوم افکت‌ها (از تصویر) ========== */
-      --shadow-color: hsla(var(--second-hue), 80%, 10%, 0.16);
-      /* هماهنگ‌سازی Stroke با title-color */
-      --stroke-color: hsl(var(--second-hue), 4%, 12%);
+      --shadow-color: rgb(225 29 72 / 0.24);
+      --hero-shadow: #09090b;
+      --hero-shape-shadow: #09090b;
+      --pagination-shadow: rgb(9 9 11 / 0.42);
+      --stroke-color: #4c0519;
     }
 
     @layer components {
       .glass-panel {
         @apply border border-white/30 bg-white/55 shadow-xl shadow-black/5 backdrop-blur-xl dark:border-white/10 dark:bg-white/5 dark:shadow-black/20;
+      }
+
+      .hero-shape {
+        filter: brightness(0);
+        opacity: 0.72;
+      }
+
+      .dark .hero-shape {
+        filter: brightness(0) invert(1);
+        opacity: 0.78;
       }
     }
 
@@ -144,33 +147,40 @@
 
   /* استانداردسازی متغیرهای رنگی برای Dark Mode */
   .dark {
-    --background: hsl(var(--hue), 12%, 10%);
-    --foreground: hsl(0, 0%, 80%);
+    --background: #09090b;
+    --foreground: #fafafa;
 
-    --card: hsl(var(--hue), 10%, 14%);
-    --card-foreground: hsl(0, 0%, 98%);
+    --card: #111113;
+    --card-foreground: #fafafa;
+    --popover: #111113;
+    --popover-foreground: #fafafa;
 
-    --popover: hsl(var(--hue), 10%, 14%);
-    --popover-foreground: hsl(0, 0%, 98%);
+    --primary: #e11d48;
+    --primary-hover: #be123c;
+    --primary-light: #fb7185;
+    --primary-dark: #9f1239;
+    --burgundy: #4c0519;
+    --burgundy-dark: #240006;
+    --primary-foreground: #ffffff;
+    --ring: #fb7185;
 
-    --primary: hsl(var(--hue), 60%, 40%);
-    --primary-foreground: hsl(0, 0%, 100%);
+    --secondary: #18181b;
+    --secondary-foreground: #d4d4d8;
+    --muted: #18181b;
+    --muted-foreground: #a1a1aa;
+    --accent: #18181b;
+    --accent-foreground: #d4d4d8;
 
-    --secondary: hsl(var(--hue), 10%, 20%);
-    --secondary-foreground: hsl(0, 0%, 98%);
+    --border: #27272a;
+    --input: #27272a;
+    --destructive: #fb7185;
+    --destructive-foreground: #240006;
 
-    --muted: hsl(var(--hue), 10%, 20%);
-    --muted-foreground: hsl(0, 0%, 80%);
-
-    --accent: hsl(var(--hue), 10%, 20%);
-    --accent-foreground: hsl(0, 0%, 98%);
-
-    --border: hsl(var(--hue), 8%, 28%);
-    --input: hsl(var(--hue), 8%, 28%);
-    --ring: hsl(var(--hue), 60%, 40%);
-
-    --shadow-color: hsla(0, 0%, 0%, 0.4);
-    --stroke-color: hsl(0, 0%, 98%);
+    --shadow-color: rgb(225 29 72 / 0.38);
+    --hero-shadow: #fb7185;
+    --hero-shape-shadow: #ffffff;
+    --pagination-shadow: rgb(255 255 255 / 0.7);
+    --stroke-color: #ffffff;
   }
 }
 
@@ -212,6 +222,12 @@
     @apply font-heading text-card-foreground font-semibold;
   }
 
+  #services {
+    --swiper-pagination-color: var(--primary);
+    --swiper-pagination-bullet-inactive-color: var(--primary);
+    --swiper-pagination-bullet-inactive-opacity: 0.45;
+  }
+
   #services .services-swiper-wrap .services-pagination {
     position: static; /* چون پایین اسلایدر و خارجشه */
     width: 100%;
@@ -219,16 +235,40 @@
 
   #services .services-pagination .swiper-pagination-bullet {
     position: relative;
-    border: 2px solid var(--border);
-    opacity: 1;
-    transition: transform 0.3s;
+    width: 0.65rem;
+    height: 0.65rem;
+    border: 2px solid color-mix(in srgb, var(--primary) 55%, transparent);
+    background-color: transparent !important;
+    opacity: 1 !important;
+    transition:
+      transform 0.3s,
+      background-color 0.3s,
+      border-color 0.3s,
+      box-shadow 0.3s;
     margin: 0 8px !important;
   }
 
   #services .services-pagination .swiper-pagination-bullet-active {
-    background-color: var(--primary);
-    transform: scale(1.4);
-    border-width: 1px;
+    background-color: var(--primary) !important;
+    border-color: var(--primary) !important;
+    opacity: 1 !important;
+    box-shadow:
+      0 0 0 3px color-mix(in srgb, var(--primary-light) 25%, transparent),
+      0 3px 8px var(--pagination-shadow);
+    transform: scale(1.35);
+  }
+
+  .dark #services .services-pagination .swiper-pagination-bullet {
+    border-color: color-mix(in srgb, var(--primary-light) 65%, transparent);
+    background-color: transparent !important;
+  }
+
+  .dark #services .services-pagination .swiper-pagination-bullet-active {
+    background-color: var(--primary-light) !important;
+    border-color: var(--primary-light) !important;
+    box-shadow:
+      0 0 0 3px color-mix(in srgb, var(--primary-light) 30%, transparent),
+      0 3px 10px var(--pagination-shadow);
   }
 
   #services

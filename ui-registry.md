@@ -1,5 +1,79 @@
 # UI Registry
 
+### Burgundy / Rose Color Tokens
+
+File: `app/globals.css`, `components/ui/button.tsx`
+Last updated: 2026-09-24
+
+| Property         | Class / token |
+| ---------------- | ------------- |
+| Primary          | `var(--primary)` → `#E11D48` |
+| Primary hover    | `var(--primary-hover)` → `#BE123C` |
+| Primary light    | `var(--primary-light)` → `#FB7185` |
+| Primary dark     | `var(--primary-dark)` → `#9F1239` |
+| Burgundy         | `var(--burgundy)` → `#4C0519` |
+| Burgundy dark    | `var(--burgundy-dark)` → `#240006` |
+| Dark background  | `var(--background)` → `#09090B` |
+| Light surface    | `var(--card)` → `#FFFFFF` |
+| Light muted      | `var(--muted)` → `#F4F4F5` |
+| Light text       | `var(--foreground)` → `#18181B` |
+| Light border     | `var(--border)` → `#E4E4E7` |
+| Dark surface     | `var(--card)` → `#111113` |
+| Dark muted       | `var(--muted)` → `#18181B` |
+| Dark text        | `var(--foreground)` → `#FAFAFA` |
+| Dark border      | `var(--border)` → `#27272A` |
+
+**Pattern notes:**
+The rose primary is the shared action color across public and admin surfaces.
+Use the hover token for interactive states instead of reducing primary opacity.
+Use Burgundy tokens for hero/CTA backgrounds and deep accent surfaces; keep
+text on those surfaces white for contrast.
+
+### Hero Brand Shapes and CTA
+
+File: `components/Hero/HeroSection.tsx`, `components/ui/shape.tsx`, `components/ui/button.tsx`
+Last updated: 2026-09-24
+
+| Property         | Class / token |
+| ---------------- | ------------- |
+| Shape connector  | `bg-foreground`, dark `bg-white` |
+| Shape nodes      | `bg-foreground`, dark `bg-white border-white` |
+| Shape shadow     | `var(--hero-shape-shadow)` |
+| Hero image glow  | `shadow-[0_24px_70px_-24px_var(--primary)]` |
+| Badge shadow     | soft glow plus `3px 3px var(--hero-shadow)` |
+| CTA background   | `bg-primary` |
+| CTA border       | `border-primary` |
+| CTA hover        | `hover:bg-primary-hover hover:border-primary-hover` |
+| CTA shadow       | `shadow-4px`, primary glow |
+
+**Pattern notes:**
+Hero decoration uses black foreground shapes in light mode and white shapes in
+dark mode for maximum silhouette contrast. Badge shadows use black in light
+mode and a soft Primary Light glow with a small offset in dark mode. The main
+CTA is brand-filled in both themes and shifts to the darker primary token on
+hover.
+
+### Swiper Pagination Bullets
+
+File: `app/globals.css`
+Last updated: 2026-09-24
+
+| Property         | Class / token |
+| ---------------- | ------------- |
+| Inactive bullet  | transparent with `var(--primary)` border |
+| Active bullet    | `var(--primary)` background and border |
+| Dark active      | `var(--primary-light)` background and border |
+| Radius           | native Swiper bullet radius |
+| Spacing          | `8px` horizontal margin |
+| Active state     | `scale(1.35)` with Primary Light ring |
+| Shadow           | `var(--pagination-shadow)` — black light, white dark |
+| Accent usage     | Primary brand tokens only |
+
+**Pattern notes:**
+Pagination remains quiet when inactive and uses the same Rose brand hierarchy
+as Hero CTAs when active. Dark mode lifts the active bullet to Primary Light
+for visibility against the dark surface.
+
 ### Language Toggle
 
 File: `components/Header/LanguageToggle.tsx`
@@ -68,7 +142,7 @@ copyright, author credit, and a back-to-top link.
 ### Portfolio Content Card
 
 File: `components/Services/ServiceCard.tsx`, `components/Works/WorkCard.tsx`, `components/Resume/ResumeColumn.tsx`
-Last updated: 2026-09-23
+Last updated: 2026-09-24
 
 | Property         | Class |
 | ---------------- | ----- |
@@ -86,6 +160,10 @@ Last updated: 2026-09-23
 Cards use a restrained surface treatment with one bold graphic interaction:
 a short upward lift and offset shadow on hover. Avoid adding blur or heavy
 gradients to every card; reserve those effects for contextual surfaces.
+Work card category badges keep the Card Header grid with compact `py-1.5`
+spacing. Technology badges use the same primary filled treatment with
+theme-aware borders, while footer decorations stay anchored to the footer
+corner with reduced mobile opacity.
 
 ### Primary CTA Button
 
