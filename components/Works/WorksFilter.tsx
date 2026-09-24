@@ -24,12 +24,12 @@ const WorksFilter = () => {
       onValueChange={(value) => setCategory(value as FilterCategory)}
       className="mt-8 flex w-full items-center justify-center"
     >
-      <TabsList className="flex h-auto flex-wrap items-center justify-center gap-2 bg-transparent">
+      <TabsList className="flex h-auto md:flex-wrap flex-nowrap items-center justify-center gap-0.5 bg-transparent md:gap-2">
         {filters.map((filter) => (
           <TabsTrigger
             key={filter.value}
             value={filter.value}
-            className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground rounded-full px-6 py-4 transition-all"
+            className="data-[state=active]:bg-primary data-[state=active]:text-primary-foreground dark:data-[state=active]:bg-primary dark:data-[state=active]:text-primary-foreground rounded-full md:px-6 px-3 py-4 transition-all"
           >
             {filter.label}
           </TabsTrigger>

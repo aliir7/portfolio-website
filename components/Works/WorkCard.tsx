@@ -25,7 +25,7 @@ const WorkCard = ({ project }: WorkCardProps) => {
   const dictionary = useDictionary();
   const locale = useLocale();
   return (
-    <Card className="group/card border-border/60 hover:border-card-foreground hover:shadow-4px relative overflow-hidden pt-0 transition-all duration-300 [--card-spacing:--spacing(3)] hover:-translate-y-1 md:[--card-spacing:--spacing(4)]">
+    <Card className="group/card hover:border-secondary-foreground dark:hover:border-primary hover:shadow-4px relative overflow-hidden border pt-0 transition-all duration-300 [--card-spacing:--spacing(3)] hover:-translate-y-1 md:[--card-spacing:--spacing(4)]">
       {/* IMAGE */}
       <div className="relative aspect-video overflow-hidden">
         <Image

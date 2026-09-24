@@ -9,7 +9,9 @@ const ResumeSection = () => {
   const dictionary = useDictionary();
   const { resume } = useLocalizedContent();
   const educationItems = resume.filter((item) => item.category === "education");
-  const experienceItems = resume.filter((item) => item.category === "experience");
+  const experienceItems = resume.filter(
+    (item) => item.category === "experience",
+  );
   return (
     <RevealSection
       id="resume"
@@ -21,14 +23,20 @@ const ResumeSection = () => {
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
             {dictionary.resume.title}
           </h2>
-          <p className="text-muted-foreground mx-auto mt-4 max-w-2xl leading-8">
+          <p className="text-muted-foreground dark:text-primary mx-auto mt-4 max-w-2xl leading-8">
             {dictionary.resume.subtitle}
           </p>
         </div>
 
         <div className="grid gap-6 lg:grid-cols-2">
-          <ResumeColumn title={dictionary.resume.education} items={educationItems} />
-          <ResumeColumn title={dictionary.resume.experience} items={experienceItems} />
+          <ResumeColumn
+            title={dictionary.resume.education}
+            items={educationItems}
+          />
+          <ResumeColumn
+            title={dictionary.resume.experience}
+            items={experienceItems}
+          />
         </div>
       </div>
       <div className="hidden md:block">

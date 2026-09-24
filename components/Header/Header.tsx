@@ -1,12 +1,12 @@
 "use client";
-
-import { cn } from "@/lib/utils";
 import { Link } from "@/i18n/navigation";
+import { useDictionary, useDocumentLocale } from "@/lib/i18n";
+import { cn } from "@/lib/utils";
+import Image from "next/image";
 import { useEffect, useState } from "react";
+import LanguageToggle from "./LanguageToggle";
 import NavMenu from "./NavMenu";
 import ThemeToggle from "./ThemeToggle";
-import { useDocumentLocale, useDictionary } from "@/lib/i18n";
-import LanguageToggle from "./LanguageToggle";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState<boolean>(false);
@@ -40,7 +40,7 @@ const Header = () => {
       <nav className="nav container flex h-20 max-w-385 items-center justify-between">
         {/* logo */}
         <Link href="/" className="text-xl font-bold">
-          {locale === "fa" ? "رضایی" : "Rezaei"}
+          <Image src="/assets/img/logo.png" alt="Logo" width={40} height={40} />
         </Link>
         <div className="flex flex-row-reverse items-center gap-4">
           {/* nav btns */}

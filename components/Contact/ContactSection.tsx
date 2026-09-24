@@ -81,7 +81,9 @@ export const ContactSection = () => {
       toast.success(contact.success);
       setFormData({ name: "", email: "", message: "" });
     } catch (error) {
-      toast.error(error instanceof Error ? error.message : contact.unexpectedError);
+      toast.error(
+        error instanceof Error ? error.message : contact.unexpectedError,
+      );
     } finally {
       setIsSubmitting(false);
     }
@@ -107,16 +109,16 @@ export const ContactSection = () => {
           <h2 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">
             {contact.title}
           </h2>
-          <p className="text-muted-foreground mx-auto mt-4 max-w-2xl leading-8">
-            {contact.intro}
-          </p>
           <span className="text-primary mt-5 block text-sm font-bold tracking-[0.2em]">
             {contact.eyebrow}
           </span>
+          <p className="text-muted-foreground mx-auto mt-4 max-w-2xl leading-8">
+            {contact.intro}
+          </p>
         </div>
 
         <div className="mx-auto grid max-w-5xl gap-6 lg:grid-cols-[0.85fr_1.15fr]">
-          <div className="bg-card border-border/60 rounded-3xl border p-6 shadow-sm transition-all duration-300 hover:shadow-4px sm:p-8">
+          <div className="bg-card border-border/60 hover:shadow-4px rounded-3xl border p-6 shadow-sm transition-all duration-300 sm:p-8">
             <h3 className="text-2xl font-bold">{contact.infoTitle}</h3>
             <p className="text-muted-foreground mt-3 text-sm leading-7">
               {contact.infoText}
@@ -124,7 +126,7 @@ export const ContactSection = () => {
             <div className="space-y-4">
               {contactInfo.map((item) => (
                 <a
-                key={item.key}
+                  key={item.key}
                   href={item.href}
                   className="group bg-background/60 border-border/50 hover:border-primary/50 flex items-center gap-4 rounded-2xl border p-4 transition-all hover:-translate-y-0.5 hover:shadow-md"
                   target={item.href.startsWith("http") ? "_blank" : undefined}
@@ -166,7 +168,7 @@ export const ContactSection = () => {
 
           <form
             onSubmit={handleSubmit}
-            className="bg-card border-border/60 rounded-3xl border p-6 shadow-sm transition-all duration-300 hover:shadow-4px sm:p-8"
+            className="bg-card border-border/60 hover:shadow-4px rounded-3xl border p-6 shadow-sm transition-all duration-300 sm:p-8"
             noValidate
           >
             <h3 className="mb-6 text-2xl font-bold">{contact.messageTitle}</h3>
