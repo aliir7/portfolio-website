@@ -76,25 +76,26 @@ for visibility against the dark surface.
 
 ### Language Toggle
 
-File: `components/Header/LanguageToggle.tsx`
-Last updated: 2026-09-23
+File: `components/Header/LanguageToggle.tsx`, `components/ui/dropdown-menu.tsx`
+Last updated: 2026-09-24
 
 | Property         | Class |
 | ---------------- | ----- |
-| Background       | none |
-| Border           | none |
-| Border radius    | none |
+| Background       | `bg-popover` menu, ghost trigger |
+| Border           | `border-border` menu |
+| Border radius    | `rounded-xl` menu, `rounded-lg` items |
 | Text — primary   | `text-sm font-semibold` |
-| Text — secondary | none |
-| Spacing          | none |
-| Hover state      | `hover:text-primary` |
-| Shadow           | none |
-| Accent usage     | `text-primary` on hover |
+| Text — secondary | `text-muted-foreground` label |
+| Spacing          | `px-3 py-2` menu items |
+| Hover state      | `focus:bg-accent focus:text-accent-foreground` |
+| Shadow           | `shadow-lg` menu, `z-[1100]` above fixed header |
+| Accent usage     | `text-primary` selected check |
 
 **Pattern notes:**
-The language switcher is intentionally lightweight and sits beside the existing
-theme control in the header. It uses a locale URL (`/fa` or `/en`) and persists
-the selection in the `portfolio-locale` cookie.
+The language switcher sits beside the existing theme control as a shadcn-style
+dropdown. It shows the current locale, keeps the selected option visible with
+a check icon, persists the locale in the `portfolio-locale` cookie, and stays
+above the fixed scrolled header through its elevated menu layer.
 
 ### Portfolio Header
 
