@@ -40,3 +40,37 @@ You can check out [the Next.js GitHub repository](https://github.com/vercel/next
 The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
 
 Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+
+
+## Full-stack backend
+
+The project uses Next.js Server Actions, Better Auth, PostgreSQL on Neon, Drizzle ORM, Zod, and Cloudinary. The public portfolio UI remains unchanged; the admin area is protected by an authenticated admin session.
+
+### Environment
+
+Copy `.env.example` to `.env.local` and configure:
+
+- `DATABASE_URL`: Neon PostgreSQL connection string. When Neon is connected through Vercel, use the DATABASE_URL provided by the integration.
+- `BETTER_AUTH_URL`: local or production site URL.
+- `BETTER_AUTH_SECRET`: a long random secret.
+- Cloudinary variables from the Cloudinary dashboard.
+
+### Database
+
+Run:
+
+```bash
+pnpm install
+pnpm db:generate
+pnpm db:migrate
+```
+
+For the first deployment, create the initial admin account through a controlled server-side bootstrap/SQL step and set its `user.role` to `admin`. Public email/password signup is disabled.
+
+### Architecture
+
+- Better Auth owns authentication and sessions.
+- The Better Auth route handler at `/api/auth/[...all]` is the only remaining auth endpoint required by the authentication library.
+- Contact submissions and admin CRUD operations use Server Actions with server-side Zod validation.
+- Database access is isolated in the server-side Drizzle layer.
+- Cloudinary is used for media storage; signed upload parameters are generated server-side.

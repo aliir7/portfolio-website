@@ -1,7 +1,5 @@
 "use client";
 
-"use client";
-
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -13,6 +11,7 @@ import { cn } from "@/lib/utils";
 import RevealSection from "../ui/reveal-section";
 import Shape from "../ui/shape";
 import { toLocaleDigits, useDictionary, useLocale } from "@/lib/i18n";
+import { submitContactAction } from "@/actions/contact";
 
 const contactInfo = [
   {
@@ -65,18 +64,8 @@ export const ContactSection = () => {
 
     setIsSubmitting(true);
     try {
-      const apiBaseUrl = process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "");
-      const response = await fetch(
-        apiBaseUrl ? `${apiBaseUrl}/contact` : "/api/contact",
-        {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify(formData),
-        },
-      );
-
-      const data = await response.json();
-      if (!response.ok) throw new Error(data.error || contact.sendError);
+      const result = await submitContactAction(formData);
+      if (!result.success) throw new Error(result.error);
 
       toast.success(contact.success);
       setFormData({ name: "", email: "", message: "" });
