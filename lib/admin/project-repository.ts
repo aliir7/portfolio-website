@@ -1,38 +1,23 @@
-import { mockProjects } from "./mock-data";
+import { createProjectAction, deleteProjectAction, listProjectsAction, updateProjectAction } from "@/actions/admin";
 import type { AdminProject, ProjectInput, ProjectRepository } from "./types";
-
-let store = [...mockProjects];
 
 export const localProjectRepository: ProjectRepository = {
   async list() {
-    return [...store];
+    return listProjectsAction() as Promise<AdminProject[]>;
   },
   async create(input: ProjectInput) {
-    const project = { ...input, id: crypto.randomUUID() };
-    store = [project, ...store];
-    return project;
+    return createProjectAction(input) as Promise<AdminProject>;
   },
   async update(id: string, input: ProjectInput) {
-    const project = { ...input, id };
-    store = store.map((item) => (item.id === id ? project : item));
-    return project;
+    return updateProjectAction(id, input) as Promise<AdminProject>;
   },
   async delete(id: string) {
-    store = store.filter((item) => item.id !== id);
+    await deleteProjectAction(id);
   },
 };
 
 export function createEmptyProject(): ProjectInput {
-  return {
-    title: "",
-    slug: "",
-    description: "",
-    category: "frontend",
-    techStack: [],
-    repoUrl: "",
-    liveUrl: "",
-    status: "draft",
-  };
+  return { title: "", slug: "", description: "", category: "frontend", techStack: [], repoUrl: "", liveUrl: "", status: "draft" };
 }
 
 export type { AdminProject };
