@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+import { signOutAction } from "@/actions/auth";
 import { usePathname } from "next/navigation";
 import { RiDashboardLine, RiExternalLinkLine, RiFolderChartLine, RiUserSettingsLine } from "@remixicon/react";
 import {
@@ -95,7 +96,7 @@ function AdminSidebar() {
           <RiExternalLinkLine className="size-4 shrink-0" />
           {open && "مشاهده سایت"}
         </Link>
-        {open && <div className="border-border/60 bg-background/40 rounded-2xl border p-3 text-xs text-muted-foreground">حالت آزمایشی · داده‌ها local هستند</div>}
+        {open && <div className="grid gap-2"><div className="border-border/60 bg-background/40 rounded-2xl border p-3 text-xs text-muted-foreground">اتصال به PostgreSQL فعال است.</div><form action={signOutAction}><button type="submit" className="text-muted-foreground hover:text-foreground w-full rounded-2xl px-3 py-2 text-right text-sm transition-colors hover:bg-primary/10">خروج از حساب</button></form></div>}
       </SidebarFooter>
     </Sidebar>
   );
