@@ -45,6 +45,7 @@ export async function signInAction(
     });
 
     if (!result?.user || result.user.role !== "admin") {
+      await auth.api.signOut({ headers: await headers() });
       return { error: "حساب شما دسترسی مدیریت ندارد." };
     }
   } catch {
