@@ -1,6 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import Link from "next/link";
 import { RiAddLine, RiDeleteBinLine, RiEditLine, RiExternalLinkLine, RiSearchLine } from "@remixicon/react";
 import { Badge } from "@/components/ui/badge";
@@ -14,6 +14,10 @@ import { mockProjects } from "@/lib/admin/mock-data";
 
 export default function ProjectsManager() {
   const [items, setItems] = useState<AdminProject[]>(mockProjects);
+
+  useEffect(() => {
+    void localProjectRepository.list().then(setItems).catch(() => setItems(mockProjects));
+  }, []);
   const [query, setQuery] = useState("");
   const [editing, setEditing] = useState<AdminProject | null>(null);
   const [formOpen, setFormOpen] = useState(false);
