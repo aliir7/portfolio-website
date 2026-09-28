@@ -6,7 +6,7 @@ import { db } from "@/db";
 import { blogPostTags, blogPosts, blogTags } from "@/db/schema";
 import { requireAdmin } from "@/lib/auth-guard";
 import { blogPostSchema, blogTagSchema } from "@/lib/validations";
-import { withAction } from "@/lib/utils";
+import { formatZodIssues, withAction } from "@/lib/utils";
 import type { ActionResult } from "@/types";
 
 export async function createBlogPostAction(input: unknown): Promise<ActionResult<{ id: string }>> {
@@ -15,7 +15,7 @@ export async function createBlogPostAction(input: unknown): Promise<ActionResult
   const parsed = blogPostSchema.safeParse(input);
 
   if (!parsed.success) {
-    return { success: false, error: { type: "zod", issues: parsed.error.issues }, message: t("actions.blog.invalidPost") };
+    return { success: false, error: { type: "zod", issues: formatZodIssues(parsed.error, t) }, message: t("actions.blog.invalidPost") };
   }
 
   return withAction(async () => {
@@ -59,7 +59,7 @@ export async function updateBlogPostAction(
   const parsed = blogPostSchema.safeParse(input);
 
   if (!parsed.success) {
-    return { success: false, error: { type: "zod", issues: parsed.error.issues }, message: t("actions.blog.invalidPost") };
+    return { success: false, error: { type: "zod", issues: formatZodIssues(parsed.error, t) }, message: t("actions.blog.invalidPost") };
   }
 
   return withAction(async () => {
@@ -109,7 +109,7 @@ export async function createBlogTagAction(input: unknown): Promise<ActionResult<
   const parsed = blogTagSchema.safeParse(input);
 
   if (!parsed.success) {
-    return { success: false, error: { type: "zod", issues: parsed.error.issues }, message: t("actions.blog.invalidTag") };
+    return { success: false, error: { type: "zod", issues: formatZodIssues(parsed.error, t) }, message: t("actions.blog.invalidTag") };
   }
 
   return withAction(async () => {
