@@ -41,7 +41,7 @@ export async function updateProjectAction(
   return withAction(async () => {
     await db.update(projects).set({ ...parsed.data, updatedAt: new Date() }).where(eq(projects.id, id));
     const [project] = await db.select().from(projects).where(eq(projects.id, id)).limit(1);
-    if (!project) throw new Error("Project not found.");
+    if (!project) throw new Error(t("actions.projects.notFound"));
     return project;
   }, { successMessage: t("actions.projects.updated") });
 }
