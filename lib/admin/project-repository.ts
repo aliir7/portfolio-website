@@ -1,6 +1,6 @@
 import { createProjectAction, deleteProjectAction, updateProjectAction } from "@/lib/actions/admin/projects.actions";
 import { getAdminProjectsQuery } from "@/query/admin/projects.query";
-import type { AdminProject, ProjectInput, ProjectRepository } from "@/lib/admin/types";
+import type { AdminProject, ProjectInput, ProjectRepository } from "@/types";
 
 function unwrap<T>(result: { success: true; data?: T } | { success: false; error: { message: string } }): T {
   if (!result.success) throw new Error(result.error.message);
