@@ -34,6 +34,13 @@ function formatZodIssue(
   }
 }
 
+export function formatZodIssues(error: ZodError, t?: ErrorTranslator): ZodError["issues"] {
+  return error.issues.map((issue) => ({
+    ...issue,
+    message: formatZodIssue(issue, t),
+  }));
+}
+
 export function formatError(
   error: unknown,
   t?: ErrorTranslator,
