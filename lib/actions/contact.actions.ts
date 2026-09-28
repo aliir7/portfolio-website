@@ -4,7 +4,7 @@ import { getTranslations } from "next-intl/server";
 import { db } from "@/db";
 import { contactMessages } from "@/db/schema";
 import { contactSchema } from "@/lib/validations";
-import { withAction } from "@/lib/utils";
+import { formatZodIssues, withAction } from "@/lib/utils";
 import type { ActionResult } from "@/types";
 
 export async function submitContactAction(
@@ -16,7 +16,7 @@ export async function submitContactAction(
   if (!parsed.success) {
     return {
       success: false,
-      error: { type: "zod", issues: parsed.error.issues },
+      error: { type: "zod", issues: formatZodIssues(parsed.error, t) },
       message: t("actions.contact.invalidForm"),
     };
   }
