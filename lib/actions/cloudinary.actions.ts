@@ -54,5 +54,5 @@ export async function createCloudinarySignature(
       cloudName,
       folder: parsed.data.folder,
     };
-  });
+  }, { name: "cloudinary.createSignature" });
 }
