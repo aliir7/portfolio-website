@@ -1,6 +1,6 @@
 import { createSkillAction, updateProfileAction } from "@/lib/actions/admin/profile.actions";
 import { getAdminProfileQuery } from "@/query/admin/profile.query";
-import type { AdminProfile, ProfileRepository } from "./types";
+import type { AdminProfile, ProfileRepository } from "@/types";
 
 export const localProfileRepository: ProfileRepository = {
   async get() {
