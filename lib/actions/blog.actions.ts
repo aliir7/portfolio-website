@@ -47,7 +47,7 @@ export async function createBlogPostAction(input: unknown): Promise<ActionResult
     }
 
     return { id };
-  }, { successMessage: t("actions.blog.created") });
+  }, { name: "blog.createPost", successMessage: t("actions.blog.created") });
 }
 
 export async function updateBlogPostAction(
@@ -91,7 +91,7 @@ export async function updateBlogPostAction(
     }
 
     return { id };
-  }, { successMessage: t("actions.blog.updated") });
+  }, { name: "blog.updatePost", successMessage: t("actions.blog.updated") });
 }
 
 export async function deleteBlogPostAction(id: string): Promise<ActionResult<undefined>> {
@@ -100,7 +100,7 @@ export async function deleteBlogPostAction(id: string): Promise<ActionResult<und
 
   return withAction(async () => {
     await db.delete(blogPosts).where(eq(blogPosts.id, id));
-  }, { successMessage: t("actions.blog.deleted") });
+  }, { name: "blog.deletePost", successMessage: t("actions.blog.deleted") });
 }
 
 export async function createBlogTagAction(input: unknown): Promise<ActionResult<{ id: string }>> {
@@ -116,5 +116,5 @@ export async function createBlogTagAction(input: unknown): Promise<ActionResult<
     const id = crypto.randomUUID();
     await db.insert(blogTags).values({ id, ...parsed.data });
     return { id };
-  }, { successMessage: t("actions.blog.tagCreated") });
+  }, { name: "blog.createTag", successMessage: t("actions.blog.tagCreated") });
 }
