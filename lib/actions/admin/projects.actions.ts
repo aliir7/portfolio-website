@@ -9,11 +9,6 @@ import { projectSchema } from "@/lib/validations";
 import { withAction } from "@/lib/utils";
 import type { ActionResult, AdminProject } from "@/types";
 
-export async function listProjectsAction(): Promise<ActionResult<AdminProject[]>> {
-  await requireAdmin();
-  return withAction(() => db.select().from(projects).orderBy(desc(projects.createdAt)));
-}
-
 export async function createProjectAction(input: unknown): Promise<ActionResult<AdminProject>> {
   await requireAdmin();
   const t = await getTranslations();
