@@ -9,7 +9,7 @@ import {
   siteSettingsSchema,
   socialSettingsSchema,
 } from "@/lib/validations";
-import { withAction } from "@/lib/utils";
+import { formatZodIssues, withAction } from "@/lib/utils";
 import type { ActionResult } from "@/types";
 
 const schemas = {
@@ -29,7 +29,7 @@ export async function upsertSettingAction(
   if (!parsed.success) {
     return {
       success: false,
-      error: { type: "zod", issues: parsed.error.issues },
+      error: { type: "zod", issues: formatZodIssues(parsed.error, t) },
       message: t("actions.settings.invalidForm"),
     };
   }
