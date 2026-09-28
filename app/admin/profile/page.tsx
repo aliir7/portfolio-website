@@ -1,8 +1,9 @@
+import type { ComponentProps } from "react";
 import ProfileManager from "@/components/admin/profile-manager";
 import { getAdminProfileQuery } from "@/query/admin/profile.query";
 
 export default async function AdminProfilePage() {
-  let initialProfile: React.ComponentProps<typeof ProfileManager>["initialProfile"];
+  let initialProfile: ComponentProps<typeof ProfileManager>["initialProfile"];
 
   try {
     const result = await getAdminProfileQuery();
