@@ -19,7 +19,8 @@ export async function createProjectAction(input: unknown): Promise<ActionResult<
   }
 
   return withAction(async () => {
-    const project = { id: crypto.randomUUID(), ...parsed.data };
+    const now = new Date();
+    const project = { id: crypto.randomUUID(), ...parsed.data, image: parsed.data.image ?? null, createdAt: now, updatedAt: now };
     await db.insert(projects).values(project);
     return project;
   }, { successMessage: t("actions.projects.created") });
@@ -39,7 +40,9 @@ export async function updateProjectAction(
 
   return withAction(async () => {
     await db.update(projects).set({ ...parsed.data, updatedAt: new Date() }).where(eq(projects.id, id));
-    return { id, ...parsed.data, image: parsed.data.image ?? null, createdAt: new Date(), updatedAt: new Date() };
+    const [project] = await db.select().from(projects).where(eq(projects.id, id)).limit(1);
+    if (!project) throw new Error("Project not found.");
+    return project;
   }, { successMessage: t("actions.projects.updated") });
 }
 
