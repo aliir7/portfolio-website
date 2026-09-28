@@ -1,23 +1,38 @@
-import { createProjectAction, deleteProjectAction, listProjectsAction, updateProjectAction } from "@/actions/admin";
-import type { AdminProject, ProjectInput, ProjectRepository } from "./types";
+import { createProjectAction, deleteProjectAction, updateProjectAction } from "@/lib/actions/admin/projects.actions";
+import { getAdminProjectsQuery } from "@/query/admin/projects.query";
+import type { AdminProject, ProjectInput, ProjectRepository } from "@/lib/admin/types";
+
+function unwrap<T>(result: { success: true; data?: T } | { success: false; error: { message: string } }): T {
+  if (!result.success) throw new Error(result.error.message);
+  return result.data as T;
+}
 
 export const localProjectRepository: ProjectRepository = {
   async list() {
-    return listProjectsAction() as Promise<AdminProject[]>;
+    return getAdminProjectsQuery() as Promise<AdminProject[]>;
   },
   async create(input: ProjectInput) {
-    return createProjectAction(input) as Promise<AdminProject>;
+    return unwrap(await createProjectAction(input));
   },
   async update(id: string, input: ProjectInput) {
-    return updateProjectAction(id, input) as Promise<AdminProject>;
+    return unwrap(await updateProjectAction(id, input));
   },
   async delete(id: string) {
-    await deleteProjectAction(id);
+    unwrap(await deleteProjectAction(id));
   },
 };
 
 export function createEmptyProject(): ProjectInput {
-  return { title: "", slug: "", description: "", category: "frontend", techStack: [], repoUrl: "", liveUrl: "", status: "draft" };
+  return {
+    title: "",
+    slug: "",
+    description: "",
+    category: "frontend",
+    techStack: [],
+    repoUrl: "",
+    liveUrl: "",
+    status: "draft",
+  };
 }
 
 export type { AdminProject };
