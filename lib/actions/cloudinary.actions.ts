@@ -5,7 +5,7 @@ import { db } from "@/db";
 import { requireAdmin } from "@/lib/auth-guard";
 import { cloudinary } from "@/lib/cloudinary";
 import { cloudinaryUploadSchema } from "@/lib/validations";
-import { withAction } from "@/lib/utils";
+import { formatZodIssues, withAction } from "@/lib/utils";
 import type { ActionResult } from "@/types";
 
 export async function createCloudinarySignature(
@@ -24,7 +24,7 @@ export async function createCloudinarySignature(
   if (!parsed.success) {
     return {
       success: false,
-      error: { type: "zod", issues: parsed.error.issues },
+      error: { type: "zod", issues: formatZodIssues(parsed.error, t) },
       message: t("actions.cloudinary.invalidFolder"),
     };
   }
