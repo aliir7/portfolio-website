@@ -1,7 +1,7 @@
 "use client";
 
 import Link from "next/link";
-import { signOutAction } from "@/actions/auth";
+import { signOutAction } from "@/lib/actions/auth.actions";
 import { usePathname } from "next/navigation";
 import { RiDashboardLine, RiExternalLinkLine, RiFolderChartLine, RiUserSettingsLine } from "@remixicon/react";
 import {
