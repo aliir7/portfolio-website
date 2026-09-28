@@ -6,6 +6,7 @@ import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { loginSchema } from "@/lib/validations";
 import { formatError, formatZodIssues } from "@/lib/utils";
+import { logger } from "@/lib/utils/logger";
 import type { LoginState } from "@/types";
 
 export async function signInAction(
@@ -43,10 +44,12 @@ export async function signInAction(
     });
 
     if (!result?.user || result.user.role !== "admin") {
+      logger.warn({ action: "auth.signIn", reason: "not-admin" }, "Sign-in rejected");
       await auth.api.signOut({ headers: await headers() });
       return { error: t("actions.auth.notAdmin") };
     }
   } catch (error) {
+    logger.error({ action: "auth.signIn", err: error }, "Sign-in failed");
     return {
       error:
         error instanceof Error && error.message
@@ -59,6 +62,7 @@ export async function signInAction(
 }
 
 export async function signOutAction() {
+  logger.info({ action: "auth.signOut" }, "Sign-out requested");
   await auth.api.signOut({ headers: await headers() });
   redirect("/login");
 }
