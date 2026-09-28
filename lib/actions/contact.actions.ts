@@ -27,6 +27,6 @@ export async function submitContactAction(
       await db.insert(contactMessages).values({ id, ...parsed.data });
       return { id };
     },
-    { successMessage: t("actions.contact.success") },
+    { name: "contact.submit", successMessage: t("actions.contact.success") },
   );
 }
