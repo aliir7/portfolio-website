@@ -1,10 +1,11 @@
-import { createSkillAction, getProfileAction, updateProfileAction } from "@/actions/admin";
+import { createSkillAction, updateProfileAction } from "@/lib/actions/admin/profile.actions";
+import { getAdminProfileQuery } from "@/query/admin/profile.query";
 import type { AdminProfile, ProfileRepository } from "./types";
 
 export const localProfileRepository: ProfileRepository = {
   async get() {
-    const result = await getProfileAction();
-    if (!result.profile) throw new Error("پروفایل هنوز در دیتابیس ایجاد نشده است.");
+    const result = await getAdminProfileQuery();
+    if (!result.profile) throw new Error("Profile has not been created yet.");
     return {
       name: result.profile.name,
       role: result.profile.role,
@@ -14,11 +15,15 @@ export const localProfileRepository: ProfileRepository = {
       location: result.profile.location,
       githubUrl: result.profile.githubUrl,
       resumeUrl: result.profile.resumeUrl,
-      skills: result.skills.map((skill) => ({ name: skill.name, value: skill.value, description: skill.description })),
+      skills: result.skills.map((skill) => ({
+        name: skill.name,
+        value: skill.value,
+        description: skill.description,
+      })),
     };
   },
   async update(input: AdminProfile) {
-    await updateProfileAction(
+    const result = await updateProfileAction(
       {
         name: input.name,
         role: input.role,
@@ -31,6 +36,7 @@ export const localProfileRepository: ProfileRepository = {
       },
       input.skills,
     );
+    if (!result.success) throw new Error(result.error.message);
     return input;
   },
 };
