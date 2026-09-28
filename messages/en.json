@@ -93,7 +93,8 @@
       "success": "Your message was sent successfully."
     },
     "cloudinary": {
-      "invalidFolder": "The upload folder is invalid."
+      "invalidFolder": "The upload folder is invalid.",
+      "configMissing": "Cloudinary configuration is incomplete."
     },
     "settings": {
       "invalidForm": "Please check the settings.",
