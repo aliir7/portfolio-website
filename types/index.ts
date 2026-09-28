@@ -4,4 +4,3 @@ export * from "./blog";
 export * from "./profile";
 export * from "./projects";
 export * from "./settings";
-export * from "./admin";
