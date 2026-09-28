@@ -33,7 +33,7 @@ export async function createCloudinarySignature(
     const timestamp = Math.floor(Date.now() / 1000);
     const apiSecret = process.env.CLOUDINARY_API_SECRET;
 
-    if (!apiSecret) throw new Error("CLOUDINARY_API_SECRET is not configured.");
+    if (!apiSecret) throw new Error(t("actions.cloudinary.configMissing"));
 
     const signature = cloudinary.utils.api_sign_request(
       { timestamp, folder: parsed.data.folder },
@@ -44,7 +44,7 @@ export async function createCloudinarySignature(
     const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
 
     if (!apiKey || !cloudName) {
-      throw new Error("Cloudinary public configuration is not configured.");
+      throw new Error(t("actions.cloudinary.configMissing"));
     }
 
     return {
