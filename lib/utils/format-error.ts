@@ -1,19 +1,44 @@
 import { ZodError } from "zod";
 
+export type ErrorTranslator = (
+  key: string,
+  values?: Record<string, string | number>,
+) => string;
+
 type PostgresError = {
   code?: string;
   detail?: string;
   message?: string;
 };
 
-export function formatError(error: unknown): string {
+function formatZodIssue(
+  issue: z.ZodIssue,
+  t?: ErrorTranslator,
+): string {
+  if (!t) return issue.message;
+
+  const field = issue.path.length ? String(issue.path.join(".")) : undefined;
+
+  switch (issue.code) {
+    case "invalid_type":
+      return t("errors.validation.invalidType", { field: field ?? "", expected: issue.expected });
+    case "too_small":
+      return t("errors.validation.tooSmall", { field: field ?? "", minimum: Number(issue.minimum) });
+    case "too_big":
+      return t("errors.validation.tooBig", { field: field ?? "", maximum: Number(issue.maximum) });
+    case "invalid_format":
+      return t("errors.validation.invalidFormat", { field: field ?? "" });
+    default:
+      return issue.message;
+  }
+}
+
+export function formatError(
+  error: unknown,
+  t?: ErrorTranslator,
+): string {
   if (error instanceof ZodError) {
-    return error.issues
-      .map((issue) => {
-        const field = issue.path.length ? `${issue.path.join(".")}: ` : "";
-        return `${field}${issue.message}`;
-      })
-      .join(" | ");
+    return error.issues.map((issue) => formatZodIssue(issue, t)).join(" | ");
   }
 
   if (error && typeof error === "object") {
@@ -21,7 +46,9 @@ export function formatError(error: unknown): string {
 
     if (dbError.code === "23505") {
       const field = dbError.detail?.match(/\((.*?)\)=/)?.[1] ?? "field";
-      return `${field.charAt(0).toUpperCase() + field.slice(1)} already exists`;
+      return t
+        ? t("errors.database.unique", { field })
+        : `${field.charAt(0).toUpperCase() + field.slice(1)} already exists`;
     }
 
     if (typeof dbError.message === "string") {
@@ -34,6 +61,6 @@ export function formatError(error: unknown): string {
   try {
     return JSON.stringify(error);
   } catch {
-    return "An unexpected error occurred.";
+    return t ? t("errors.unknown") : "An unexpected error occurred.";
   }
 }
