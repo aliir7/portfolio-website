@@ -104,7 +104,8 @@
       "invalidForm": "Please check the project information.",
       "created": "Project created successfully.",
       "updated": "Project updated successfully.",
-      "deleted": "Project deleted successfully."
+      "deleted": "Project deleted successfully.",
+      "notFound": "The requested project was not found."
     },
     "profile": {
       "invalidForm": "Please check the profile information.",
