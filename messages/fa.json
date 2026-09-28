@@ -93,7 +93,8 @@
       "success": "پیام شما با موفقیت ارسال شد."
     },
     "cloudinary": {
-      "invalidFolder": "مسیر آپلود معتبر نیست."
+      "invalidFolder": "مسیر آپلود معتبر نیست.",
+      "configMissing": "پیکربندی Cloudinary کامل نشده است."
     },
     "settings": {
       "invalidForm": "اطلاعات تنظیمات معتبر نیست.",
