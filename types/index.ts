@@ -1,33 +1,6 @@
-export type Skill = {
-  name: string;
-  value: number;
-  description: string;
-};
-
-// این تایپ دقیقاً منطبق با schema بک‌اند است
-// وقتی API آماده شد، فقط کافی است از این تایپ استفاده شود
-
-export type ProjectCategory = "frontend" | "fullstack" | "dashboard";
-
-export interface Project {
-  id: string;
-  title: string;
-  slug: string;
-  description: string;
-  category: ProjectCategory;
-  techStack: string[];
-  image: string;
-  liveUrl?: string;
-  repoUrl?: string;
-  createdAt: string; // ISO date از بک‌اند
-}
-export type ResumeItemType = {
-  id: string;
-  category: "education" | "experience" | string;
-  organization: string;
-  title: string;
-  date: string;
-  content: string;
-};
-
-export type FilterCategory = "all" | ProjectCategory;
+export * from "./action";
+export * from "./auth";
+export * from "./blog";
+export * from "./profile";
+export * from "./projects";
+export * from "./settings";
