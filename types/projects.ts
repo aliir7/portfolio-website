@@ -12,8 +12,6 @@ export type AdminProject = {
   repoUrl: string | null;
   liveUrl: string | null;
   status: ProjectStatus;
-  createdAt: Date;
-  updatedAt: Date;
 };
 
 export type ProjectInput = Omit<AdminProject, "id" | "image" | "createdAt" | "updatedAt"> & {
