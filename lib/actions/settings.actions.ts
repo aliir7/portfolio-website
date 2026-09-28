@@ -44,6 +44,6 @@ export async function upsertSettingAction(
           set: { value: parsed.data, updatedAt: new Date() },
         });
     },
-    { successMessage: t("actions.settings.success") },
+    { name: `settings.upsert:${key}`, successMessage: t("actions.settings.success") },
   );
 }
