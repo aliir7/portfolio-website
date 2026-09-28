@@ -1,4 +1,5 @@
 import { ZodError } from "zod";
+import type { z } from "zod";
 
 export type ErrorTranslator = (
   key: string,
