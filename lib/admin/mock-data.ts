@@ -1,5 +1,5 @@
 import { projects } from "@/lib/constants";
-import type { AdminProject } from "./types";
+import type { AdminProject } from "@/types";
 
 export const mockProjects: AdminProject[] = projects.map((project) => ({
   id: project.id,
