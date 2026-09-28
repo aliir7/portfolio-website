@@ -6,7 +6,7 @@ import { db } from "@/db";
 import { profile, skills } from "@/db/schema";
 import { requireAdmin } from "@/lib/auth-guard";
 import { profileSchema, skillSchema } from "@/lib/validations";
-import { withAction } from "@/lib/utils";
+import { formatZodIssues, withAction } from "@/lib/utils";
 import type { ActionResult } from "@/types";
 
 export async function updateProfileAction(
@@ -56,7 +56,7 @@ export async function createSkillAction(input: unknown): Promise<ActionResult<{ 
   const parsed = skillSchema.safeParse(input);
 
   if (!parsed.success) {
-    return { success: false, error: { type: "zod", issues: parsed.error.issues }, message: t("actions.profile.invalidSkill") };
+    return { success: false, error: { type: "zod", issues: formatZodIssues(parsed.error, t) }, message: t("actions.profile.invalidSkill") };
   }
 
   return withAction(async () => {
