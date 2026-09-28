@@ -5,7 +5,7 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { loginSchema } from "@/lib/validations";
-import { formatError } from "@/lib/utils";
+import { formatError, formatZodIssues } from "@/lib/utils";
 import type { LoginState } from "@/types";
 
 export async function signInAction(
@@ -20,11 +20,13 @@ export async function signInAction(
 
   if (!parsed.success) {
     return {
-      fieldErrors: Object.fromEntries(
-        parsed.error.issues.map((issue) => [
-          String(issue.path[0] ?? "form"),
-          [issue.message],
-        ]),
+      fieldErrors: formatZodIssues(parsed.error, t).reduce<Record<string, string[]>>(
+        (errors, issue) => {
+          const field = String(issue.path[0] ?? "form");
+          errors[field] = [...(errors[field] ?? []), issue.message];
+          return errors;
+        },
+        {},
       ),
       error: t("actions.auth.invalidForm"),
     };
