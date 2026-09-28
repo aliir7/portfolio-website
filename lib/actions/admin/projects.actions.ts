@@ -23,7 +23,7 @@ export async function createProjectAction(input: unknown): Promise<ActionResult<
     const project = { id: crypto.randomUUID(), ...parsed.data, image: parsed.data.image ?? null, createdAt: now, updatedAt: now };
     await db.insert(projects).values(project);
     return project;
-  }, { successMessage: t("actions.projects.created") });
+  }, { name: "projects.create", successMessage: t("actions.projects.created") });
 }
 
 export async function updateProjectAction(
@@ -43,7 +43,7 @@ export async function updateProjectAction(
     const [project] = await db.select().from(projects).where(eq(projects.id, id)).limit(1);
     if (!project) throw new Error(t("actions.projects.notFound"));
     return project;
-  }, { successMessage: t("actions.projects.updated") });
+  }, { name: "projects.update", successMessage: t("actions.projects.updated") });
 }
 
 export async function deleteProjectAction(id: string): Promise<ActionResult<undefined>> {
@@ -52,5 +52,5 @@ export async function deleteProjectAction(id: string): Promise<ActionResult<unde
 
   return withAction(async () => {
     await db.delete(projects).where(eq(projects.id, id));
-  }, { successMessage: t("actions.projects.deleted") });
+  }, { name: "projects.delete", successMessage: t("actions.projects.deleted") });
 }
