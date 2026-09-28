@@ -47,7 +47,7 @@ export async function updateProfileAction(
     }
 
     return { success: true as const };
-  }, { successMessage: t("actions.profile.updated") });
+  }, { name: "profile.update", successMessage: t("actions.profile.updated") });
 }
 
 export async function createSkillAction(input: unknown): Promise<ActionResult<{ id: string }>> {
@@ -71,5 +71,5 @@ export async function createSkillAction(input: unknown): Promise<ActionResult<{ 
     });
 
     return { id };
-  }, { successMessage: t("actions.profile.skillCreated") });
+  }, { name: "profile.createSkill", successMessage: t("actions.profile.skillCreated") });
 }
