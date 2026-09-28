@@ -8,8 +8,8 @@ import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/com
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
-import { localProfileRepository } from "@/lib/admin/profile-repository";
-import type { AdminProfile } from "@/lib/admin/types";
+import { updateProfileAction } from "@/lib/actions/admin/profile.actions";
+import type { AdminProfile } from "@/types";
 import { skillsData } from "@/lib/constants";
 
 const initialProfile: AdminProfile = {
@@ -44,7 +44,7 @@ export default function ProfileManager() {
   };
 
   const save = async () => {
-    await localProfileRepository.update(profile);
+    const result = await updateProfileAction(\n      {\n        name: profile.name,\n        role: profile.role,\n        bio: profile.bio,\n        email: profile.email,\n        phone: profile.phone,\n        location: profile.location,\n        githubUrl: profile.githubUrl,\n        resumeUrl: profile.resumeUrl,\n      },\n      profile.skills,\n    );\n    if (!result.success) throw new Error(result.error.message);
     setSaved(true);
   };
 
