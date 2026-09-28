@@ -6,7 +6,7 @@ import { db } from "@/db";
 import { projects } from "@/db/schema";
 import { requireAdmin } from "@/lib/auth-guard";
 import { projectSchema } from "@/lib/validations";
-import { withAction } from "@/lib/utils";
+import { formatZodIssues, withAction } from "@/lib/utils";
 import type { ActionResult, AdminProject } from "@/types";
 
 export async function createProjectAction(input: unknown): Promise<ActionResult<AdminProject>> {
@@ -15,7 +15,7 @@ export async function createProjectAction(input: unknown): Promise<ActionResult<
   const parsed = projectSchema.safeParse(input);
 
   if (!parsed.success) {
-    return { success: false, error: { type: "zod", issues: parsed.error.issues }, message: t("actions.projects.invalidForm") };
+    return { success: false, error: { type: "zod", issues: formatZodIssues(parsed.error, t) }, message: t("actions.projects.invalidForm") };
   }
 
   return withAction(async () => {
@@ -34,7 +34,7 @@ export async function updateProjectAction(
   const parsed = projectSchema.safeParse(input);
 
   if (!parsed.success) {
-    return { success: false, error: { type: "zod", issues: parsed.error.issues }, message: t("actions.projects.invalidForm") };
+    return { success: false, error: { type: "zod", issues: formatZodIssues(parsed.error, t) }, message: t("actions.projects.invalidForm") };
   }
 
   return withAction(async () => {
