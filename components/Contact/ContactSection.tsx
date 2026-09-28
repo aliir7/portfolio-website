@@ -11,7 +11,7 @@ import { cn } from "@/lib/utils";
 import RevealSection from "../ui/reveal-section";
 import Shape from "../ui/shape";
 import { toLocaleDigits, useDictionary, useLocale } from "@/lib/i18n";
-import { submitContactAction } from "@/actions/contact";
+import { submitContactAction } from "@/lib/actions/contact.actions";
 
 const contactInfo = [
   {
