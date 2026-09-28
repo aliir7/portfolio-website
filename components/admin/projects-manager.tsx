@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useMemo, useState } from "react";
 import Link from "next/link";
 import { RiAddLine, RiDeleteBinLine, RiEditLine, RiExternalLinkLine, RiSearchLine } from "@remixicon/react";
 import { Badge } from "@/components/ui/badge";
@@ -8,11 +8,11 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import ProjectForm from "./project-form";
-import { localProjectRepository } from "@/lib/admin/project-repository";
-import type { AdminProject, ProjectInput } from "@/lib/admin/types";
+import { createProjectAction, deleteProjectAction, updateProjectAction } from "@/lib/actions/admin/projects.actions";
+import type { AdminProject, ProjectInput } from "@/types";
 import { mockProjects } from "@/lib/admin/mock-data";
 
-export default function ProjectsManager() {
+type ProjectsManagerProps = {\n  initialItems: AdminProject[];\n};\n\nexport default function ProjectsManager({ initialItems }: ProjectsManagerProps) {
   const [items, setItems] = useState<AdminProject[]>(mockProjects);
 
   useEffect(() => {
@@ -24,7 +24,7 @@ export default function ProjectsManager() {
   const filtered = useMemo(() => items.filter((item) => `${item.title} ${item.description} ${item.techStack.join(" ")}`.toLowerCase().includes(query.toLowerCase())), [items, query]);
 
   const save = async (input: ProjectInput) => {
-    const saved = editing ? await localProjectRepository.update(editing.id, input) : await localProjectRepository.create(input);
+    const result = editing ? await updateProjectAction(editing.id, input) : await createProjectAction(input);\n    if (!result.success || !result.data) throw new Error(result.error?.message ?? "Project action failed.");\n    const saved = result.data;
     setItems((current) => editing ? current.map((item) => item.id === saved.id ? saved : item) : [saved, ...current]);
     setFormOpen(false);
     setEditing(null);
@@ -32,7 +32,7 @@ export default function ProjectsManager() {
 
   const remove = async (id: string) => {
     if (!window.confirm("این پروژه حذف شود؟")) return;
-    await localProjectRepository.delete(id);
+    const result = await deleteProjectAction(id);\n    if (!result.success) throw new Error(result.error.message);
     setItems((current) => current.filter((item) => item.id !== id));
   };
 
