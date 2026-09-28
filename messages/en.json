@@ -1,11 +1,135 @@
 {
-  "nav": {"home":"Home","services":"Services","skills":"Skills","works":"Works","resume":"Resume","contact":"Contact"},
-  "common": {"more":"Learn more","repository":"Repository","viewProject":"View project","all":"All projects","frontend":"Frontend","fullstack":"Full-stack","dashboard":"Dashboard","noProjects":"No projects found in this category","theme":"Change theme","language":"فارسی"},
-  "hero": {"greeting":"Hello,","welcome":"Welcome to","welcomeEnd":"my world","name":"Ali Rezaei","role":"React & Next.js Developer","bio":"I am a Tehran-based web developer who has been pursuing software development since 2022. I focus on building modern user interfaces with React and Next.js.","resume":"My resume","skills":"My skills","years":"Years","experience":"Experience","projects":"Projects","successful":"Projects","imageAlt":"Ali Rezaei"},
-  "services":{"title":"My services","subtitle":"Specialized solutions for growing your business"},
-  "skills":{"title":"My skills"},
-  "works":{"title":"My works","subtitle":"A collection of projects that showcase my experience building modern, scalable, and professional web applications."},
-  "resume":{"title":"My resume","subtitle":"An overview of my education, work experience, and technical skills in software development.","education":"Education & courses","experience":"Work experience"},
-  "contact":{"eyebrow":"Start a new collaboration","title":"Get in touch","intro":"For a project proposal, collaboration, or any question, please use the form below. I will get back to you as soon as possible.","infoTitle":"Contact information","infoText":"Reach out through one of the following ways to start a conversation.","messageTitle":"Send your message","name":"Full name","namePlaceholder":"Your name","email":"Email","message":"Message","messagePlaceholder":"Your message...","submit":"Send message","submitting":"Sending...","requiredName":"Name is required","requiredEmail":"Email is required","invalidEmail":"Invalid email format","requiredMessage":"Message is required","shortMessage":"Message must be at least 10 characters","success":"Your message was sent successfully","sendError":"Failed to send message","unexpectedError":"Something went wrong","location":"Location","phone":"Phone"},
-  "footer":{"backToTop":"Back to top","rights":"All rights reserved.","madeWith":"Made with","by":"by Ali Rezaei"}
+  "nav": {
+    "home": "Home",
+    "services": "Services",
+    "skills": "Skills",
+    "works": "Works",
+    "resume": "Resume",
+    "contact": "Contact"
+  },
+  "common": {
+    "more": "Learn more",
+    "repository": "Repository",
+    "viewProject": "View project",
+    "all": "All projects",
+    "frontend": "Frontend",
+    "fullstack": "Full-stack",
+    "dashboard": "Dashboard",
+    "noProjects": "No projects found in this category",
+    "theme": "Change theme",
+    "language": "فارسی"
+  },
+  "hero": {
+    "greeting": "Hello,",
+    "welcome": "Welcome to",
+    "welcomeEnd": "my world",
+    "name": "Ali Rezaei",
+    "role": "React & Next.js Developer",
+    "bio": "I am a Tehran-based web developer who has been pursuing software development since 2022. I focus on building modern user interfaces with React and Next.js.",
+    "resume": "My resume",
+    "skills": "My skills",
+    "years": "Years",
+    "experience": "Experience",
+    "projects": "Projects",
+    "successful": "Projects",
+    "imageAlt": "Ali Rezaei"
+  },
+  "services": {
+    "title": "My services",
+    "subtitle": "Specialized solutions for growing your business"
+  },
+  "skills": {
+    "title": "My skills"
+  },
+  "works": {
+    "title": "My works",
+    "subtitle": "A collection of projects that showcase my experience building modern, scalable, and professional web applications."
+  },
+  "resume": {
+    "title": "My resume",
+    "subtitle": "An overview of my education, work experience, and technical skills in software development.",
+    "education": "Education & courses",
+    "experience": "Work experience"
+  },
+  "contact": {
+    "eyebrow": "Start a new collaboration",
+    "title": "Get in touch",
+    "intro": "For a project proposal, collaboration, or any question, please use the form below. I will get back to you as soon as possible.",
+    "infoTitle": "Contact information",
+    "infoText": "Reach out through one of the following ways to start a conversation.",
+    "messageTitle": "Send your message",
+    "name": "Full name",
+    "namePlaceholder": "Your name",
+    "email": "Email",
+    "message": "Message",
+    "messagePlaceholder": "Your message...",
+    "submit": "Send message",
+    "submitting": "Sending...",
+    "requiredName": "Name is required",
+    "requiredEmail": "Email is required",
+    "invalidEmail": "Invalid email format",
+    "requiredMessage": "Message is required",
+    "shortMessage": "Message must be at least 10 characters",
+    "success": "Your message was sent successfully",
+    "sendError": "Failed to send message",
+    "unexpectedError": "Something went wrong",
+    "location": "Location",
+    "phone": "Phone"
+  },
+  "footer": {
+    "backToTop": "Back to top",
+    "rights": "All rights reserved.",
+    "madeWith": "Made with",
+    "by": "by Ali Rezaei"
+  },
+  "actions": {
+    "auth": {
+      "invalidForm": "Please check your login information.",
+      "invalidCredentials": "Invalid email or password.",
+      "notAdmin": "This account does not have administrator access."
+    },
+    "contact": {
+      "invalidForm": "Please check the contact form.",
+      "success": "Your message was sent successfully."
+    },
+    "cloudinary": {
+      "invalidFolder": "The upload folder is invalid."
+    },
+    "settings": {
+      "invalidForm": "Please check the settings.",
+      "success": "Settings were saved successfully."
+    },
+    "projects": {
+      "invalidForm": "Please check the project information.",
+      "created": "Project created successfully.",
+      "updated": "Project updated successfully.",
+      "deleted": "Project deleted successfully."
+    },
+    "profile": {
+      "invalidForm": "Please check the profile information.",
+      "updated": "Profile updated successfully.",
+      "invalidSkill": "Please check the skill information.",
+      "skillCreated": "Skill created successfully."
+    },
+    "blog": {
+      "invalidPost": "Please check the blog post information.",
+      "created": "Blog post created successfully.",
+      "updated": "Blog post updated successfully.",
+      "deleted": "Blog post deleted successfully.",
+      "invalidTag": "Please check the tag information.",
+      "tagCreated": "Tag created successfully."
+    }
+  },
+  "errors": {
+    "unknown": "An unexpected error occurred.",
+    "database": {
+      "unique": "The value for {field} already exists."
+    },
+    "validation": {
+      "invalidType": "{field}: invalid value type.",
+      "tooSmall": "{field}: value must be at least {minimum}.",
+      "tooBig": "{field}: value must be at most {maximum}.",
+      "invalidFormat": "{field}: invalid format."
+    }
+  }
 }
