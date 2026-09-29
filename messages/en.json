@@ -87,10 +87,10 @@
       "invalidForm": "Please check your login information.",
       "invalidCredentials": "Invalid email or password.",
       "notAdmin": "This account does not have administrator access.",
-      "captchaRequired": "Security verification failed. Please try again.",
+      "captchaRequired": "Security verification is required.",
       "invalidEmail": "Please enter a valid email address.",
       "resetRequested": "If this email is registered, a password reset link has been sent.",
-      "resetRequestFailed": "Unable to send the password reset link. Please try again later."
+      "resetRequestFailed": "The password reset request could not be completed. Please try again."
     },
     "contact": {
       "invalidForm": "Please check the contact form.",
