@@ -1,8 +1,9 @@
 import { betterAuth } from "better-auth";
 import { drizzleAdapter } from "better-auth/adapters/drizzle";
-import { admin, nextCookies } from "better-auth/plugins";
+import { admin, captcha, nextCookies } from "better-auth/plugins";
 import { db } from "@/db";
 import * as schema from "@/db/schema";
+import { resend } from "@/lib/email";
 
 const baseUrl = process.env.BETTER_AUTH_URL ?? "http://localhost:3000";
 
@@ -18,11 +19,32 @@ export const auth = betterAuth({
     disableSignUp: true,
     autoSignIn: false,
     requireEmailVerification: false,
+    revokeSessionsOnPasswordReset: true,
+    sendResetPassword: async ({ user, url }) => {
+      void resend.emails.send({
+        from: process.env.RESEND_FROM_EMAIL ?? "onboarding@resend.dev",
+        to: user.email,
+        subject: "Reset your password",
+        html: `
+          <div style="font-family: sans-serif; line-height: 1.7">
+            <h2>Reset your password</h2>
+            <p>Click the button below to set a new password.</p>
+            <p><a href="${url}" style="display:inline-block;padding:10px 16px;background:#111;color:#fff;text-decoration:none;border-radius:8px">Reset password</a></p>
+            <p>This link expires in 1 hour.</p>
+          </div>
+        `,
+      });
+    },
   },
   plugins: [
     admin({
       defaultRole: "user",
       adminRoles: ["admin"],
+    }),
+    captcha({
+      provider: "google-recaptcha",
+      secretKey: process.env.RECAPTCHA_SECRET_KEY ?? "",
+      minScore: 0.5,
     }),
     nextCookies(),
   ],
