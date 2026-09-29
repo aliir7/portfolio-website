@@ -1,6 +1,6 @@
 "use client";
 
-import { useCallback, useState, useActionState } from "react";
+import { useCallback, useState, useActionState, type FormEvent } from "react";
 import Link from "next/link";
 import { GoogleReCaptchaProvider, useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import { requestPasswordResetAction } from "@/lib/actions/auth.actions";
@@ -17,7 +17,7 @@ function ForgotPasswordContent() {
   const [captchaError, setCaptchaError] = useState(false);
 
   const handleSubmit = useCallback(
-    async (event: React.FormEvent<HTMLFormElement>) => {
+    async (event: FormEvent<HTMLFormElement>) => {
       event.preventDefault();
       setCaptchaError(false);
 
