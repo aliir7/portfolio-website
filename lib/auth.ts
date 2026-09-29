@@ -48,5 +48,24 @@ export const auth = betterAuth({
     }),
     nextCookies(),
   ],
+  rateLimit: {
+    enabled: true,
+    window: 60,
+    max: 100,
+    customRules: {
+      "/sign-in/email": {
+        window: 60,
+        max: 5,
+      },
+      "/request-password-reset": {
+        window: 300,
+        max: 3,
+      },
+      "/reset-password": {
+        window: 300,
+        max: 5,
+      },
+    },
+  },
   trustedOrigins: [baseUrl],
 });
