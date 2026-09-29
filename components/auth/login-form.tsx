@@ -1,37 +1,35 @@
 "use client";
 
-import { useCallback, useState, useActionState } from "react";
-import Link from "next/link";
-import { GoogleReCaptchaProvider, useGoogleReCaptcha } from "react-google-recaptcha-v3";
+import { useCallback, useState } from "react";
+import { useActionState } from "react";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import { signInAction, type LoginState } from "@/lib/actions/auth.actions";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import { RecaptchaProvider } from "./recaptcha-provider";
 
 const initialState: LoginState = {};
 
 function LoginFormContent() {
   const [state, action, pending] = useActionState(signInAction, initialState);
   const { executeRecaptcha } = useGoogleReCaptcha();
-  const [captchaError, setCaptchaError] = useState(false);
+  const [captchaLoading, setCaptchaLoading] = useState(false);
 
-  const handleSubmit = useCallback(
-    async (event: React.FormEvent<HTMLFormElement>) => {
-      event.preventDefault();
-      setCaptchaError(false);
+  const submit = useCallback(async (formData: FormData) => {
+    if (!executeRecaptcha) {
+      return action(formData);
+    }
 
-      if (!executeRecaptcha) {
-        setCaptchaError(true);
-        return;
-      }
-
+    setCaptchaLoading(true);
+    try {
       const token = await executeRecaptcha("login");
-      const formData = new FormData(event.currentTarget);
       formData.set("recaptchaToken", token);
-      action(formData);
-    },
-    [action, executeRecaptcha],
-  );
+      return action(formData);
+    } finally {
+      setCaptchaLoading(false);
+    }
+  }, [action, executeRecaptcha]);
 
   return (
     <main className="flex min-h-screen items-center justify-center px-6 py-16">
@@ -44,13 +42,13 @@ function LoginFormContent() {
           </p>
         </div>
 
-        {(state.error || captchaError) && (
+        {state.error && (
           <p className="bg-destructive/10 text-destructive mb-5 rounded-xl px-4 py-3 text-sm" role="alert">
-            {captchaError ? "اعتبارسنجی امنیتی آماده نیست. دوباره تلاش کنید." : state.error}
+            {state.error}
           </p>
         )}
 
-        <form onSubmit={handleSubmit} className="grid gap-5">
+        <form action={submit} className="grid gap-5">
           <div className="grid gap-2">
             <Label htmlFor="login-email">ایمیل</Label>
             <Input id="login-email" name="email" type="email" autoComplete="email" dir="ltr" aria-invalid={Boolean(state.fieldErrors?.email)} />
@@ -63,31 +61,23 @@ function LoginFormContent() {
             {state.fieldErrors?.password?.[0] && <p className="text-destructive text-sm">{state.fieldErrors.password[0]}</p>}
           </div>
 
-          <div className="text-start text-sm">
-            <Link href="/forgot-password" className="text-primary hover:underline">
-              رمز عبور را فراموش کرده‌اید؟
-            </Link>
-          </div>
-
-          <Button type="submit" size="lg" disabled={pending}>
-            {pending ? "در حال ورود..." : "ورود"}
+          <Button type="submit" size="lg" disabled={pending || captchaLoading}>
+            {pending || captchaLoading ? "در حال ورود..." : "ورود"}
           </Button>
         </form>
+
+        <a className="text-primary mt-5 block text-center text-sm hover:underline" href="/forgot-password">
+          رمز عبور را فراموش کرده‌اید؟
+        </a>
       </section>
     </main>
   );
 }
 
 export default function LoginForm() {
-  const siteKey = process.env.NEXT_PUBLIC_RECAPTCHA_SITE_KEY;
-
-  if (!siteKey) {
-    return <LoginFormContent />;
-  }
-
   return (
-    <GoogleReCaptchaProvider reCaptchaKey={siteKey}>
+    <RecaptchaProvider>
       <LoginFormContent />
-    </GoogleReCaptchaProvider>
+    </RecaptchaProvider>
   );
 }
