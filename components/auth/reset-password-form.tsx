@@ -20,7 +20,7 @@ export default function ResetPasswordForm() {
   );
   const [pending, setPending] = useState(false);
 
-  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError("");
 
