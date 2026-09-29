@@ -1,22 +1,26 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { useSearchParams } from "next/navigation";
+import { useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import Link from "next/link";
 import { authClient } from "@/lib/auth-client";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 
 export default function ResetPasswordForm() {
+  const router = useRouter();
   const searchParams = useSearchParams();
-  const token = useMemo(() => searchParams.get("token"), [searchParams]);
+  const token = searchParams.get("token");
+  const errorParam = searchParams.get("error");
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState("");
-  const [success, setSuccess] = useState(false);
+  const [error, setError] = useState(
+    errorParam ? "لینک بازیابی نامعتبر یا منقضی شده است." : "",
+  );
   const [pending, setPending] = useState(false);
 
-  async function submit(event: React.FormEvent<HTMLFormElement>) {
+  async function handleSubmit(event: React.FormEvent<HTMLFormElement>) {
     event.preventDefault();
     setError("");
 
@@ -31,23 +35,25 @@ export default function ResetPasswordForm() {
     }
 
     if (password !== confirmPassword) {
-      setError("تکرار رمز عبور با رمز جدید یکسان نیست.");
+      setError("تکرار رمز عبور با رمز عبور یکسان نیست.");
       return;
     }
 
     setPending(true);
+
     const { error: resetError } = await authClient.resetPassword({
       newPassword: password,
       token,
     });
+
     setPending(false);
 
     if (resetError) {
-      setError(resetError.message || "تغییر رمز عبور انجام نشد.");
+      setError(resetError.message || "بازیابی رمز عبور انجام نشد.");
       return;
     }
 
-    setSuccess(true);
+    router.push("/login?reset=success");
   }
 
   return (
@@ -57,7 +63,7 @@ export default function ResetPasswordForm() {
           <p className="text-primary mb-2 text-sm font-medium">مدیریت سایت</p>
           <h1 className="text-3xl font-black">تغییر رمز عبور</h1>
           <p className="text-muted-foreground mt-2 text-sm">
-            یک رمز عبور جدید برای حساب مدیریت انتخاب کنید.
+            رمز عبور جدید خود را وارد کنید.
           </p>
         </div>
 
@@ -67,30 +73,25 @@ export default function ResetPasswordForm() {
           </p>
         )}
 
-        {success ? (
-          <>
-            <p className="bg-primary/10 text-primary rounded-xl px-4 py-3 text-sm" role="status">
-              رمز عبور با موفقیت تغییر کرد.
-            </p>
-            <a className="text-primary mt-5 block text-center text-sm hover:underline" href="/login">
-              ورود به پنل
-            </a>
-          </>
-        ) : (
-          <form onSubmit={submit} className="grid gap-5">
-            <div className="grid gap-2">
-              <Label htmlFor="new-password">رمز عبور جدید</Label>
-              <Input id="new-password" type="password" autoComplete="new-password" dir="ltr" value={password} onChange={(e) => setPassword(e.target.value)} />
-            </div>
-            <div className="grid gap-2">
-              <Label htmlFor="confirm-password">تکرار رمز عبور</Label>
-              <Input id="confirm-password" type="password" autoComplete="new-password" dir="ltr" value={confirmPassword} onChange={(e) => setConfirmPassword(e.target.value)} />
-            </div>
-            <Button type="submit" size="lg" disabled={pending}>
-              {pending ? "در حال تغییر..." : "تغییر رمز عبور"}
-            </Button>
-          </form>
-        )}
+        <form onSubmit={handleSubmit} className="grid gap-5">
+          <div className="grid gap-2">
+            <Label htmlFor="new-password">رمز عبور جدید</Label>
+            <Input id="new-password" type="password" autoComplete="new-password" dir="ltr" value={password} onChange={(event) => setPassword(event.target.value)} required />
+          </div>
+
+          <div className="grid gap-2">
+            <Label htmlFor="confirm-password">تکرار رمز عبور</Label>
+            <Input id="confirm-password" type="password" autoComplete="new-password" dir="ltr" value={confirmPassword} onChange={(event) => setConfirmPassword(event.target.value)} required />
+          </div>
+
+          <Button type="submit" size="lg" disabled={pending || !token}>
+            {pending ? "در حال ذخیره..." : "تغییر رمز عبور"}
+          </Button>
+
+          <Link href="/login" className="text-muted-foreground text-center text-sm hover:text-foreground">
+            بازگشت به صفحه ورود
+          </Link>
+        </form>
       </section>
     </main>
   );
