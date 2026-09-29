@@ -5,3 +5,8 @@ export type LoginState = {
     password?: string[];
   };
 };
+
+export type PasswordResetState = {
+  error?: string;
+  success?: string;
+};
