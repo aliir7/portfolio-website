@@ -8,6 +8,7 @@ import { loginSchema } from "@/lib/validations";
 import { formatError, formatZodIssues } from "@/lib/utils";
 import { logger } from "@/lib/utils/logger";
 import type { LoginState } from "@/types";
+export type { LoginState };
 
 export async function signInAction(
   _previousState: LoginState,
