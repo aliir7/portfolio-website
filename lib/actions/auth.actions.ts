@@ -7,7 +7,7 @@ import { auth } from "@/lib/auth";
 import { loginSchema } from "@/lib/validations";
 import { formatError, formatZodIssues } from "@/lib/utils";
 import { logger } from "@/lib/utils/logger";
-import type { LoginState } from "@/types";
+import type { LoginState, PasswordResetState } from "@/types";
 export type { LoginState };
 
 export async function signInAction(
@@ -76,12 +76,6 @@ export async function signOutAction() {
   await auth.api.signOut({ headers: await headers() });
   redirect("/login");
 }
-
-
-export type PasswordResetState = {
-  error?: string;
-  success?: string;
-};
 
 export async function requestPasswordResetAction(
   _previousState: PasswordResetState,
