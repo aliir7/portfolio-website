@@ -34,13 +34,22 @@ export async function signInAction(
   }
 
   try {
+    const requestHeaders = new Headers(await headers());
+    const captchaToken = formData.get("recaptchaToken");
+
+    if (typeof captchaToken !== "string" || !captchaToken) {
+      return { error: t("actions.auth.captchaRequired") };
+    }
+
+    requestHeaders.set("x-captcha-response", captchaToken);
+
     const result = await auth.api.signInEmail({
       body: {
         email: parsed.data.email,
         password: parsed.data.password,
         rememberMe: true,
       },
-      headers: await headers(),
+      headers: requestHeaders,
     });
 
     if (!result?.user || result.user.role !== "admin") {
@@ -65,4 +74,53 @@ export async function signOutAction() {
   logger.info({ action: "auth.signOut" }, "Sign-out requested");
   await auth.api.signOut({ headers: await headers() });
   redirect("/login");
+}
+
+
+export type PasswordResetState = {
+  error?: string;
+  success?: string;
+};
+
+export async function requestPasswordResetAction(
+  _previousState: PasswordResetState,
+  formData: FormData,
+): Promise<PasswordResetState> {
+  const t = await getTranslations();
+  const email = String(formData.get("email") ?? "").trim();
+  const captchaToken = formData.get("recaptchaToken");
+
+  if (!email || !email.includes("@")) {
+    return { error: t("actions.auth.invalidEmail") };
+  }
+
+  if (typeof captchaToken !== "string" || !captchaToken) {
+    return { error: t("actions.auth.captchaRequired") };
+  }
+
+  try {
+    const requestHeaders = new Headers(await headers());
+    requestHeaders.set("x-captcha-response", captchaToken);
+
+    const result = await auth.api.requestPasswordReset({
+      body: {
+        email,
+        redirectTo: `${baseUrl()}/reset-password`,
+      },
+      headers: requestHeaders,
+    });
+
+    if (result?.error) {
+      throw new Error(result.error.message);
+    }
+
+    return { success: t("actions.auth.resetRequested") };
+  } catch (error) {
+    logger.error({ action: "auth.requestPasswordReset", err: error }, "Password reset request failed");
+    return { error: t("actions.auth.resetRequestFailed") };
+  }
+}
+
+function baseUrl() {
+  return process.env.BETTER_AUTH_URL ?? "http://localhost:3000";
 }
