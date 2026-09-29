@@ -78,10 +78,7 @@ export async function signOutAction() {
 }
 
 
-export type PasswordResetState = {
-  error?: string;
-  success?: string;
-};
+import type { PasswordResetState } from "@/types";
 
 export async function requestPasswordResetAction(
   _previousState: PasswordResetState,
