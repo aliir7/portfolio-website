@@ -12,12 +12,10 @@ import { createProjectAction, deleteProjectAction, updateProjectAction } from "@
 import type { AdminProject, ProjectInput } from "@/types";
 import { mockProjects } from "@/lib/admin/mock-data";
 
-type ProjectsManagerProps = {\n  initialItems: AdminProject[];\n};\n\nexport default function ProjectsManager({ initialItems }: ProjectsManagerProps) {
-  const [items, setItems] = useState<AdminProject[]>(mockProjects);
+type ProjectsManagerProps = { initialItems: AdminProject[] };
 
-  useEffect(() => {
-    void localProjectRepository.list().then(setItems).catch(() => setItems(mockProjects));
-  }, []);
+export default function ProjectsManager({ initialItems }: ProjectsManagerProps) {
+  const [items, setItems] = useState<AdminProject[]>(initialItems.length ? initialItems : mockProjects);
   const [query, setQuery] = useState("");
   const [editing, setEditing] = useState<AdminProject | null>(null);
   const [formOpen, setFormOpen] = useState(false);
