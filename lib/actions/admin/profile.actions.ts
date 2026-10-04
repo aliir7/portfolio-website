@@ -6,7 +6,8 @@ import { db } from "@/db";
 import { profile, skills } from "@/db/schema";
 import { requireAdmin } from "@/lib/auth-guard";
 import { profileSchema, skillSchema } from "@/lib/validations";
-import { formatZodIssues, withAction } from "@/lib/utils";
+import { formatZodIssues } from "@/lib/utils/format-error";
+import { withAction } from "@/lib/utils/with-action";
 import type { ActionResult } from "@/types";
 
 export async function updateProfileAction(
