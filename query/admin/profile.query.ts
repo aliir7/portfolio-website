@@ -3,7 +3,7 @@ import "server-only";
 import { eq } from "drizzle-orm";
 import { db } from "@/db";
 import { profile, skills } from "@/db/schema";
-import { withQuery } from "@/lib/utils";
+import { withQuery } from "@/lib/utils/with-query";
 
 export function getAdminProfileQuery() {
   return withQuery(async () => {
