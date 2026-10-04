@@ -5,7 +5,7 @@ import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
 import { loginSchema } from "@/lib/validations";
-import { formatError, formatZodIssues } from "@/lib/utils";
+import { formatError, formatZodIssues } from "@/lib/utils/format-error";
 import { logger } from "@/lib/utils/logger";
 import type { LoginState, PasswordResetState } from "@/types";
 export type { LoginState };
