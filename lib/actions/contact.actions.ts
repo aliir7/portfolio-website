@@ -4,7 +4,8 @@ import { getTranslations } from "next-intl/server";
 import { db } from "@/db";
 import { contactMessages } from "@/db/schema";
 import { contactSchema } from "@/lib/validations";
-import { formatZodIssues, withAction } from "@/lib/utils";
+import { formatZodIssues } from "@/lib/utils/format-error";
+import { withAction } from "@/lib/utils/with-action";
 import type { ActionResult } from "@/types";
 
 export async function submitContactAction(
