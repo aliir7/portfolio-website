@@ -7,18 +7,19 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle } from "@/components/ui/sheet";
 import { Textarea } from "@/components/ui/textarea";
-import type { AdminProject, ProjectInput } from "@/lib/admin/types";
-import { createEmptyProject } from "@/lib/admin/project-repository";
+import type { AdminProject, ProjectInput } from "@/types";
 
-export default function ProjectForm({ project, open, onOpenChange, onSave }: { project: AdminProject | null; open: boolean; onOpenChange: (open: boolean) => void; onSave: (input: ProjectInput) => Promise<void> }) {
-  const [form, setForm] = useState<ProjectInput>(createEmptyProject());
+export default const emptyProject: ProjectInput = { title: "", slug: "", description: "", category: "frontend", techStack: [], repoUrl: "", liveUrl: "", status: "draft" };
+
+function ProjectForm({ project, open, onOpenChange, onSave }: { project: AdminProject | null; open: boolean; onOpenChange: (open: boolean) => void; onSave: (input: ProjectInput) => Promise<void> }) {
+  const [form, setForm] = useState<ProjectInput>(emptyProject);
 
   useEffect(() => {
     if (project) {
       const { id: _id, ...input } = project;
       setForm(input);
     } else {
-      setForm(createEmptyProject());
+      setForm(emptyProject);
     }
   }, [project, open]);
 
