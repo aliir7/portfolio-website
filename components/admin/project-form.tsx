@@ -9,9 +9,9 @@ import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetT
 import { Textarea } from "@/components/ui/textarea";
 import type { AdminProject, ProjectInput } from "@/types";
 
-export default const emptyProject: ProjectInput = { title: "", slug: "", description: "", category: "frontend", techStack: [], repoUrl: "", liveUrl: "", status: "draft" };
+const emptyProject: ProjectInput = { title: "", slug: "", description: "", category: "frontend", techStack: [], repoUrl: "", liveUrl: "", status: "draft" };
 
-function ProjectForm({ project, open, onOpenChange, onSave }: { project: AdminProject | null; open: boolean; onOpenChange: (open: boolean) => void; onSave: (input: ProjectInput) => Promise<void> }) {
+export default function ProjectForm({ project, open, onOpenChange, onSave }: { project: AdminProject | null; open: boolean; onOpenChange: (open: boolean) => void; onSave: (input: ProjectInput) => Promise<void> }) {
   const [form, setForm] = useState<ProjectInput>(emptyProject);
 
   useEffect(() => {
