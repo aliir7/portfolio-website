@@ -24,7 +24,8 @@ type ProjectsManagerProps = {\n  initialItems: AdminProject[];\n};\n\nexport def
   const filtered = useMemo(() => items.filter((item) => `${item.title} ${item.description} ${item.techStack.join(" ")}`.toLowerCase().includes(query.toLowerCase())), [items, query]);
 
   const save = async (input: ProjectInput) => {
-    const result = editing ? await updateProjectAction(editing.id, input) : await createProjectAction(input);\n    if (!result.success) throw new Error(result.error.message);\n    if (!result.data) throw new Error("Project action returned no data.");\n    const saved = result.data;
+    const result = editing ? await updateProjectAction(editing.id, input) : await createProjectAction(input);
+    if (!result.success) throw new Error(result.error.message);\n    if (!result.data) throw new Error("Project action returned no data.");\n    const saved = result.data;
     setItems((current) => editing ? current.map((item) => item.id === saved.id ? saved : item) : [saved, ...current]);
     setFormOpen(false);
     setEditing(null);
@@ -32,7 +33,8 @@ type ProjectsManagerProps = {\n  initialItems: AdminProject[];\n};\n\nexport def
 
   const remove = async (id: string) => {
     if (!window.confirm("این پروژه حذف شود؟")) return;
-    const result = await deleteProjectAction(id);\n    if (!result.success) throw new Error(result.error.message);
+    const result = await deleteProjectAction(id);
+    if (!result.success) throw new Error(result.error.message);
     setItems((current) => current.filter((item) => item.id !== id));
   };
 
