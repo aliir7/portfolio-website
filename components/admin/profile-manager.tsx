@@ -12,7 +12,7 @@ import { updateProfileAction } from "@/lib/actions/admin/profile.actions";
 import type { AdminProfile } from "@/types";
 import { skillsData } from "@/lib/constants";
 
-const initialProfile: AdminProfile = {
+const fallbackProfile: AdminProfile = {
   name: "علی رضایی",
   role: "برنامه‌نویس React و Next.js",
   bio: "توسعه‌دهنده وب ساکن تهران با تمرکز بر ساخت رابط‌های کاربری مدرن، سریع و قابل نگهداری.",
@@ -24,8 +24,8 @@ const initialProfile: AdminProfile = {
   skills: skillsData.map((skill) => ({ ...skill })),
 };
 
-export default function ProfileManager() {
-  const [profile, setProfile] = useState(initialProfile);
+export default function ProfileManager({ initialProfile }: { initialProfile?: AdminProfile }) {
+  const [profile, setProfile] = useState(initialProfile ?? fallbackProfile);
   const [saved, setSaved] = useState(false);
 
   const update = (field: Exclude<keyof AdminProfile, "skills">, value: string) => {
@@ -44,7 +44,19 @@ export default function ProfileManager() {
   };
 
   const save = async () => {
-    const result = await updateProfileAction(\n      {\n        name: profile.name,\n        role: profile.role,\n        bio: profile.bio,\n        email: profile.email,\n        phone: profile.phone,\n        location: profile.location,\n        githubUrl: profile.githubUrl,\n        resumeUrl: profile.resumeUrl,\n      },\n      profile.skills,\n    );\n    if (!result.success) throw new Error(result.error.message);
+    const result = await updateProfileAction(
+      {
+        name: profile.name,
+        role: profile.role,
+        bio: profile.bio,
+        email: profile.email,
+        phone: profile.phone,
+        location: profile.location,
+        githubUrl: profile.githubUrl,
+        resumeUrl: profile.resumeUrl,
+      },
+      profile.skills,
+    );\n    if (!result.success) throw new Error(result.error.message);
     setSaved(true);
   };
 
