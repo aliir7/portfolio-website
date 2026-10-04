@@ -23,7 +23,9 @@ export default function ProjectsManager({ initialItems }: ProjectsManagerProps) 
 
   const save = async (input: ProjectInput) => {
     const result = editing ? await updateProjectAction(editing.id, input) : await createProjectAction(input);
-    if (!result.success) throw new Error(result.error.message);\n    if (!result.data) throw new Error("Project action returned no data.");\n    const saved = result.data;
+    if (!result.success) throw new Error(result.error.message);
+    if (!result.data) throw new Error("Project action returned no data.");
+    const saved = result.data;
     setItems((current) => editing ? current.map((item) => item.id === saved.id ? saved : item) : [saved, ...current]);
     setFormOpen(false);
     setEditing(null);
