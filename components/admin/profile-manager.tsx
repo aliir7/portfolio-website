@@ -56,7 +56,8 @@ export default function ProfileManager({ initialProfile }: { initialProfile?: Ad
         resumeUrl: profile.resumeUrl,
       },
       profile.skills,
-    );\n    if (!result.success) throw new Error(result.error.message);
+    );
+    if (!result.success) throw new Error(result.error.message);
     setSaved(true);
   };
 
