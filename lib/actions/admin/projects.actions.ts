@@ -6,7 +6,8 @@ import { db } from "@/db";
 import { projects } from "@/db/schema";
 import { requireAdmin } from "@/lib/auth-guard";
 import { projectSchema } from "@/lib/validations";
-import { formatZodIssues, withAction } from "@/lib/utils";
+import { formatZodIssues } from "@/lib/utils/format-error";
+import { withAction } from "@/lib/utils/with-action";
 import type { ActionResult, AdminProject } from "@/types";
 
 export async function createProjectAction(input: unknown): Promise<ActionResult<AdminProject>> {
