@@ -1,8 +1,9 @@
 import { ZodError } from "zod";
 import type { z } from "zod";
+import type { ActionError } from "@/types";
 
 export type ErrorTranslator = (
-  key: string,
+  key: any,
   values?: Record<string, string | number>,
 ) => string;
 
@@ -12,10 +13,7 @@ type PostgresError = {
   message?: string;
 };
 
-function formatZodIssue(
-  issue: z.ZodIssue,
-  t?: ErrorTranslator,
-): string {
+function formatZodIssue(issue: z.ZodIssue, t?: ErrorTranslator): string {
   if (!t) return issue.message;
 
   const field = issue.path.length ? String(issue.path.join(".")) : undefined;
@@ -35,16 +33,16 @@ function formatZodIssue(
 }
 
 export function formatZodIssues(error: ZodError, t?: ErrorTranslator): ZodError["issues"] {
-  return error.issues.map((issue) => ({
-    ...issue,
-    message: formatZodIssue(issue, t),
-  }));
+  return error.issues.map((issue) => ({ ...issue, message: formatZodIssue(issue, t) }));
 }
 
-export function formatError(
-  error: unknown,
-  t?: ErrorTranslator,
-): string {
+export function getActionErrorMessage(error: ActionError): string {
+  return error.type === "custom"
+    ? error.message
+    : error.issues.map((issue) => issue.message).join(" | ");
+}
+
+export function formatError(error: unknown, t?: ErrorTranslator): string {
   if (error instanceof ZodError) {
     return error.issues.map((issue) => formatZodIssue(issue, t)).join(" | ");
   }
@@ -59,9 +57,7 @@ export function formatError(
         : `${field.charAt(0).toUpperCase() + field.slice(1)} already exists`;
     }
 
-    if (typeof dbError.message === "string") {
-      return dbError.message;
-    }
+    if (typeof dbError.message === "string") return dbError.message;
   }
 
   if (error instanceof Error) return error.message;
