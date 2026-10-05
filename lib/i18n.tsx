@@ -92,10 +92,11 @@ export function useLocale() {
 
 export function useDictionary(): Dictionary {
   const t = useTranslations();
+  const translate = t as unknown as (key: string) => string;
   return Object.fromEntries(
     Object.entries(sectionKeys).map(([section, keys]) => [
       section,
-      Object.fromEntries(keys.map((key) => [key, t(`${section}.${key}`)])),
+      Object.fromEntries(keys.map((key) => [key, translate(`${section}.${key}`)])),
     ]),
   ) as Dictionary;
 }
@@ -220,13 +221,17 @@ export function useLocalizedContent() {
     })),
     projects: projects.map((item) => ({
       ...item,
-      description:
-        {
-          "1": "An online store built with Next.js 16 and a modern user interface.",
-          "2": "A web project for showcasing and selling home and decor products.",
-          "3": "A React interface for displaying cryptocurrency information and data.",
-        }[item.id] ?? item.description,
+      description: getEnglishProjectDescription(item.id) ?? item.description,
     })),
     resume: englishResume,
   };
+}
+
+function getEnglishProjectDescription(id: string): string | undefined {
+  const descriptions: Record<string, string> = {
+    "1": "An online store built with Next.js 16 and a modern user interface.",
+    "2": "A web project for showcasing and selling home and decor products.",
+    "3": "A React interface for displaying cryptocurrency information and data.",
+  };
+  return descriptions[id];
 }
