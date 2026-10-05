@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { createSkillAction } from "@/lib/actions/admin/profile.actions";
 import type { Skill } from "@/types";
+import { getActionErrorMessage } from "@/lib/utils/format-error";
 
 export default function SkillCreateForm() {
   const router = useRouter();
@@ -17,7 +18,7 @@ export default function SkillCreateForm() {
   const update = (field: keyof Skill, value: string) => setSkill((current) => ({ ...current, [field]: field === "value" ? Math.min(100, Math.max(0, Number(value) || 0)) : value }));
   const save = async () => {
     const result = await createSkillAction(skill);
-    if (!result.success) throw new Error(result.error.message);
+    if (!result.success) throw new Error(getActionErrorMessage(result.error));
     router.push("/admin/profile");
   };
   return (
