@@ -29,7 +29,7 @@ export async function updateProfileAction(
   }
 
   return withAction(async () => {
-    const skillsData = parsedSkills.map((result) => result.success ? result.data : null).filter(Boolean);
+    const skillsData = parsedSkills.flatMap((result) => result.success ? [result.data] : []);
 
     await db.insert(profile).values({ id: 1, ...parsed.data }).onConflictDoUpdate({
       target: profile.id,
