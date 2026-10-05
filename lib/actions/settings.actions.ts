@@ -9,7 +9,8 @@ import {
   siteSettingsSchema,
   socialSettingsSchema,
 } from "@/lib/validations";
-import { formatZodIssues, withAction } from "@/lib/utils";
+import { formatZodIssues } from "@/lib/utils/format-error";
+import { withAction } from "@/lib/utils/with-action";
 import type { ActionResult } from "@/types";
 
 const schemas = {
@@ -21,7 +22,7 @@ const schemas = {
 export async function upsertSettingAction(
   key: keyof typeof schemas,
   input: unknown,
-): Promise<ActionResult> {
+): Promise<ActionResult<undefined>> {
   await requireAdmin();
   const t = await getTranslations();
   const parsed = schemas[key].safeParse(input);
