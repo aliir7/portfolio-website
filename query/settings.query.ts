@@ -4,7 +4,7 @@ import { eq } from "drizzle-orm";
 import { db } from "@/db";
 import { settings } from "@/db/schema";
 import type { SettingsMap } from "@/types";
-import { withQuery } from "@/lib/utils";
+import { withQuery } from "@/lib/utils/with-query";
 
 export function getSettingQuery<K extends keyof SettingsMap>(
   key: K,
