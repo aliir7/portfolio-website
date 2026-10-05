@@ -12,6 +12,7 @@ import RevealSection from "../ui/reveal-section";
 import Shape from "../ui/shape";
 import { toLocaleDigits, useDictionary, useLocale } from "@/lib/i18n";
 import { submitContactAction } from "@/lib/actions/contact.actions";
+import { getActionErrorMessage } from "@/lib/utils/format-error";
 
 const contactInfo = [
   {
@@ -65,7 +66,7 @@ export const ContactSection = () => {
     setIsSubmitting(true);
     try {
       const result = await submitContactAction(formData);
-      if (!result.success) throw new Error(result.error);
+      if (!result.success) throw new Error(getActionErrorMessage(result.error));
 
       toast.success(contact.success);
       setFormData({ name: "", email: "", message: "" });
