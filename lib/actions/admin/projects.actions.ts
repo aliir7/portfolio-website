@@ -43,7 +43,11 @@ export async function updateProjectAction(
     await db.update(projects).set({ ...parsed.data, updatedAt: new Date() }).where(eq(projects.id, id));
     const [project] = await db.select().from(projects).where(eq(projects.id, id)).limit(1);
     if (!project) throw new Error(t("actions.projects.notFound"));
-    return project;
+    return {
+      ...project,
+      category: project.category as AdminProject["category"],
+      status: project.status as AdminProject["status"],
+    };
   }, { name: "projects.update", successMessage: t("actions.projects.updated") });
 }
 
