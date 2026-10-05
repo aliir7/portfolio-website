@@ -6,7 +6,8 @@ import { db } from "@/db";
 import { blogPostTags, blogPosts, blogTags } from "@/db/schema";
 import { requireAdmin } from "@/lib/auth-guard";
 import { blogPostSchema, blogTagSchema } from "@/lib/validations";
-import { formatZodIssues, withAction } from "@/lib/utils";
+import { formatZodIssues } from "@/lib/utils/format-error";
+import { withAction } from "@/lib/utils/with-action";
 import type { ActionResult } from "@/types";
 
 export async function createBlogPostAction(input: unknown): Promise<ActionResult<{ id: string }>> {
