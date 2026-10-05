@@ -18,35 +18,15 @@ export async function withAction<T>(
 
   try {
     const data = await action();
-    logger.info(
-      { action: actionName, durationMs: Math.round(performance.now() - startedAt) },
-      "Server action succeeded",
-    );
-
-    return {
-      success: true,
-      data,
-      message: context.successMessage,
-    };
+    logger.info({ action: actionName, durationMs: Math.round(performance.now() - startedAt) }, "Server action succeeded");
+    return { success: true, data, message: context.successMessage };
   } catch (error) {
     const durationMs = Math.round(performance.now() - startedAt);
     const t = await getTranslations();
-
-    logger.error(
-      {
-        action: actionName,
-        durationMs,
-        err: error,
-      },
-      "Server action failed",
-    );
-
+    logger.error({ action: actionName, durationMs, err: error }, "Server action failed");
     return {
       success: false,
-      error: {
-        type: "custom",
-        message: context.errorMessage ?? formatError(error, t),
-      },
+      error: { type: "custom", message: context.errorMessage ?? formatError(error, t) },
     };
   }
 }
