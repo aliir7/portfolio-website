@@ -35,7 +35,7 @@ export default function ProjectsManager({ initialItems }: ProjectsManagerProps) 
   const remove = async (id: string) => {
     if (!window.confirm("این پروژه حذف شود؟")) return;
     const result = await deleteProjectAction(id);
-    if (!result.success) throw new Error(result.error.message);
+    if (!result.success) throw new Error(getActionErrorMessage(result.error));
     setItems((current) => current.filter((item) => item.id !== id));
   };
 
