@@ -17,7 +17,7 @@ export default function ProjectForm({ project, open, onOpenChange, onSave }: { p
   useEffect(() => {
     if (project) {
       const { id: _id, ...input } = project;
-      setForm(input);
+      setForm({ ...input, repoUrl: input.repoUrl ?? "", liveUrl: input.liveUrl ?? "", image: input.image ?? null });
     } else {
       setForm(emptyProject);
     }
