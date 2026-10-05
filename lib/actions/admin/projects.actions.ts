@@ -53,5 +53,6 @@ export async function deleteProjectAction(id: string): Promise<ActionResult<unde
 
   return withAction(async () => {
     await db.delete(projects).where(eq(projects.id, id));
+    return undefined;
   }, { name: "projects.delete", successMessage: t("actions.projects.deleted") });
 }
