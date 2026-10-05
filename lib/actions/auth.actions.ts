@@ -105,8 +105,8 @@ export async function requestPasswordResetAction(
       headers: requestHeaders,
     });
 
-    if (result?.error) {
-      throw new Error(result.error.message);
+    if (!result?.status) {
+      throw new Error(result?.message ?? t("actions.auth.resetRequestFailed"));
     }
 
     return { success: t("actions.auth.resetRequested") };
