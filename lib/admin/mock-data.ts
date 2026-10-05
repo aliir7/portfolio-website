@@ -8,7 +8,10 @@ export const mockProjects: AdminProject[] = projects.map((project) => ({
   description: project.description,
   category: project.category,
   techStack: project.techStack,
-  repoUrl: project.repoUrl ?? "",
-  liveUrl: project.liveUrl ?? "",
+  image: project.image ?? null,
+  repoUrl: project.repoUrl ?? null,
+  liveUrl: project.liveUrl ?? null,
   status: "published",
+  createdAt: new Date(project.createdAt),
+  updatedAt: new Date(project.createdAt),
 }));
