@@ -101,6 +101,7 @@ export async function deleteBlogPostAction(id: string): Promise<ActionResult<und
 
   return withAction(async () => {
     await db.delete(blogPosts).where(eq(blogPosts.id, id));
+    return undefined;
   }, { name: "blog.deletePost", successMessage: t("actions.blog.deleted") });
 }
 
