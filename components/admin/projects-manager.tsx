@@ -11,6 +11,7 @@ import ProjectForm from "./project-form";
 import { createProjectAction, deleteProjectAction, updateProjectAction } from "@/lib/actions/admin/projects.actions";
 import type { AdminProject, ProjectInput } from "@/types";
 import { mockProjects } from "@/lib/admin/mock-data";
+import { getActionErrorMessage } from "@/lib/utils/format-error";
 
 type ProjectsManagerProps = { initialItems: AdminProject[] };
 
@@ -23,7 +24,7 @@ export default function ProjectsManager({ initialItems }: ProjectsManagerProps) 
 
   const save = async (input: ProjectInput) => {
     const result = editing ? await updateProjectAction(editing.id, input) : await createProjectAction(input);
-    if (!result.success) throw new Error(result.error.message);
+    if (!result.success) throw new Error(getActionErrorMessage(result.error));
     if (!result.data) throw new Error("Project action returned no data.");
     const saved = result.data;
     setItems((current) => editing ? current.map((item) => item.id === saved.id ? saved : item) : [saved, ...current]);
