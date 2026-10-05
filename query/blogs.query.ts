@@ -3,7 +3,7 @@ import "server-only";
 import { and, desc, eq, lte, or, isNull } from "drizzle-orm";
 import { db } from "@/db";
 import { blogPosts } from "@/db/schema";
-import { withQuery } from "@/lib/utils";
+import { withQuery } from "@/lib/utils/with-query";
 
 export function getPublishedBlogPostsQuery() {
   return withQuery(() =>
