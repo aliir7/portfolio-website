@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import { createProjectAction } from "@/lib/actions/admin/projects.actions";
 import type { ProjectInput } from "@/types";
+import { getActionErrorMessage } from "@/lib/utils/format-error";
 
 const emptyProject: ProjectInput = {
   title: "", slug: "", description: "", category: "frontend", techStack: [], repoUrl: "", liveUrl: "", status: "draft",
@@ -21,7 +22,7 @@ export default function ProjectCreateForm() {
   const update = (field: keyof ProjectInput, value: string) => setForm((current) => ({ ...current, [field]: value }));
   const save = async () => {
     const result = await createProjectAction(form);
-    if (!result.success) throw new Error(result.error.message);
+    if (!result.success) throw new Error(getActionErrorMessage(result.error));
     router.push("/admin/projects");
   };
   return (
