@@ -11,6 +11,7 @@ import { Textarea } from "@/components/ui/textarea";
 import { updateProfileAction } from "@/lib/actions/admin/profile.actions";
 import type { AdminProfile } from "@/types";
 import { skillsData } from "@/lib/constants";
+import { getActionErrorMessage } from "@/lib/utils/format-error";
 
 const fallbackProfile: AdminProfile = {
   name: "علی رضایی",
@@ -57,7 +58,7 @@ export default function ProfileManager({ initialProfile }: { initialProfile?: Ad
       },
       profile.skills,
     );
-    if (!result.success) throw new Error(result.error.message);
+    if (!result.success) throw new Error(getActionErrorMessage(result.error));
     setSaved(true);
   };
 
