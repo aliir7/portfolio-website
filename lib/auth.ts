@@ -4,7 +4,7 @@ import { admin, captcha } from "better-auth/plugins";
 import { nextCookies } from "better-auth/next-js";
 import { db } from "@/db";
 import * as schema from "@/db/schema";
-import { resend } from "@/lib/email";
+import { getResend } from "@/lib/email";
 
 const baseUrl = process.env.BETTER_AUTH_URL ?? "http://localhost:3000";
 
@@ -22,7 +22,7 @@ export const auth = betterAuth({
     requireEmailVerification: false,
     revokeSessionsOnPasswordReset: true,
     sendResetPassword: async ({ user, url }) => {
-      void resend.emails.send({
+      void getResend().emails.send({
         from: process.env.RESEND_FROM_EMAIL ?? "onboarding@resend.dev",
         to: user.email,
         subject: "Reset your password",
