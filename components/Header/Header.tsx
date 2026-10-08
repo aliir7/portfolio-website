@@ -13,19 +13,12 @@ const Header = () => {
   const locale = useDocumentLocale();
   const dictionary = useDictionary();
 
-  // useEffect for scrolling handler
   useEffect(() => {
     const handleScroll = () => {
       setIsScrolled(window.scrollY >= 20);
     };
-
-    // add event listener
     window.addEventListener("scroll", handleScroll);
-
-    // clean up event listener
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
+    return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
   return (
@@ -46,6 +39,7 @@ const Header = () => {
             width={40}
             height={40}
             loading="eager"
+            className="h-10 w-10 shrink-0 object-contain"
           />
         </Link>
         <div className="flex flex-row-reverse items-center gap-4">

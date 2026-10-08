@@ -9,6 +9,8 @@ export default getRequestConfig(async ({ requestLocale }) => {
 
   return {
     locale,
+    // ✅ timeZone پایدار → حذف هشدار ENVIRONMENT_FALLBACK و جلوگیری از mismatch
+    timeZone: "Asia/Tehran",
     messages: (await import(`../messages/${locale}.json`)).default,
   };
 });

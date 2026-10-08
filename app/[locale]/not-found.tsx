@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import Link from "next/link";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import { routing, type Locale } from "@/i18n/routing";
 import { Button } from "@/components/ui/button";
 import { AstronautSVG } from "@/components/not-found/astronaut-svg";
@@ -10,20 +10,20 @@ export const metadata: Metadata = {
   robots: { index: false, follow: false },
 };
 
-type Props = { params: Promise<{ locale: string }> };
-
-export default async function NotFound({ params }: Props) {
-  const { locale } = await params;
-  const isValid = routing.locales.includes(locale as Locale);
-  const safeLocale: Locale = isValid
-    ? (locale as Locale)
+// ⚠️ not-found.tsx هرگز params نمی‌گیرد (محدودیت Next.js).
+// لذا locale را از request context می‌خوانیم؛ getLocale() همیشه معتبر است.
+export default async function NotFound() {
+  const rawLocale = await getLocale();
+  const safeLocale: Locale = routing.locales.includes(rawLocale as Locale)
+    ? (rawLocale as Locale)
     : routing.defaultLocale;
+
   const t = await getTranslations({
     locale: safeLocale,
     namespace: "notFound",
   });
 
-  const content = (
+  return (
     <main className="flex min-h-screen flex-col items-center justify-center gap-8 px-6 py-24 text-center">
       <div className="relative w-full max-w-md">
         <span className="stroke-custom pointer-events-none absolute inset-x-0 top-1/2 -z-10 -translate-y-1/2 text-[8rem] leading-none font-black select-none sm:text-[11rem]">
@@ -46,19 +46,5 @@ export default async function NotFound({ params }: Props) {
         <Link href={`/${safeLocale}`}>{t("backHome")}</Link>
       </Button>
     </main>
-  );
-
-  // locale معتبر → والد ([locale]/layout) html و Provider را ساخته؛ فقط محتوا
-  if (isValid) return content;
-
-  // locale نامعتبر → layout والد notFound() کرده و html نساخته؛ خودمان می‌سازیم
-  return (
-    <html
-      lang={safeLocale}
-      dir={safeLocale === "fa" ? "rtl" : "ltr"}
-      suppressHydrationWarning
-    >
-      <body suppressHydrationWarning>{content}</body>
-    </html>
   );
 }
