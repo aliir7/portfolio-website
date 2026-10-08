@@ -1,9 +1,9 @@
 import type { Metadata } from "next";
-import type { ReactNode } from "react";
 import { notFound } from "next/navigation";
 import { getMessages, setRequestLocale } from "next-intl/server";
 import Providers from "@/components/Providers";
-import { routing, type Locale } from "@/i18n/routing";
+import { TIME_ZONE } from "@/i18n/config";
+import { hasLocale, routing, type Locale } from "@/i18n/routing";
 
 const DIR: Record<Locale, "rtl" | "ltr"> = { fa: "rtl", en: "ltr" };
 
@@ -27,10 +27,10 @@ const localeMetadata = {
 export async function generateMetadata({
   params,
 }: {
-  params: Promise<{ locale: Locale }>;
+  params: Promise<{ locale: string }>;
 }): Promise<Metadata> {
   const { locale } = await params;
-  if (!routing.locales.includes(locale)) notFound();
+  if (!hasLocale(locale)) notFound();
   setRequestLocale(locale);
 
   const content = localeMetadata[locale];
@@ -67,19 +67,20 @@ export async function generateMetadata({
 export default async function LocaleLayout({
   children,
   params,
-}: Readonly<{ children: ReactNode; params: Promise<{ locale: Locale }> }>) {
+}: Readonly<{
+  children: React.ReactNode;
+  params: Promise<{ locale: string }>;
+}>) {
   const { locale } = await params;
-  if (!routing.locales.includes(locale)) notFound();
+  if (!hasLocale(locale)) notFound();
 
   setRequestLocale(locale);
   const messages = await getMessages();
 
   return (
     <html lang={locale} dir={DIR[locale]} suppressHydrationWarning>
-      {/* body عمداً بدون className: استایل پایه از globals.css می‌آید
-          تا سرور/کلاینت یکسان بمانند و hydration mismatch نگیرد */}
       <body suppressHydrationWarning>
-        <Providers locale={locale} messages={messages}>
+        <Providers locale={locale} messages={messages} timeZone={TIME_ZONE}>
           {children}
         </Providers>
       </body>

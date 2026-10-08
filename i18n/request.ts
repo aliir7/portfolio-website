@@ -1,16 +1,14 @@
 import { getRequestConfig } from "next-intl/server";
-import { routing, type Locale } from "./routing";
+import { TIME_ZONE } from "./config";
+import { hasLocale, routing } from "./routing";
 
 export default getRequestConfig(async ({ requestLocale }) => {
-  const requestedLocale = await requestLocale;
-  const locale: Locale = routing.locales.includes(requestedLocale as Locale)
-    ? (requestedLocale as Locale)
-    : routing.defaultLocale;
+  const requested = await requestLocale;
+  const locale = hasLocale(requested) ? requested : routing.defaultLocale;
 
   return {
     locale,
-    // ✅ timeZone پایدار → حذف هشدار ENVIRONMENT_FALLBACK و جلوگیری از mismatch
-    timeZone: "Asia/Tehran",
+    timeZone: TIME_ZONE,
     messages: (await import(`../messages/${locale}.json`)).default,
   };
 });

@@ -7,3 +7,12 @@ export const routing = defineRouting({
 });
 
 export type Locale = (typeof routing.locales)[number];
+
+/**
+ * Type-guard محلی — جایگزین `hasLocale` که در این بیلد از
+ * `next-intl/routing` export نمی‌شود. همیشه به `Locale` narrow می‌کند،
+ * مستقل از نوع دقیق `routing.locales`.
+ */
+export function hasLocale(value: string | null | undefined): value is Locale {
+  return (routing.locales as readonly string[]).includes(value as string);
+}
