@@ -1,98 +1,192 @@
 "use client";
 
-import { useState, type FormEvent } from "react";
-import { useRouter, useSearchParams } from "next/navigation";
-import Link from "next/link";
-import { authClient } from "@/lib/auth-client";
+import { motion } from "framer-motion";
+import {
+  RiErrorWarningLine,
+  RiLoader4Line,
+  RiLock2Line,
+  RiShieldKeyholeLine,
+} from "@remixicon/react";
+import { useTranslations } from "next-intl";
+import { Link } from "@/i18n/navigation";
+import { Alert, AlertDescription } from "@/components/ui/alert";
 import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Separator } from "@/components/ui/separator";
+import {
+  confirmPasswordFieldSchema,
+  passwordFieldSchema,
+} from "@/lib/validations";
+import { FormFieldUI } from "./form-field-ui";
+import { useResetPasswordForm } from "./use-reset-password-form";
+import { Translator } from "@/types";
+import { resolveFieldError } from "@/lib/utils/format-error";
 
-export default function ResetPasswordForm() {
-  const router = useRouter();
-  const searchParams = useSearchParams();
-  const token = searchParams.get("token");
-  const errorParam = searchParams.get("error");
-  const [password, setPassword] = useState("");
-  const [confirmPassword, setConfirmPassword] = useState("");
-  const [error, setError] = useState(
-    errorParam ? "لینک بازیابی نامعتبر یا منقضی شده است." : "",
-  );
-  const [pending, setPending] = useState(false);
+interface ResetPasswordFormProps {
+  token: string | null;
+  linkError: string | null;
+}
 
-  async function handleSubmit(event: FormEvent<HTMLFormElement>) {
-    event.preventDefault();
-    setError("");
-
-    if (!token) {
-      setError("لینک بازیابی نامعتبر یا منقضی شده است.");
-      return;
-    }
-
-    if (password.length < 8) {
-      setError("رمز عبور باید حداقل ۸ کاراکتر باشد.");
-      return;
-    }
-
-    if (password !== confirmPassword) {
-      setError("تکرار رمز عبور با رمز عبور یکسان نیست.");
-      return;
-    }
-
-    setPending(true);
-
-    const { error: resetError } = await authClient.resetPassword({
-      newPassword: password,
-      token,
-    });
-
-    setPending(false);
-
-    if (resetError) {
-      setError(resetError.message || "بازیابی رمز عبور انجام نشد.");
-      return;
-    }
-
-    router.push("/login?reset=success");
-  }
-
+function InvalidLinkState({ t }: { t: Translator }) {
   return (
-    <main className="flex min-h-screen items-center justify-center px-6 py-16">
-      <section className="bg-card border-border/60 w-full max-w-md rounded-3xl border p-8 shadow-sm">
-        <div className="mb-8">
-          <p className="text-primary mb-2 text-sm font-medium">مدیریت سایت</p>
-          <h1 className="text-3xl font-black">تغییر رمز عبور</h1>
-          <p className="text-muted-foreground mt-2 text-sm">
-            رمز عبور جدید خود را وارد کنید.
-          </p>
+    <main className="flex min-h-screen items-center justify-center px-6 py-24">
+      <section className="glass-panel w-full max-w-md rounded-3xl p-8 text-center">
+        <div className="bg-destructive/10 text-destructive mx-auto mb-4 flex size-14 items-center justify-center rounded-2xl">
+          <RiErrorWarningLine className="size-7" />
         </div>
-
-        {error && (
-          <p className="bg-destructive/10 text-destructive mb-5 rounded-xl px-4 py-3 text-sm" role="alert">
-            {error}
-          </p>
-        )}
-
-        <form onSubmit={handleSubmit} className="grid gap-5">
-          <div className="grid gap-2">
-            <Label htmlFor="new-password">رمز عبور جدید</Label>
-            <Input id="new-password" type="password" autoComplete="new-password" dir="ltr" value={password} onChange={(event) => setPassword(event.target.value)} required />
-          </div>
-
-          <div className="grid gap-2">
-            <Label htmlFor="confirm-password">تکرار رمز عبور</Label>
-            <Input id="confirm-password" type="password" autoComplete="new-password" dir="ltr" value={confirmPassword} onChange={(event) => setConfirmPassword(event.target.value)} required />
-          </div>
-
-          <Button type="submit" size="lg" disabled={pending || !token}>
-            {pending ? "در حال ذخیره..." : "تغییر رمز عبور"}
-          </Button>
-
-          <Link href="/login" className="text-muted-foreground text-center text-sm hover:text-foreground">
-            بازگشت به صفحه ورود
-          </Link>
-        </form>
+        <h1 className="text-2xl font-black">{t("auth.resetTitle")}</h1>
+        <p className="text-muted-foreground mt-2 text-sm">
+          {t("auth.invalidLink")}
+        </p>
+        <Separator className="my-6" />
+        <Link
+          href="/login"
+          className="text-primary block text-center text-sm font-medium hover:underline"
+        >
+          {t("auth.backToLogin")}
+        </Link>
       </section>
     </main>
   );
+}
+
+function ResetPasswordContent({ token }: { token: string }) {
+  const t = useTranslations();
+  const { form, state, isSubmitting } = useResetPasswordForm(token);
+
+  return (
+    <main className="flex min-h-screen items-center justify-center px-6 py-24">
+      <motion.section
+        initial={{ opacity: 0, y: 24 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.45, ease: "easeOut" }}
+        className="glass-panel w-full max-w-md rounded-3xl p-8"
+      >
+        <div className="mb-8 text-center">
+          <div className="bg-primary/10 text-primary mx-auto mb-4 flex size-14 items-center justify-center rounded-2xl">
+            <RiShieldKeyholeLine className="size-7" />
+          </div>
+          <p className="text-primary mb-1 text-sm font-medium">
+            {t("auth.siteAdmin")}
+          </p>
+          <h1 className="text-3xl font-black">{t("auth.resetTitle")}</h1>
+          <p className="text-muted-foreground mt-2 text-sm">
+            {t("auth.resetSubtitle")}
+          </p>
+        </div>
+
+        {state.error && (
+          <Alert variant="destructive" className="mb-5">
+            <RiErrorWarningLine />
+            <AlertDescription>{state.error}</AlertDescription>
+          </Alert>
+        )}
+
+        <form
+          onSubmit={(e) => {
+            e.preventDefault();
+            form.handleSubmit();
+          }}
+          className="grid gap-5"
+        >
+          <form.Field
+            name="password"
+            validators={{
+              onBlur: ({ value }) => {
+                const result = passwordFieldSchema.safeParse(value);
+                if (result.success) return undefined;
+                return result.error.issues.map((i) => ({ message: i.message }));
+              },
+            }}
+          >
+            {(field) => (
+              <FormFieldUI
+                id="reset-password"
+                label={t("auth.newPassword")}
+                type="password"
+                autoComplete="new-password"
+                icon={<RiLock2Line />}
+                showPasswordLabel={t("auth.showPassword")}
+                hidePasswordLabel={t("auth.hidePassword")}
+                value={field.state.value}
+                onChange={field.handleChange}
+                onBlur={field.handleBlur}
+                error={resolveFieldError(
+                  field.state.meta.isTouched,
+                  field.state.meta.errors,
+                  state.fieldErrors?.password,
+                  t,
+                )}
+              />
+            )}
+          </form.Field>
+
+          <form.Field
+            name="confirmPassword"
+            validators={{
+              onBlur: ({ value }) => {
+                const result = confirmPasswordFieldSchema.safeParse(value);
+                if (result.success) return undefined;
+                return result.error.issues.map((i) => ({ message: i.message }));
+              },
+            }}
+          >
+            {(field) => (
+              <FormFieldUI
+                id="reset-confirm"
+                label={t("auth.confirmPassword")}
+                type="password"
+                autoComplete="new-password"
+                icon={<RiLock2Line />}
+                showPasswordLabel={t("auth.showPassword")}
+                hidePasswordLabel={t("auth.hidePassword")}
+                value={field.state.value}
+                onChange={field.handleChange}
+                onBlur={field.handleBlur}
+                error={resolveFieldError(
+                  field.state.meta.isTouched,
+                  field.state.meta.errors,
+                  state.fieldErrors?.confirmPassword,
+                  t,
+                )}
+              />
+            )}
+          </form.Field>
+
+          <Button
+            type="submit"
+            variant="cta"
+            className="w-full"
+            disabled={isSubmitting}
+          >
+            {isSubmitting ? (
+              <>
+                <RiLoader4Line className="animate-spin" />
+                {t("auth.resetSubmitting")}
+              </>
+            ) : (
+              t("auth.resetSubmit")
+            )}
+          </Button>
+        </form>
+
+        <Separator className="my-6" />
+
+        <Link
+          href="/login"
+          className="text-muted-foreground hover:text-foreground block text-center text-sm font-medium"
+        >
+          {t("auth.backToLogin")}
+        </Link>
+      </motion.section>
+    </main>
+  );
+}
+
+export default function ResetPasswordForm({
+  token,
+  linkError,
+}: ResetPasswordFormProps) {
+  const t = useTranslations();
+  if (!token || linkError) return <InvalidLinkState t={t} />;
+  return <ResetPasswordContent token={token} />;
 }

@@ -10,10 +10,11 @@ export function proxy(request: NextRequest) {
   const { pathname, searchParams } = request.nextUrl;
 
   if (pathname === "/") {
-    return NextResponse.redirect(new URL(`/${localeFrom(request)}`, request.url));
+    return NextResponse.redirect(
+      new URL(`/${localeFrom(request)}`, request.url),
+    );
   }
 
-  // مسیرهای قدیمی auth → نسخه locale‌دار، با حفظ query (مثل ?token=...)
   if (LEGACY_AUTH_PATHS.includes(pathname)) {
     const url = new URL(`/${localeFrom(request)}${pathname}`, request.url);
     url.search = searchParams.toString();

@@ -4,12 +4,31 @@ import { getTranslations } from "next-intl/server";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
-import { loginSchema } from "@/lib/validations";
+import {
+  forgotPasswordSchema,
+  loginSchema,
+  resetPasswordSchema,
+} from "@/lib/validations";
+import { withLocale } from "@/lib/utils/locale";
 import { formatError, formatZodIssues } from "@/lib/utils/format-error";
 import { logger } from "@/lib/utils/logger";
-import type { LoginState, PasswordResetState } from "@/types";
-import { withLocale } from "../utils/locale";
+import type {
+  LoginState,
+  PasswordResetState,
+  ResetPasswordState,
+} from "@/types";
+
 export type { LoginState };
+
+function toFieldErrors(
+  issues: { path: PropertyKey[]; message: string }[],
+): Record<string, string[]> {
+  return issues.reduce<Record<string, string[]>>((acc, issue) => {
+    const field = String(issue.path[0] ?? "form");
+    acc[field] = [...(acc[field] ?? []), issue.message];
+    return acc;
+  }, {});
+}
 
 export async function signInAction(
   _previousState: LoginState,
@@ -24,14 +43,7 @@ export async function signInAction(
 
   if (!parsed.success) {
     return {
-      fieldErrors: formatZodIssues(parsed.error, t).reduce<Record<string, string[]>>(
-        (errors, issue) => {
-          const field = String(issue.path[0] ?? "form");
-          errors[field] = [...(errors[field] ?? []), issue.message];
-          return errors;
-        },
-        {},
-      ),
+      fieldErrors: toFieldErrors(formatZodIssues(parsed.error, t)),
       error: t("actions.auth.invalidForm"),
     };
   }
@@ -39,11 +51,9 @@ export async function signInAction(
   try {
     const requestHeaders = new Headers(await headers());
     const captchaToken = formData.get("recaptchaToken");
-
     if (typeof captchaToken !== "string" || !captchaToken) {
       return { error: t("actions.auth.captchaRequired") };
     }
-
     requestHeaders.set("x-captcha-response", captchaToken);
 
     const result = await auth.api.signInEmail({
@@ -56,7 +66,10 @@ export async function signInAction(
     });
 
     if (!result?.user || result.user.role !== "admin") {
-      logger.warn({ action: "auth.signIn", reason: "not-admin" }, "Sign-in rejected");
+      logger.warn(
+        { action: "auth.signIn", reason: "not-admin" },
+        "Sign-in rejected",
+      );
       await auth.api.signOut({ headers: await headers() });
       return { error: t("actions.auth.notAdmin") };
     }
@@ -66,7 +79,7 @@ export async function signInAction(
       error:
         error instanceof Error && error.message
           ? t("actions.auth.invalidCredentials")
-          : formatError(error),
+          : formatError(error, t),
     };
   }
 
@@ -76,7 +89,7 @@ export async function signInAction(
 export async function signOutAction() {
   logger.info({ action: "auth.signOut" }, "Sign-out requested");
   await auth.api.signOut({ headers: await headers() });
-   redirect(await withLocale("/login"));  
+  redirect(await withLocale("/login"));
 }
 
 export async function requestPasswordResetAction(
@@ -84,13 +97,18 @@ export async function requestPasswordResetAction(
   formData: FormData,
 ): Promise<PasswordResetState> {
   const t = await getTranslations();
-  const email = String(formData.get("email") ?? "").trim();
-  const captchaToken = formData.get("recaptchaToken");
+  const parsed = forgotPasswordSchema.safeParse({
+    email: formData.get("email"),
+  });
 
-  if (!email || !email.includes("@")) {
-    return { error: t("actions.auth.invalidEmail") };
+  if (!parsed.success) {
+    return {
+      fieldErrors: toFieldErrors(formatZodIssues(parsed.error, t)),
+      error: t("actions.auth.invalidForm"),
+    };
   }
 
+  const captchaToken = formData.get("recaptchaToken");
   if (typeof captchaToken !== "string" || !captchaToken) {
     return { error: t("actions.auth.captchaRequired") };
   }
@@ -101,8 +119,8 @@ export async function requestPasswordResetAction(
 
     const result = await auth.api.requestPasswordReset({
       body: {
-        email,
-       redirectTo: `${baseUrl()}${await withLocale("/reset-password")}`,
+        email: parsed.data.email,
+        redirectTo: `${baseUrl()}${await withLocale("/reset-password")}`,
       },
       headers: requestHeaders,
     });
@@ -110,12 +128,49 @@ export async function requestPasswordResetAction(
     if (!result?.status) {
       throw new Error(result?.message ?? t("actions.auth.resetRequestFailed"));
     }
-
     return { success: t("actions.auth.resetRequested") };
   } catch (error) {
-    logger.error({ action: "auth.requestPasswordReset", err: error }, "Password reset request failed");
+    logger.error(
+      { action: "auth.requestPasswordReset", err: error },
+      "Password reset request failed",
+    );
     return { error: t("actions.auth.resetRequestFailed") };
   }
+}
+
+export async function resetPasswordAction(
+  _previousState: ResetPasswordState,
+  formData: FormData,
+): Promise<ResetPasswordState> {
+  const t = await getTranslations();
+  const parsed = resetPasswordSchema.safeParse({
+    password: formData.get("password"),
+    confirmPassword: formData.get("confirmPassword"),
+  });
+
+  if (!parsed.success) {
+    return {
+      fieldErrors: toFieldErrors(formatZodIssues(parsed.error, t)),
+      error: t("actions.auth.invalidForm"),
+    };
+  }
+
+  const token = String(formData.get("token") ?? "");
+  if (!token) {
+    return { error: t("auth.invalidLink") };
+  }
+
+  try {
+    await auth.api.resetPassword({
+      body: { newPassword: parsed.data.password, token },
+      headers: await headers(),
+    });
+  } catch (error) {
+    logger.error({ action: "auth.resetPassword", err: error }, "Reset failed");
+    return { error: formatError(error, t) };
+  }
+
+  redirect(`${await withLocale("/login")}?reset=success`);
 }
 
 function baseUrl() {

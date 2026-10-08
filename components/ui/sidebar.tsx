@@ -95,7 +95,7 @@ function Sidebar({
       data-slot="sidebar"
       className={cn(
         "glass-panel fixed inset-y-4 z-20 hidden w-64 flex-col rounded-3xl p-3 transition-[inset-inline-start,width] duration-200 md:flex",
-        side === "right" ? "end-4" : "start-4",
+        side === "right" ? "inset-e-4" : "inset-s-4",
         !open && "w-20",
         className,
       )}

@@ -6,7 +6,6 @@ export type LocalizedAuthPath =
   | "/forgot-password"
   | "/reset-password";
 
-/** لوکیشن فعلی کاربر را از کوکی می‌خواند (همان منطق proxy) */
 export async function getCurrentLocale(): Promise<Locale> {
   const store = await cookies();
   const value = store.get("portfolio-locale")?.value as Locale | undefined;
@@ -15,7 +14,6 @@ export async function getCurrentLocale(): Promise<Locale> {
     : routing.defaultLocale;
 }
 
-/** مسیرهای auth را با پیشوند لوکیشن می‌سازد: /fa/login */
 export async function withLocale(path: LocalizedAuthPath): Promise<string> {
   return `/${await getCurrentLocale()}${path}`;
 }
