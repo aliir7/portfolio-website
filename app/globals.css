@@ -1,0 +1,378 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+@import "shadcn/tailwind.css";
+
+/* // Import Swiper styles */
+@import "swiper/css";
+@import "swiper/css/pagination";
+
+@custom-variant dark (&:is(.dark *));
+
+@font-face {
+  font-family: "Yekan";
+  src: url("/fonts/Yekan.woff2") format("woff2");
+  font-weight: normal;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: "Jost";
+  src: url("/fonts/Jost.ttf") format("truetype");
+  font-weight: 100 900;
+  font-style: normal;
+  font-display: swap;
+}
+
+/* 
+  در Tailwind v4، متغیرهای لایه Theme مستقیماً از متغیرهای CSS استفاده می‌کنند.
+  ما تمام نام‌ها را بر اساس استاندارد shadcn/ui تعریف کرده‌ایم.
+*/
+@theme inline {
+  --font-sans: "Yekan", "Jost", ui-sans-serif, system-ui, sans-serif;
+  --font-heading:
+    "Montserrat Alternates", "Yekan", ui-sans-serif, system-ui, sans-serif;
+
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+
+  --color-primary: var(--primary);
+  --color-primary-hover: var(--primary-hover);
+  --color-primary-light: var(--primary-light);
+  --color-primary-dark: var(--primary-dark);
+  --color-burgundy: var(--burgundy);
+  --color-burgundy-dark: var(--burgundy-dark);
+  --color-primary-foreground: var(--primary-foreground);
+
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+
+  --color-destructive: var(--destructive);
+  --color-destructive-foreground: var(--destructive-foreground);
+
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+
+  --radius-sm: calc(var(--radius) * 0.6);
+  --radius-md: calc(var(--radius) * 0.8);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) * 1.4);
+  --radius-2xl: calc(var(--radius) * 1.8);
+  --radius-3xl: calc(var(--radius) * 2.2);
+  --radius-4xl: calc(var(--radius) * 2.6);
+  --ease-custom: cubic-bezier(0.3, 0, 0.3, 1);
+}
+
+.font-english {
+  font-family: "Jost", ui-sans-serif, system-ui, sans-serif;
+}
+
+.font-english .font-heading {
+  font-family: "Jost", ui-sans-serif, system-ui, sans-serif;
+}
+
+@layer base {
+  :root {
+    --background: #fafafa;
+    --foreground: #18181b;
+
+    --card: #ffffff;
+    --card-foreground: #18181b;
+    --popover: #ffffff;
+    --popover-foreground: #18181b;
+
+    --primary: #e11d48;
+    --primary-hover: #be123c;
+    --primary-light: #fb7185;
+    --primary-dark: #9f1239;
+    --burgundy: #4c0519;
+    --burgundy-dark: #240006;
+    --ring: #e11d48;
+    --primary-foreground: #ffffff;
+
+    --border: #e4e4e7;
+    --input: #e4e4e7;
+
+    --secondary: #f4f4f5;
+    --secondary-foreground: #3f3f46;
+    --muted: #f4f4f5;
+    --muted-foreground: #71717a;
+    --accent: #f4f4f5;
+    --accent-foreground: #3f3f46;
+
+    --destructive: #be123c;
+    --destructive-foreground: #ffffff;
+
+    --radius: 0.75rem;
+
+    --shadow-color: rgb(225 29 72 / 0.24);
+    --hero-shadow: #09090b;
+    --hero-shape-shadow: #09090b;
+    --pagination-shadow: rgb(9 9 11 / 0.42);
+    --stroke-color: #4c0519;
+  }
+
+  @layer components {
+    .glass-panel {
+      @apply border border-white/30 bg-white/55 shadow-xl shadow-black/5 backdrop-blur-xl dark:border-white/10 dark:bg-white/5 dark:shadow-black/20;
+    }
+
+    .hero-shape {
+      filter: brightness(0);
+      opacity: 0.72;
+    }
+
+    .dark .hero-shape {
+      filter: brightness(0) invert(1);
+      opacity: 0.78;
+    }
+
+    /* تنظیمات حالت Dark سر جای خود باقی می‌ماند... */
+  }
+
+  /* استانداردسازی متغیرهای رنگی برای Dark Mode */
+  .dark {
+    --background: #09090b;
+    --foreground: #fafafa;
+
+    --card: #111113;
+    --card-foreground: #fafafa;
+    --popover: #111113;
+    --popover-foreground: #fafafa;
+
+    --primary: #e11d48;
+    --primary-hover: #be123c;
+    --primary-light: #fb7185;
+    --primary-dark: #9f1239;
+    --burgundy: #4c0519;
+    --burgundy-dark: #240006;
+    --primary-foreground: #ffffff;
+    --ring: #fb7185;
+
+    --secondary: #18181b;
+    --secondary-foreground: #d4d4d8;
+    --muted: #18181b;
+    --muted-foreground: #a1a1aa;
+    --accent: #18181b;
+    --accent-foreground: #d4d4d8;
+
+    --border: #27272a;
+    --input: #27272a;
+    --destructive: #fb7185;
+    --destructive-foreground: #240006;
+
+    --shadow-color: rgb(225 29 72 / 0.38);
+    --hero-shadow: #fb7185;
+    --hero-shape-shadow: #ffffff;
+    --pagination-shadow: rgb(255 255 255 / 0.7);
+    --stroke-color: #ffffff;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation-duration: 300ms;
+    animation-timing-function: ease-in-out;
+  }
+
+  body {
+    /* تخصیص رنگ‌های پس‌زمینه و متن مستقیماً از کلاس‌های Tailwind انجام می‌شود */
+    @apply bg-background text-foreground font-sans antialiased;
+  }
+
+  ::selection {
+    @apply bg-primary text-primary-foreground;
+  }
+
+  :focus-visible {
+    @apply outline-primary outline-2 outline-offset-4;
+  }
+
+  h1,
+  h2,
+  h3,
+  h4,
+  h5,
+  h6 {
+    /* تیترها به رنگ card-foreground (همان title-color قبلی) نگاشت شده‌اند */
+    @apply font-heading text-card-foreground font-semibold;
+  }
+
+  #services {
+    --swiper-pagination-color: var(--primary);
+    --swiper-pagination-bullet-inactive-color: var(--primary);
+    --swiper-pagination-bullet-inactive-opacity: 0.45;
+  }
+
+  #services .services-swiper-wrap .services-pagination {
+    position: static; /* چون پایین اسلایدر و خارجشه */
+    width: 100%;
+  }
+
+  #services .services-pagination .swiper-pagination-bullet {
+    position: relative;
+    width: 0.65rem;
+    height: 0.65rem;
+    border: 2px solid color-mix(in srgb, var(--primary) 55%, transparent);
+    background-color: transparent !important;
+    opacity: 1 !important;
+    transition:
+      transform 0.3s,
+      background-color 0.3s,
+      border-color 0.3s,
+      box-shadow 0.3s;
+    margin: 0 8px !important;
+  }
+
+  #services .services-pagination .swiper-pagination-bullet-active {
+    background-color: var(--primary) !important;
+    border-color: var(--primary) !important;
+    opacity: 1 !important;
+    box-shadow:
+      0 0 0 3px color-mix(in srgb, var(--primary-light) 25%, transparent),
+      0 3px 8px var(--pagination-shadow);
+    transform: scale(1.35);
+  }
+
+  .dark #services .services-pagination .swiper-pagination-bullet {
+    border-color: color-mix(in srgb, var(--primary-light) 65%, transparent);
+    background-color: transparent !important;
+  }
+
+  .dark #services .services-pagination .swiper-pagination-bullet-active {
+    background-color: var(--primary-light) !important;
+    border-color: var(--primary-light) !important;
+    box-shadow:
+      0 0 0 3px color-mix(in srgb, var(--primary-light) 30%, transparent),
+      0 3px 10px var(--pagination-shadow);
+  }
+
+  #services
+    .services-pagination
+    .swiper-pagination-bullets
+    .swiper-pagination-bullet:not(:last-child) {
+    margin-inline-end: 1.25rem;
+  }
+}
+
+@layer utilities {
+  /* =========================================
+     Containers
+  ========================================= */
+  .container {
+    @apply mx-auto max-w-330 px-6;
+  }
+
+  .container-custom {
+    max-width: 1320px;
+    margin-inline: auto;
+    padding-inline: 1.5rem;
+  }
+
+  .container-custom:not(.home-container .nav) {
+    padding-block: 3.75rem;
+  }
+
+  /* =========================================
+     Section Gradients
+  ========================================= */
+  .section-gradient:nth-child(odd) {
+    background: linear-gradient(0deg, var(--card) 0%, var(--background) 100%);
+  }
+
+  .section-gradient:nth-child(even) {
+    background: linear-gradient(180deg, var(--card) 0%, var(--background) 100%);
+  }
+
+  /* =========================================
+     Custom Effects & Transitions
+  ========================================= */
+  .ease-cubic {
+    transition-timing-function: cubic-bezier(0.3, 0, 0.3, 1);
+  }
+
+  .shadow-4px {
+    box-shadow: 4px 4px var(--shadow-color);
+  }
+
+  .stroke-custom {
+    -webkit-text-stroke: 1px var(--stroke-color);
+    text-shadow: 4px 4px var(--shadow-color);
+    color: var(--primary);
+  }
+}
+
+/* ===== 404 · Astronaut animations ===== */
+@keyframes nf-float {
+  0%,
+  100% {
+    transform: translateY(0) rotate(-2deg);
+  }
+  50% {
+    transform: translateY(-16px) rotate(2deg);
+  }
+}
+@keyframes nf-twinkle {
+  0%,
+  100% {
+    opacity: 0.25;
+    transform: scale(0.85);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.15);
+  }
+}
+@keyframes nf-drift {
+  from {
+    transform: translateX(0);
+  }
+  to {
+    transform: translateX(-26px);
+  }
+}
+.nf-astronaut,
+.nf-star,
+.nf-planet {
+  transform-box: fill-box; /* چرخش حول خودِ شکل، نه حول viewBox */
+  transform-origin: center;
+}
+.nf-astronaut {
+  animation: nf-float 6s ease-in-out infinite;
+}
+.nf-star {
+  animation: nf-twinkle 3s ease-in-out infinite;
+}
+.nf-planet {
+  animation: nf-drift 16s ease-in-out infinite alternate;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nf-astronaut,
+  .nf-star,
+  .nf-planet {
+    animation: none;
+  }
+}

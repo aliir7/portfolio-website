@@ -1,0 +1,62 @@
+"use server";
+
+import { desc, eq } from "drizzle-orm";
+import { getTranslations } from "next-intl/server";
+import { db } from "@/db";
+import { projects } from "@/db/schema";
+import { requireAdmin } from "@/lib/auth-guard";
+import { projectSchema } from "@/lib/validations";
+import { formatZodIssues } from "@/lib/utils/format-error";
+import { withAction } from "@/lib/utils/with-action";
+import type { ActionResult, AdminProject } from "@/types";
+
+export async function createProjectAction(input: unknown): Promise<ActionResult<AdminProject>> {
+  await requireAdmin();
+  const t = await getTranslations();
+  const parsed = projectSchema.safeParse(input);
+
+  if (!parsed.success) {
+    return { success: false, error: { type: "zod", issues: formatZodIssues(parsed.error, t) }, message: t("actions.projects.invalidForm") };
+  }
+
+  return withAction(async () => {
+    const now = new Date();
+    const project = { id: crypto.randomUUID(), ...parsed.data, image: parsed.data.image ?? null, createdAt: now, updatedAt: now };
+    await db.insert(projects).values(project);
+    return project;
+  }, { name: "projects.create", successMessage: t("actions.projects.created") });
+}
+
+export async function updateProjectAction(
+  id: string,
+  input: unknown,
+): Promise<ActionResult<AdminProject>> {
+  await requireAdmin();
+  const t = await getTranslations();
+  const parsed = projectSchema.safeParse(input);
+
+  if (!parsed.success) {
+    return { success: false, error: { type: "zod", issues: formatZodIssues(parsed.error, t) }, message: t("actions.projects.invalidForm") };
+  }
+
+  return withAction(async () => {
+    await db.update(projects).set({ ...parsed.data, updatedAt: new Date() }).where(eq(projects.id, id));
+    const [project] = await db.select().from(projects).where(eq(projects.id, id)).limit(1);
+    if (!project) throw new Error(t("actions.projects.notFound"));
+    return {
+      ...project,
+      category: project.category as AdminProject["category"],
+      status: project.status as AdminProject["status"],
+    };
+  }, { name: "projects.update", successMessage: t("actions.projects.updated") });
+}
+
+export async function deleteProjectAction(id: string): Promise<ActionResult<undefined>> {
+  await requireAdmin();
+  const t = await getTranslations();
+
+  return withAction(async () => {
+    await db.delete(projects).where(eq(projects.id, id));
+    return undefined;
+  }, { name: "projects.delete", successMessage: t("actions.projects.deleted") });
+}
