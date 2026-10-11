@@ -7,13 +7,6 @@ export type SiteSettings = {
   faviconUrl?: string;
 };
 
-export type SocialSettings = {
-  github?: string;
-  linkedin?: string;
-  telegram?: string;
-  instagram?: string;
-};
-
 export type SeoSettings = {
   title: string;
   description: string;
@@ -25,6 +18,5 @@ export type SeoSettings = {
 
 export type SettingsMap = {
   site: SiteSettings;
-  social: SocialSettings;
   seo: SeoSettings;
 };

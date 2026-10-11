@@ -1,21 +1,5 @@
-export type Skill = {
-  id?: string;
-  name: string;
-  value: number;
-  description: string;
-  sortOrder?: number;
-};
+import type { z } from "zod";
+import type { profileSchema, skillSchema } from "@/lib/validations/profile";
 
-export type AdminProfile = {
-  name: string;
-  role: string;
-  bio: string;
-  email: string;
-  phone: string;
-  location: string;
-  githubUrl: string;
-  resumeUrl: string;
-  skills: Skill[];
-};
-
-export type ProfileData = Omit<AdminProfile, "skills"> & { skills: Skill[] };
+export type ProfileInput = z.infer<typeof profileSchema>;
+export type SkillInput = z.infer<typeof skillSchema>;

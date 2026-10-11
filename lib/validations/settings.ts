@@ -9,13 +9,6 @@ export const siteSettingsSchema = z.object({
   faviconUrl: z.string().trim().url().optional().or(z.literal("")),
 });
 
-export const socialSettingsSchema = z.object({
-  github: z.string().trim().url().optional().or(z.literal("")),
-  linkedin: z.string().trim().url().optional().or(z.literal("")),
-  telegram: z.string().trim().url().optional().or(z.literal("")),
-  instagram: z.string().trim().url().optional().or(z.literal("")),
-});
-
 export const seoSettingsSchema = z.object({
   title: z.string().trim().min(1).max(160),
   description: z.string().trim().min(1).max(320),

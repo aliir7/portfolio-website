@@ -2,7 +2,8 @@ export * from "./auth.validations";
 export * from "./blog";
 export * from "./cloudinary";
 export * from "./contact";
+export * from "./content";
+export * from "./localized";
 export * from "./profile";
 export * from "./projects";
 export * from "./settings";
-

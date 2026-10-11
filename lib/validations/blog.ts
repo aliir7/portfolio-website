@@ -1,6 +1,7 @@
 import { z } from "zod";
+import { publishStatuses } from "@/db/schema/values";
 
-export const blogStatusSchema = z.enum(["draft", "published"]);
+export const blogStatusSchema = z.enum(publishStatuses);
 
 export const blogPostSchema = z.object({
   title: z.string().trim().min(1).max(200),

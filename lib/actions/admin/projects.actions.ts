@@ -1,62 +1,63 @@
 "use server";
 
-import { desc, eq } from "drizzle-orm";
-import { getTranslations } from "next-intl/server";
+import { eq } from "drizzle-orm";
 import { db } from "@/db";
 import { projects } from "@/db/schema";
-import { requireAdmin } from "@/lib/auth-guard";
-import { projectSchema } from "@/lib/validations";
-import { formatZodIssues } from "@/lib/utils/format-error";
-import { withAction } from "@/lib/utils/with-action";
-import type { ActionResult, AdminProject } from "@/types";
+import { idSchema, projectSchema } from "@/lib/validations";
+import { runAdminAction } from "@/lib/utils/admin-action";
+import type { ProjectInput } from "@/types";
 
-export async function createProjectAction(input: unknown): Promise<ActionResult<AdminProject>> {
-  await requireAdmin();
-  const t = await getTranslations();
-  const parsed = projectSchema.safeParse(input);
+// Empty optional URLs from the form are stored as NULL.
+const toProjectValues = (data: ProjectInput) => ({
+  ...data,
+  image: data.image || null,
+  repoUrl: data.repoUrl || null,
+  liveUrl: data.liveUrl || null,
+});
 
-  if (!parsed.success) {
-    return { success: false, error: { type: "zod", issues: formatZodIssues(parsed.error, t) }, message: t("actions.projects.invalidForm") };
-  }
-
-  return withAction(async () => {
-    const now = new Date();
-    const project = { id: crypto.randomUUID(), ...parsed.data, image: parsed.data.image ?? null, createdAt: now, updatedAt: now };
-    await db.insert(projects).values(project);
-    return project;
-  }, { name: "projects.create", successMessage: t("actions.projects.created") });
+export async function createProjectAction(input: unknown) {
+  return runAdminAction({
+    name: "projects.create",
+    schema: projectSchema,
+    input,
+    messages: { invalid: "actions.projects.invalidForm", success: "actions.projects.created" },
+    run: async (data) => {
+      const [project] = await db.insert(projects).values(toProjectValues(data)).returning();
+      return project;
+    },
+  });
 }
 
-export async function updateProjectAction(
-  id: string,
-  input: unknown,
-): Promise<ActionResult<AdminProject>> {
-  await requireAdmin();
-  const t = await getTranslations();
-  const parsed = projectSchema.safeParse(input);
-
-  if (!parsed.success) {
-    return { success: false, error: { type: "zod", issues: formatZodIssues(parsed.error, t) }, message: t("actions.projects.invalidForm") };
-  }
-
-  return withAction(async () => {
-    await db.update(projects).set({ ...parsed.data, updatedAt: new Date() }).where(eq(projects.id, id));
-    const [project] = await db.select().from(projects).where(eq(projects.id, id)).limit(1);
-    if (!project) throw new Error(t("actions.projects.notFound"));
-    return {
-      ...project,
-      category: project.category as AdminProject["category"],
-      status: project.status as AdminProject["status"],
-    };
-  }, { name: "projects.update", successMessage: t("actions.projects.updated") });
+export async function updateProjectAction(id: string, input: unknown) {
+  return runAdminAction({
+    name: "projects.update",
+    schema: projectSchema,
+    input,
+    messages: { invalid: "actions.projects.invalidForm", success: "actions.projects.updated" },
+    run: async (data, { t }) => {
+      const [project] = await db
+        .update(projects)
+        .set(toProjectValues(data))
+        .where(eq(projects.id, id))
+        .returning();
+      if (!project) throw new Error(t("actions.projects.notFound"));
+      return project;
+    },
+  });
 }
 
-export async function deleteProjectAction(id: string): Promise<ActionResult<undefined>> {
-  await requireAdmin();
-  const t = await getTranslations();
-
-  return withAction(async () => {
-    await db.delete(projects).where(eq(projects.id, id));
-    return undefined;
-  }, { name: "projects.delete", successMessage: t("actions.projects.deleted") });
+export async function deleteProjectAction(id: string) {
+  return runAdminAction({
+    name: "projects.delete",
+    schema: idSchema,
+    input: id,
+    messages: { invalid: "actions.common.invalidForm", success: "actions.projects.deleted" },
+    run: async (projectId, { t }) => {
+      const deleted = await db
+        .delete(projects)
+        .where(eq(projects.id, projectId))
+        .returning({ id: projects.id });
+      if (!deleted.length) throw new Error(t("actions.projects.notFound"));
+    },
+  });
 }

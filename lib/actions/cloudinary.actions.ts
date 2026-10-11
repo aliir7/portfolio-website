@@ -1,23 +1,28 @@
 "use server";
 
+import { v2 as cloudinary } from "cloudinary";
 import { getTranslations } from "next-intl/server";
-import { db } from "@/db";
 import { requireAdmin } from "@/lib/auth-guard";
-import { cloudinary } from "@/lib/cloudinary";
 import { cloudinaryUploadSchema } from "@/lib/validations";
 import { formatZodIssues } from "@/lib/utils/format-error";
 import { withAction } from "@/lib/utils/with-action";
 import type { ActionResult } from "@/types";
 
-export async function createCloudinarySignature(
-  folder: string,
-): Promise<ActionResult<{
+type CloudinarySignature = {
   timestamp: number;
   signature: string;
   apiKey: string;
   cloudName: string;
   folder: string;
-}>> {
+};
+
+/**
+ * Signs a direct browser-to-Cloudinary upload. Signing is a plain HMAC with the API
+ * secret, so no SDK configuration is needed. Env vars are read at call time: a missing
+ * variable fails this action with a clear message instead of breaking every page that
+ * imports it.
+ */
+export async function createCloudinarySignature(folder: string): Promise<ActionResult<CloudinarySignature>> {
   await requireAdmin();
   const t = await getTranslations();
   const parsed = cloudinaryUploadSchema.safeParse({ folder });
@@ -30,30 +35,17 @@ export async function createCloudinarySignature(
     };
   }
 
-  return withAction(async () => {
-    const timestamp = Math.floor(Date.now() / 1000);
-    const apiSecret = process.env.CLOUDINARY_API_SECRET;
+  return withAction(
+    async () => {
+      const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
+      const apiKey = process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY;
+      const apiSecret = process.env.CLOUDINARY_API_SECRET;
+      if (!cloudName || !apiKey || !apiSecret) throw new Error(t("actions.cloudinary.configMissing"));
 
-    if (!apiSecret) throw new Error(t("actions.cloudinary.configMissing"));
-
-    const signature = cloudinary.utils.api_sign_request(
-      { timestamp, folder: parsed.data.folder },
-      apiSecret,
-    );
-
-    const apiKey = process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY;
-    const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
-
-    if (!apiKey || !cloudName) {
-      throw new Error(t("actions.cloudinary.configMissing"));
-    }
-
-    return {
-      timestamp,
-      signature,
-      apiKey,
-      cloudName,
-      folder: parsed.data.folder,
-    };
-  }, { name: "cloudinary.createSignature" });
+      const timestamp = Math.floor(Date.now() / 1000);
+      const signature = cloudinary.utils.api_sign_request({ timestamp, folder: parsed.data.folder }, apiSecret);
+      return { timestamp, signature, apiKey, cloudName, folder: parsed.data.folder };
+    },
+    { name: "cloudinary.createSignature" },
+  );
 }
