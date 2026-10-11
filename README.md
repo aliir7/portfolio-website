@@ -20,12 +20,6 @@ You can start editing the page by modifying `app/page.tsx`. The page auto-update
 
 This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
 
-## Contact API
-
-The contact form sends requests to `/api/contact` by default. When the API is
-served separately, set `NEXT_PUBLIC_API_URL` in `.env.local` to the backend
-origin, for example `http://localhost:5000`.
-
 ## Learn More
 
 To learn more about Next.js, take a look at the following resources:
@@ -48,12 +42,13 @@ The project uses Next.js Server Actions, Better Auth, PostgreSQL on Neon, Drizzl
 
 ### Environment
 
-Copy `.env.example` to `.env.local` and configure:
+Copy `.env.example` to `.env` and configure:
 
 - `DATABASE_URL`: Neon PostgreSQL connection string. When Neon is connected through Vercel, use the DATABASE_URL provided by the integration.
 - `BETTER_AUTH_URL`: local or production site URL.
 - `BETTER_AUTH_SECRET`: a long random secret.
 - Cloudinary variables from the Cloudinary dashboard.
+- `SEED_ADMIN_PASSWORD`: password for the seeded admin user (`alirezaeii.dev@gmail.com`), used only by `pnpm db:seed`.
 
 ### Database
 
@@ -63,14 +58,15 @@ Run:
 pnpm install
 pnpm db:generate
 pnpm db:migrate
+pnpm db:seed
 ```
 
-For the first deployment, create the initial admin account through a controlled server-side bootstrap/SQL step and set its `user.role` to `admin`. Public email/password signup is disabled.
+`db:seed` inserts the portfolio content and the admin user (role `admin`). It is idempotent: tables that already have rows are skipped and an existing admin is never modified. The public site and the login page read from the database, so migrate and seed before `pnpm build`. Public email/password signup is disabled.
 
 ### Architecture
 
 - Better Auth owns authentication and sessions.
 - The Better Auth route handler at `/api/auth/[...all]` is the only remaining auth endpoint required by the authentication library.
 - Contact submissions and admin CRUD operations use Server Actions with server-side Zod validation.
-- Database access is isolated in the server-side Drizzle layer.
+- Database access is isolated in the server-side Drizzle layer; the database owns all portfolio content. See `docs/ADR.md` for the architectural decisions.
 - Cloudinary is used for media storage; signed upload parameters are generated server-side.

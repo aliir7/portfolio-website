@@ -1,7 +1,7 @@
 # CLAUDE.md
 
 ## Project Overview
-Personal portfolio website — frontend (`client/`), currently mid-development. Next.js App Router project, package manager is **pnpm**.
+Personal portfolio website: a single full-stack Next.js App Router project (no separate backend). Package manager is **pnpm**. Architectural decisions are recorded in `docs/ADR.md`.
 
 ## Tech Stack
 - **Framework:** Next.js 16 (App Router), React 19, TypeScript
@@ -19,6 +19,9 @@ pnpm dev              # start dev server
 pnpm build             # production build
 pnpm lint              # eslint
 pnpm deps:update       # bump deps via npm-check-updates + reinstall
+pnpm db:generate       # create a migration from db/schema
+pnpm db:migrate        # apply migrations
+pnpm db:seed           # seed content + admin (needs SEED_ADMIN_PASSWORD)
 ```
 
 ## Code Style & Conventions
@@ -60,82 +63,17 @@ pnpm deps:update       # bump deps via npm-check-updates + reinstall
 - Solo junior-dev portfolio project — prioritize clarity and simplicity over enterprise-scale patterns.
 - Before building a new UI element, check `components/ui/` first to see if a shadcn primitive already covers it.
 
+## Backend & Data (same app)
+- **Database:** PostgreSQL on Neon via Drizzle ORM (`neon-http` driver — no interactive transactions; use `db.batch` from `db/helpers.ts` for atomic writes).
+- **Auth:** Better Auth (email/password, sign-up disabled, `admin` plugin, captcha). Admin role is `admin`.
+- **Mutations:** Server Actions only. Every admin action goes through `runAdminAction` (`lib/utils/admin-action.ts`): authorize → Zod validate → run → revalidate.
+- **Content:** the database owns all portfolio content. Bilingual fields are `jsonb { fa, en }`; use `localized()` in schemas, `localizedText()` in Zod, `LocalizedField` in admin forms, `localize()` to resolve a locale. Never copy content into constants or messages.
+- **Reads:** `query/*.query.ts`. Public pages read `useContent()` (provider in the locale layout).
+- **Layout:** `db/schema` (tables), `db/seed` (initial data), `lib/validations` (Zod), `lib/actions` (server actions), `query` (reads), `types` (derived from schema/Zod, not hand-written).
+- Admin list editors (services, resume, social links, skills) use `useListEditor` + `ListEditorPage`/`ListItemCard`; form fields use `LocalizedField`, `TextField`, `SelectField` in `components/admin/`.
+- Allowed value lists live in `db/schema/values.ts` — reuse them instead of repeating string unions.
 
-# CLAUDE.md (backend)
-
-## Project Overview
-Backend API for a personal portfolio site. Lives in `backend/`, a sibling folder to `client/` (Next.js frontend) inside the same monolithic repo. Serves a JSON REST API consumed by the frontend, plus a small admin-only surface for managing content.
-
-## Tech Stack
-- Runtime: Node.js + Express
-- Language: TypeScript
-- Database: MongoDB via Mongoose
-- Validation: `zod` (validate every request body/query before it reaches a controller)
-- Auth: JWT in an httpOnly cookie, password hashing via `bcrypt` — single-admin auth, no multi-role system needed
-- Image uploads: `multer` → Cloudinary; store only the resulting URL in Mongo, never binary blobs
-- Security middleware: `helmet`, `express-rate-limit` (on `/auth/login` and `/contact`), `cors` locked to the frontend origin only
-
-## Folder Structure
-```
-backend/
-  src/
-    config/        # db.ts (mongoose connection), env.ts
-    models/        # Project.ts, Post.ts, Admin.ts, Message.ts
-    routes/
-    controllers/
-    middleware/     # auth.ts, errorHandler.ts, rateLimiter.ts
-    validators/      # zod schemas, one per route/action
-    utils/
-  package.json
-```
-
-## Data Models (initial)
-- **Project** — title, slug, description, content, thumbnail, images[], techStack[], liveUrl, githubUrl, featured, order, timestamps
-- **Post** (blog) — title, slug, excerpt, content, coverImage, tags[], published, publishedAt, timestamps
-- **Admin** — email, passwordHash (single admin — don't build a role system for this)
-- **Message** — name, email, message, read, timestamps (contact-form submissions)
-
-## Routes
-- Public: `GET /projects`, `GET /projects/:slug`, `GET /posts`, `GET /posts/:slug`, `POST /contact`
-- Protected (require valid JWT cookie, checked by `auth` middleware): everything under `/admin/*` (create/update/delete projects & posts, read messages)
-
-## Conventions
-- Layering: `routes/` → `controllers/` → `models/`. Keep controllers thin; if logic grows, extract a `services/` layer.
-- Validate all input with a `zod` schema from `validators/` before touching the DB.
-- Never trust client-supplied slugs — generate/sanitize them server-side.
-- Wrap async route handlers (e.g. with `express-async-handler`) instead of repeating try/catch in every controller.
-- Consistent error response shape: `{ error: string }` with the correct HTTP status code.
-- Centralize error handling in `middleware/errorHandler.ts` rather than ad hoc responses per controller.
-
-## Environment Variables
-- `MONGODB_URI`
-- `JWT_SECRET`
-- `CLOUDINARY_CLOUD_NAME` / `CLOUDINARY_API_KEY` / `CLOUDINARY_API_SECRET`
-- `FRONTEND_URL` (used for the CORS allow-list)
-- `PORT`
-
-## What NOT to do
-- Don't store images as base64/binary in MongoDB — always Cloudinary + URL reference.
-- Don't build multi-role RBAC — this is a single-admin CMS.
-- Don't couple this API to Next.js internals — it must stay a plain REST API the frontend fetches from over HTTP.
-- Don't introduce a second ORM/ODM — Mongoose is the standard here.
+## Backend rules
+- DRY and single ownership: one definition per fact; derive types with `$inferSelect` / `z.infer`.
 - Don't add new dependencies without checking with me first.
-
-## Deployment
-- Target: Railway or Render (long-running Express process — not a serverless platform like Vercel).
-- Database: MongoDB Atlas (free tier).
-- `FRONTEND_URL` / CORS origin restricted to the deployed frontend domain only.
-
-## Notes for Claude
-- Solo junior-dev portfolio project — keep it simple, avoid enterprise-scale abstractions.
-- Frontend conventions live in `client/CLAUDE.md`. Treat the two folders as separate codebases sharing a repo; don't carry over frontend patterns here 
-# CLAUDE.md (root)
-
-## Repo Structure
-This is a monolithic repo holding both halves of a personal portfolio site:
-- `client/` — Next.js 16 frontend. See `client/CLAUDE.md` for frontend conventions.
-- `backend/` — Express + MongoDB API. See `backend/CLAUDE.md` for backend conventions.
-
-## Notes for Claude
-- `client/` and `backend/` are independent codebases that happen to share a repo — don't mix their conventions.
-- When working inside either folder, that folder's local `CLAUDE.md` takes precedence for stack-specific rules; use this root file only for repo-wide orientation.
+- Don't add a second ORM, a CMS, or an extra service layer without a concrete need.
