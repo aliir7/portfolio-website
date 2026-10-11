@@ -5,6 +5,7 @@
     "skills": "Skills",
     "works": "Works",
     "resume": "Resume",
+    "blog": "Blog",
     "contact": "Contact"
   },
   "auth": {
@@ -42,7 +43,6 @@
     "backHome": "Back to home",
     "illustrationAlt": "An astronaut lost in space"
   },
-
   "common": {
     "more": "Learn more",
     "repository": "Repository",
@@ -59,16 +59,12 @@
     "greeting": "Hello,",
     "welcome": "Welcome to",
     "welcomeEnd": "my world",
-    "name": "Ali Rezaei",
-    "role": "React & Next.js Developer",
-    "bio": "I am a Tehran-based web developer who has been pursuing software development since 2022. I focus on building modern user interfaces with React and Next.js.",
     "resume": "My resume",
     "skills": "My skills",
     "years": "Years",
     "experience": "Experience",
     "projects": "Projects",
-    "successful": "Projects",
-    "imageAlt": "Ali Rezaei"
+    "successful": "Projects"
   },
   "services": {
     "title": "My services",
@@ -160,6 +156,11 @@
       "deleted": "Blog post deleted successfully.",
       "invalidTag": "Please check the tag information.",
       "tagCreated": "Tag created successfully."
+    },
+    "common": {
+      "invalidForm": "Please check the submitted information.",
+      "saved": "Changes were saved successfully.",
+      "deleted": "The item was deleted successfully."
     }
   },
   "errors": {
@@ -186,5 +187,12 @@
         "mismatch": "Passwords do not match"
       }
     }
+  },
+  "blog": {
+    "title": "Blog",
+    "subtitle": "Notes on web development and professional experience",
+    "empty": "No posts have been published yet.",
+    "back": "Back to blog",
+    "readingTime": "{minutes} min read"
   }
 }
