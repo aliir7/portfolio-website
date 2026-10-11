@@ -1,35 +1,28 @@
-import type { ComponentProps } from "react";
 import ProfileManager from "@/components/admin/profile-manager";
-import { getAdminProfileQuery } from "@/query/admin/profile.query";
+import { getProfileQuery, getSkillsQuery } from "@/query/content.query";
 
 export default async function AdminProfilePage() {
-  let initialProfile: ComponentProps<typeof ProfileManager>["initialProfile"];
+  const [profile, skills] = await Promise.all([getProfileQuery(), getSkillsQuery()]);
 
-  try {
-    const result = await getAdminProfileQuery();
-
-    initialProfile = result.profile
-      ? {
-          name: result.profile.name,
-          role: result.profile.role,
-          bio: result.profile.bio,
-          email: result.profile.email,
-          phone: result.profile.phone,
-          location: result.profile.location,
-          githubUrl: result.profile.githubUrl,
-          resumeUrl: result.profile.resumeUrl,
-          skills: result.skills.map((skill) => ({
-            id: skill.id,
-            name: skill.name,
-            value: skill.value,
-            description: skill.description,
-            sortOrder: skill.sortOrder,
-          })),
-        }
-      : undefined;
-  } catch {
-    // Keep the existing component fallback until the database is configured.
-  }
-
-  return <ProfileManager initialProfile={initialProfile} />;
+  // Before the first save/seed there is no profile row: the form starts empty.
+  return (
+    <ProfileManager
+      initial={
+        profile
+          ? {
+              profile: {
+                name: profile.name,
+                role: profile.role,
+                bio: profile.bio,
+                location: profile.location,
+                email: profile.email,
+                phone: profile.phone,
+                resumeUrl: profile.resumeUrl,
+              },
+              skills: skills.map(({ name, value, description }) => ({ name, value, description })),
+            }
+          : undefined
+      }
+    />
+  );
 }

@@ -5,15 +5,17 @@ import { RiArrowLeftLine, RiCodeBoxLine, RiDraftLine, RiExternalLinkLine, RiFold
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
-import { mockProjects } from "@/lib/admin/mock-data";
+import type { AdminProject } from "@/types";
 
-const stats = [
-  { label: "کل پروژه‌ها", value: mockProjects.length, icon: RiCodeBoxLine, detail: "پروژه ثبت‌شده" },
-  { label: "منتشرشده", value: mockProjects.filter((project) => project.status === "published").length, icon: RiPulseLine, detail: "قابل نمایش در سایت" },
-  { label: "پیش‌نویس", value: mockProjects.filter((project) => project.status === "draft").length, icon: RiDraftLine, detail: "در انتظار انتشار" },
-];
+export default function DashboardOverview({ projects }: { projects: AdminProject[] }) {
+  const published = projects.filter((project) => project.status === "published").length;
+  const stats = [
+    { label: "کل پروژه‌ها", value: projects.length, icon: RiCodeBoxLine, detail: "پروژه ثبت‌شده" },
+    { label: "منتشرشده", value: published, icon: RiPulseLine, detail: "قابل نمایش در سایت" },
+    { label: "پیش‌نویس", value: projects.length - published, icon: RiDraftLine, detail: "در انتظار انتشار" },
+  ];
+  const recent = projects.slice(0, 5);
 
-export default function DashboardOverview() {
   return (
     <div className="min-w-0 space-y-8">
       <section>
@@ -54,14 +56,14 @@ export default function DashboardOverview() {
             </Button>
           </CardHeader>
           <CardContent className="grid gap-3">
-            {mockProjects.map((project) => (
+            {recent.map((project) => (
               <div key={project.id} className="bg-background/45 flex min-w-0 items-center gap-3 overflow-hidden rounded-2xl border border-border/60 p-3 sm:p-4">
                 <div className="bg-primary/10 text-primary flex size-10 shrink-0 items-center justify-center rounded-xl">
                   <RiFolderOpenLine className="size-5" />
                 </div>
                 <div className="min-w-0 flex-1 overflow-hidden">
-                  <h3 className="truncate font-bold">{project.title}</h3>
-                  <p className="truncate text-sm text-muted-foreground">{project.description}</p>
+                  <h3 className="truncate font-bold">{project.title.fa}</h3>
+                  <p className="truncate text-sm text-muted-foreground">{project.description.fa}</p>
                 </div>
                 <Badge className="shrink-0" variant={project.status === "published" ? "default" : "secondary"}>{project.status === "published" ? "منتشرشده" : "پیش‌نویس"}</Badge>
               </div>

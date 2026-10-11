@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { signOutAction } from "@/lib/actions/auth.actions";
 import { usePathname } from "next/navigation";
-import { RiDashboardLine, RiExternalLinkLine, RiFolderChartLine, RiUserSettingsLine } from "@remixicon/react";
+import { RiArticleLine, RiDashboardLine, RiMailLine, RiExternalLinkLine, RiFileList3Line, RiFolderChartLine, RiShareLine, RiToolsLine, RiUserSettingsLine } from "@remixicon/react";
 import {
   Sidebar,
   SidebarContent,
@@ -26,6 +26,11 @@ const links = [
   { href: "/admin", label: "داشبورد", icon: RiDashboardLine },
   { href: "/admin/projects", label: "پروژه‌ها", icon: RiFolderChartLine },
   { href: "/admin/profile", label: "پروفایل و مهارت‌ها", icon: RiUserSettingsLine },
+  { href: "/admin/blog", label: "بلاگ", icon: RiArticleLine },
+  { href: "/admin/services", label: "خدمات", icon: RiToolsLine },
+  { href: "/admin/resume", label: "رزومه", icon: RiFileList3Line },
+  { href: "/admin/social-links", label: "شبکه‌های اجتماعی", icon: RiShareLine },
+  { href: "/admin/messages", label: "پیام‌ها", icon: RiMailLine },
 ];
 
 export default function AdminShell({ children }: Readonly<{ children: React.ReactNode }>) {
@@ -69,7 +74,7 @@ function AdminSidebar() {
           {open && (
             <div className="min-w-0">
               <p className="truncate font-bold">پنل ادمین</p>
-              <p className="text-xs text-muted-foreground">نسخه نمایشی</p>
+              <p className="text-xs text-muted-foreground">مدیریت محتوا</p>
             </div>
           )}
         </div>

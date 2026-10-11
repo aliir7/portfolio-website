@@ -25,7 +25,7 @@ function NavItem({ onNavigate }: NavItemProps) {
               isPersian ? "hover:-translate-x-0.5" : "hover:translate-x-0.5"
             }`}
           >
-            <Link href={`/#${key}`} onClick={onNavigate}>
+            <Link href={key === "blog" ? "/blog" : `/#${key}`} onClick={onNavigate}>
               {name}
             </Link>
           </li>

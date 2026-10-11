@@ -6,10 +6,12 @@ import Image from "next/image";
 import { CTAButtons } from "./CTAButtons";
 import Shape from "../ui/shape";
 import RevealSection from "../ui/reveal-section";
+import { useContent } from "@/lib/content";
 import { toLocaleDigits, useDictionary, useLocale } from "@/lib/i18n";
 
 const HeroSection = () => {
   const { hero } = useDictionary();
+  const { profile } = useContent();
   const locale = useLocale();
   return (
     <RevealSection
@@ -29,15 +31,15 @@ const HeroSection = () => {
 
             {/* افکت متن توخالی یکپارچه با کلاس سفارشی */}
             <h1 className="stroke-custom text-7xl font-bold tracking-tighter md:text-8xl lg:text-[100px]">
-              {hero.name}
+              {profile.name}
             </h1>
 
             <h2 className="text-2xl font-bold md:text-3xl">
-              {hero.role}
+              {profile.role}
             </h2>
 
             <p className="text-muted-foreground max-w-lg text-lg leading-8">
-              {hero.bio}
+              {profile.bio}
             </p>
 
             {/* شبکه‌های اجتماعی */}
@@ -80,7 +82,7 @@ const HeroSection = () => {
             <div className="bg-primary relative z-10 flex h-85 w-85 items-end justify-center overflow-hidden rounded-full shadow-[0_24px_70px_-24px_var(--primary)] md:h-120 md:w-120">
               <Image
                 src="/assets/img/user_img.png"
-                alt={hero.imageAlt}
+                alt={profile.name}
                 width={500}
                 height={500}
                 className="object-cover pt-6 drop-shadow-2xl"

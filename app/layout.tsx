@@ -1,8 +1,8 @@
+import { siteUrl } from "@/lib/site";
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import "./globals.css";
 
-const siteUrl = "https://www.alirezaeii.ir";
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),

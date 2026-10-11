@@ -7,59 +7,46 @@ import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Textarea } from "@/components/ui/textarea";
 import { updateProfileAction } from "@/lib/actions/admin/profile.actions";
-import type { AdminProfile } from "@/types";
-import { skillsData } from "@/lib/constants";
-import { getActionErrorMessage } from "@/lib/utils/format-error";
+import { emptyLocalized } from "@/lib/localize";
+import { notifyResult } from "@/lib/utils/notify";
+import type { ProfileInput, SkillInput } from "@/types";
+import LocalizedField from "./localized-field";
+import TextField from "./text-field";
+import { useListEditor } from "./use-list-editor";
 
-const fallbackProfile: AdminProfile = {
-  name: "علی رضایی",
-  role: "برنامه‌نویس React و Next.js",
-  bio: "توسعه‌دهنده وب ساکن تهران با تمرکز بر ساخت رابط‌های کاربری مدرن، سریع و قابل نگهداری.",
-  email: "alirezaeii.dev@gmail.com",
-  phone: "0902 925 3481",
-  location: "تهران، ایران",
-  githubUrl: "https://github.com/aliir7",
-  resumeUrl: "/resume.pdf",
-  skills: skillsData.map((skill) => ({ ...skill })),
+export type ProfileForm = { profile: ProfileInput; skills: SkillInput[] };
+
+export const emptyProfileForm: ProfileForm = {
+  profile: {
+    name: emptyLocalized(),
+    role: emptyLocalized(),
+    bio: emptyLocalized(),
+    location: emptyLocalized(),
+    email: "",
+    phone: "",
+    resumeUrl: "",
+  },
+  skills: [],
 };
 
-export default function ProfileManager({ initialProfile }: { initialProfile?: AdminProfile }) {
-  const [profile, setProfile] = useState(initialProfile ?? fallbackProfile);
+export default function ProfileManager({ initial = emptyProfileForm }: { initial?: ProfileForm }) {
+  const [profile, setProfile] = useState(initial.profile);
+  const skills = useListEditor(initial.skills);
   const [saved, setSaved] = useState(false);
 
-  const update = (field: Exclude<keyof AdminProfile, "skills">, value: string) => {
+  const updateProfile = <K extends keyof ProfileInput>(field: K, value: ProfileInput[K]) => {
     setSaved(false);
     setProfile((current) => ({ ...current, [field]: value }));
   };
 
-  const updateSkill = (index: number, field: "name" | "description" | "value", value: string) => {
+  const updateSkill = (uid: string, patch: Partial<SkillInput>) => {
     setSaved(false);
-    setProfile((current) => ({
-      ...current,
-      skills: current.skills.map((skill, skillIndex) =>
-        skillIndex === index ? { ...skill, [field]: field === "value" ? Math.min(100, Math.max(0, Number(value) || 0)) : value } : skill,
-      ),
-    }));
+    skills.update(uid, patch);
   };
 
   const save = async () => {
-    const result = await updateProfileAction(
-      {
-        name: profile.name,
-        role: profile.role,
-        bio: profile.bio,
-        email: profile.email,
-        phone: profile.phone,
-        location: profile.location,
-        githubUrl: profile.githubUrl,
-        resumeUrl: profile.resumeUrl,
-      },
-      profile.skills,
-    );
-    if (!result.success) throw new Error(getActionErrorMessage(result.error));
-    setSaved(true);
+    setSaved(notifyResult(await updateProfileAction({ profile, skills: skills.values })));
   };
 
   return (
@@ -76,38 +63,45 @@ export default function ProfileManager({ initialProfile }: { initialProfile?: Ad
         <Card className="glass-panel border-0">
           <CardHeader>
             <CardTitle>اطلاعات شخصی</CardTitle>
-            <CardDescription>این بخش بعداً به endpoint پروفایل متصل می‌شود.</CardDescription>
+            <CardDescription>متن‌های دوزبانه باید هم فارسی و هم انگلیسی پر شوند.</CardDescription>
           </CardHeader>
           <CardContent className="grid gap-5">
-            <ProfileField id="profile-name" label="نام" value={profile.name} onChange={(value) => update("name", value)} />
-            <ProfileField id="profile-role" label="عنوان شغلی" value={profile.role} onChange={(value) => update("role", value)} />
-            <div className="grid gap-2"><Label htmlFor="profile-bio">معرفی کوتاه</Label><Textarea id="profile-bio" value={profile.bio} onChange={(event) => update("bio", event.target.value)} rows={4} /></div>
+            <LocalizedField id="profile-name" label="نام" value={profile.name} onChange={(value) => updateProfile("name", value)} />
+            <LocalizedField id="profile-role" label="عنوان شغلی" value={profile.role} onChange={(value) => updateProfile("role", value)} />
+            <LocalizedField id="profile-bio" label="معرفی کوتاه" value={profile.bio} onChange={(value) => updateProfile("bio", value)} multiline rows={4} />
+            <LocalizedField id="profile-location" label="موقعیت" value={profile.location} onChange={(value) => updateProfile("location", value)} />
             <div className="grid gap-4 sm:grid-cols-2">
-              <ProfileField id="profile-email" label="ایمیل" value={profile.email} onChange={(value) => update("email", value)} dir="ltr" />
-              <ProfileField id="profile-phone" label="تلفن" value={profile.phone} onChange={(value) => update("phone", value)} dir="ltr" />
+              <TextField id="profile-email" label="ایمیل" value={profile.email} onChange={(value) => updateProfile("email", value)} />
+              <TextField id="profile-phone" label="تلفن" value={profile.phone} onChange={(value) => updateProfile("phone", value)} />
             </div>
-            <ProfileField id="profile-location" label="موقعیت" value={profile.location} onChange={(value) => update("location", value)} />
-            <ProfileField id="profile-github" label="GitHub" value={profile.githubUrl} onChange={(value) => update("githubUrl", value)} dir="ltr" />
-            <ProfileField id="profile-resume" label="آدرس رزومه" value={profile.resumeUrl} onChange={(value) => update("resumeUrl", value)} dir="ltr" />
+            <TextField id="profile-resume" label="آدرس رزومه" value={profile.resumeUrl} onChange={(value) => updateProfile("resumeUrl", value)} />
           </CardContent>
         </Card>
         <Card className="glass-panel border-0">
           <CardHeader className="flex-row items-start justify-between gap-4">
-            <div><CardTitle>مهارت‌ها</CardTitle><CardDescription>نام، درصد تسلط و توضیح مهارت‌ها را ویرایش کن.</CardDescription></div>
+            <div>
+              <CardTitle>مهارت‌ها</CardTitle>
+              <CardDescription>نام، درصد تسلط و توضیح مهارت‌ها را ویرایش کن.</CardDescription>
+            </div>
             <Button asChild variant="outline" size="sm"><Link href="/admin/profile/skills/new"><RiAddLine /> افزودن</Link></Button>
           </CardHeader>
           <CardContent className="grid gap-4">
-            {profile.skills.map((skill, index) => (
-              <div key={`${skill.name}-${index}`} className="bg-background/45 border-border/60 grid gap-3 rounded-2xl border p-4">
+            {skills.rows.map((skill, index) => (
+              <div key={skill.uid} className="bg-background/45 border-border/60 grid gap-3 rounded-2xl border p-4">
                 <div className="flex items-center justify-between gap-3">
-                  <Label htmlFor={`skill-name-${index}`}>مهارت {index + 1}</Label>
-                  <Button variant="ghost" size="icon" onClick={() => setProfile((current) => ({ ...current, skills: current.skills.filter((_, skillIndex) => skillIndex !== index) }))} aria-label={`حذف ${skill.name}`}><RiDeleteBinLine /></Button>
+                  <Label htmlFor={`${skill.uid}-name`}>مهارت {index + 1}</Label>
+                  <Button variant="ghost" size="icon" aria-label={`حذف ${skill.name}`} onClick={() => { setSaved(false); skills.remove(skill.uid); }}>
+                    <RiDeleteBinLine />
+                  </Button>
                 </div>
                 <div className="grid gap-3 sm:grid-cols-[1fr_100px]">
-                  <Input id={`skill-name-${index}`} value={skill.name} onChange={(event) => updateSkill(index, "name", event.target.value)} />
-                  <div className="relative"><Input type="number" min={0} max={100} value={skill.value} onChange={(event) => updateSkill(index, "value", event.target.value)} className="pe-8" /><span className="text-muted-foreground absolute end-3 top-1/2 -translate-y-1/2 text-sm">٪</span></div>
+                  <Input id={`${skill.uid}-name`} dir="ltr" value={skill.name} onChange={(event) => updateSkill(skill.uid, { name: event.target.value })} />
+                  <div className="relative">
+                    <Input type="number" min={0} max={100} value={skill.value} onChange={(event) => updateSkill(skill.uid, { value: Math.min(100, Math.max(0, Number(event.target.value) || 0)) })} className="pe-8" />
+                    <span className="text-muted-foreground absolute end-3 top-1/2 -translate-y-1/2 text-sm">٪</span>
+                  </div>
                 </div>
-                <Textarea value={skill.description} onChange={(event) => updateSkill(index, "description", event.target.value)} rows={2} />
+                <LocalizedField id={`${skill.uid}-description`} label="توضیح" value={skill.description} onChange={(value) => updateSkill(skill.uid, { description: value })} multiline rows={2} />
               </div>
             ))}
           </CardContent>
@@ -115,8 +109,4 @@ export default function ProfileManager({ initialProfile }: { initialProfile?: Ad
       </div>
     </div>
   );
-}
-
-function ProfileField({ id, label, value, onChange, dir }: { id: string; label: string; value: string; onChange: (value: string) => void; dir?: "ltr" | "rtl" }) {
-  return <div className="grid gap-2"><Label htmlFor={id}>{label}</Label><Input id={id} value={value} dir={dir} onChange={(event) => onChange(event.target.value)} /></div>;
 }

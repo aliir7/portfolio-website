@@ -4,11 +4,12 @@ import WorksFilter from "./WorksFilter";
 import WorksGrid from "./WorksGrid";
 import Shape from "../ui/shape";
 import RevealSection from "../ui/reveal-section";
-import { useDictionary, useLocalizedContent } from "@/lib/i18n";
+import { useContent } from "@/lib/content";
+import { useDictionary } from "@/lib/i18n";
 
 const WorksSection = () => {
   const dictionary = useDictionary();
-  const { projects } = useLocalizedContent();
+  const { projects } = useContent();
   return (
     <RevealSection
       id="works"

@@ -1,13 +1,14 @@
+import { siteUrl } from "@/lib/site";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getMessages, setRequestLocale } from "next-intl/server";
 import Providers from "@/components/Providers";
 import { TIME_ZONE } from "@/i18n/config";
-import { hasLocale, routing, type Locale } from "@/i18n/routing";
+import { hasLocale, type Locale } from "@/i18n/routing";
+import { getPublicContent } from "@/query/content.query";
 
 const DIR: Record<Locale, "rtl" | "ltr"> = { fa: "rtl", en: "ltr" };
 
-const siteUrl = "https://www.alirezaeii.ir";
 
 const localeMetadata = {
   fa: {
@@ -75,12 +76,12 @@ export default async function LocaleLayout({
   if (!hasLocale(locale)) notFound();
 
   setRequestLocale(locale);
-  const messages = await getMessages();
+  const [messages, content] = await Promise.all([getMessages(), getPublicContent(locale)]);
 
   return (
     <html lang={locale} dir={DIR[locale]} suppressHydrationWarning>
       <body suppressHydrationWarning>
-        <Providers locale={locale} messages={messages} timeZone={TIME_ZONE}>
+        <Providers locale={locale} messages={messages} timeZone={TIME_ZONE} content={content}>
           {children}
         </Providers>
       </body>

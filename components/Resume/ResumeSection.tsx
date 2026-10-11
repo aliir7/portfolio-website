@@ -3,11 +3,12 @@
 import ResumeColumn from "./ResumeColumn";
 import Shape from "../ui/shape";
 import RevealSection from "../ui/reveal-section";
-import { useDictionary, useLocalizedContent } from "@/lib/i18n";
+import { useContent } from "@/lib/content";
+import { useDictionary } from "@/lib/i18n";
 
 const ResumeSection = () => {
   const dictionary = useDictionary();
-  const { resume } = useLocalizedContent();
+  const { resume } = useContent();
   const educationItems = resume.filter((item) => item.category === "education");
   const experienceItems = resume.filter(
     (item) => item.category === "experience",

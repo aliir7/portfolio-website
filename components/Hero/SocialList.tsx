@@ -1,16 +1,20 @@
-import { socialLinks } from "@/lib/constants";
-import { Button } from "../ui/button";
+"use client";
+
 import Link from "next/link";
+import { useContent } from "@/lib/content";
+import { socialIcons } from "@/lib/constants";
+import { Button } from "../ui/button";
 
 const SocialList = () => {
+  const { socialLinks } = useContent();
   return (
     <div className="flex flex-wrap items-center gap-3">
       <div className="flex flex-wrap gap-2">
         {socialLinks.map((item) => {
-          const Icon = item.icon;
+          const { icon: Icon, label } = socialIcons[item.platform];
           return (
             <Button
-              key={item.label}
+              key={item.id}
               asChild
               variant="ctaLink"
               size="icon"
@@ -20,7 +24,7 @@ const SocialList = () => {
                 href={item.href}
                 target="_blank"
                 rel="noreferrer"
-                aria-label={item.label}
+                aria-label={label}
                 className="ease-custom transition-colors duration-700"
               >
                 <Icon className="h-5 w-5" />

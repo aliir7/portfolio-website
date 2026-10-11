@@ -1,11 +1,17 @@
 import Home from "@/components/Home/Home";
+import { siteUrl } from "@/lib/site";
+import { getPublicContent } from "@/query/content.query";
 
-const siteUrl = "https://www.alirezaeii.ir";
+// Rendered from the database and refreshed on demand by admin actions
+// (`revalidatePublicContent`); the hourly window is only a safety net.
+export const revalidate = 3600;
 
 export default async function LocalePage({ params }: { params: Promise<{ locale: string }> }) {
   const { locale } = await params;
   const isEnglish = locale === "en";
-  const personName = isEnglish ? "Ali Rezaei" : "علی رضایی";
+  const content = await getPublicContent(isEnglish ? "en" : "fa");
+  const { profile } = content;
+
   const description = isEnglish
     ? "The portfolio of Ali Rezaei, a React and Next.js developer based in Tehran."
     : "پورتفولیوی علی رضایی، برنامه‌نویس React و Next.js ساکن تهران.";
@@ -15,10 +21,10 @@ export default async function LocalePage({ params }: { params: Promise<{ locale:
       {
         "@type": "Person",
         "@id": `${siteUrl}/#person`,
-        name: personName,
+        name: profile.name,
         url: `${siteUrl}/${locale}`,
         image: `${siteUrl}/assets/img/user_img.png`,
-        jobTitle: isEnglish ? "React & Next.js Developer" : "برنامه‌نویس React و Next.js",
+        jobTitle: profile.role,
         description,
         address: {
           "@type": "PostalAddress",
@@ -30,7 +36,7 @@ export default async function LocalePage({ params }: { params: Promise<{ locale:
         "@type": "WebSite",
         "@id": `${siteUrl}/#website`,
         url: siteUrl,
-        name: isEnglish ? "Ali Rezaei Portfolio" : "پورتفولیوی علی رضایی",
+        name: isEnglish ? `${profile.name} Portfolio` : `پورتفولیوی ${profile.name}`,
         description,
         inLanguage: locale,
         publisher: { "@id": `${siteUrl}/#person` },

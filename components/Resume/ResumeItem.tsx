@@ -39,9 +39,9 @@ const ResumeItem = ({ item }: Props) => {
             <span className="text-lg font-bold leading-7">{item.title}</span>
             <time
               className="text-primary bg-primary/10 w-fit rounded-full px-3 py-1 text-xs font-semibold whitespace-nowrap"
-              dateTime={item.date}
+              dateTime={item.period}
             >
-              {item.date}
+              {item.period}
             </time>
           </span>
           <span className="text-muted-foreground mt-2 block text-sm font-medium">

@@ -7,10 +7,11 @@ import "swiper/css/pagination";
 import ServiceCard from "./ServiceCard";
 import Shape from "../ui/shape";
 import RevealSection from "../ui/reveal-section";
-import { useDictionary, useLocale, useLocalizedContent } from "@/lib/i18n";
+import { useContent } from "@/lib/content";
+import { useDictionary, useLocale } from "@/lib/i18n";
 
 export const ServicesSection = () => {
-  const { services } = useLocalizedContent();
+  const { services } = useContent();
   const dictionary = useDictionary();
   const locale = useLocale();
   return (

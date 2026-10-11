@@ -10,34 +10,30 @@ import { RiMailLine, RiPhoneLine, RiMapPinLine } from "@remixicon/react";
 import { cn } from "@/lib/utils";
 import RevealSection from "../ui/reveal-section";
 import Shape from "../ui/shape";
+import { useContent } from "@/lib/content";
 import { toLocaleDigits, useDictionary, useLocale } from "@/lib/i18n";
 import { submitContactAction } from "@/lib/actions/contact.actions";
 import { getActionErrorMessage } from "@/lib/utils/format-error";
 
-const contactInfo = [
-  {
-    icon: RiMailLine,
-    key: "email",
-    value: "alirezaeii.dev@gmail.com",
-    href: "mailto:alirezaeii.dev@gmail.com",
-  },
-  {
-    icon: RiPhoneLine,
-    key: "phone",
-    value: "0902 925 3481",
-    href: "tel:+989029253481",
-  },
-  {
-    icon: RiMapPinLine,
-    key: "location",
-    value: "تهران، ایران",
-    href: "https://maps.google.com/?q=Tehran,Iran",
-  },
-];
-
 export const ContactSection = () => {
   const { contact } = useDictionary();
   const locale = useLocale();
+  const { profile } = useContent();
+  const contactInfo = [
+    { icon: RiMailLine, key: "email", value: profile.email, href: `mailto:${profile.email}` },
+    {
+      icon: RiPhoneLine,
+      key: "phone",
+      value: profile.phone,
+      href: `tel:${profile.phone.replace(/\s+/g, "")}`,
+    },
+    {
+      icon: RiMapPinLine,
+      key: "location",
+      value: profile.location,
+      href: `https://maps.google.com/?q=${encodeURIComponent(profile.location)}`,
+    },
+  ];
   const [formData, setFormData] = useState({
     name: "",
     email: "",
