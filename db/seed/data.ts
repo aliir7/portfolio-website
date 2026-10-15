@@ -2,7 +2,15 @@
 // `lib/constants` mock data, English text from the former `lib/i18n` dictionaries.
 // After seeding, the database is the only owner of this content.
 import { withSortOrder } from "../helpers";
-import type { profile, projects, resumeItems, services, skills, socialLinks, user } from "../schema";
+import type {
+  profile,
+  projects,
+  resumeItems,
+  services,
+  skills,
+  socialLinks,
+  user,
+} from "../schema";
 
 export const ownerEmail = "alirezaeii.dev@gmail.com";
 
@@ -23,6 +31,8 @@ export const profileSeed: typeof profile.$inferInsert = {
   email: ownerEmail,
   phone: "0902 925 3481",
   resumeUrl: "/resume.pdf",
+  experienceYears: 3,
+  completedProjects: 7,
 };
 
 export const socialLinksSeed: (typeof socialLinks.$inferInsert)[] = [
@@ -39,7 +49,10 @@ const servicesBase: Omit<typeof services.$inferInsert, "sortOrder">[] = [
     },
   },
   {
-    title: { fa: "طراحی و توسعه وب‌سایت", en: "Website design and development" },
+    title: {
+      fa: "طراحی و توسعه وب‌سایت",
+      en: "Website design and development",
+    },
     subtitle: { fa: "WordPress و رابط کاربری", en: "WordPress and UI" },
     description: {
       fa: "طراحی و توسعه وب‌سایت‌های شخصی و کسب‌وکاری با تمرکز بر ساختار تمیز، واکنش‌گرایی و عملکرد مناسب.",
@@ -55,7 +68,10 @@ const servicesBase: Omit<typeof services.$inferInsert, "sortOrder">[] = [
     },
   },
   {
-    title: { fa: "بهینه‌سازی برای موتورهای جستجو", en: "Search engine optimization" },
+    title: {
+      fa: "بهینه‌سازی برای موتورهای جستجو",
+      en: "Search engine optimization",
+    },
     subtitle: { fa: "SEO تکنیکال و داخلی", en: "Technical and on-page SEO" },
     description: {
       fa: "بهبود ساختار صفحات، عملکرد و قابلیت دیده‌شدن وب‌سایت با استفاده از Google Search Console، Ahrefs و ابزارهای تحلیل کلمات کلیدی.",
@@ -63,7 +79,10 @@ const servicesBase: Omit<typeof services.$inferInsert, "sortOrder">[] = [
     },
   },
   {
-    title: { fa: "همکاری در توسعه محصول", en: "Product development collaboration" },
+    title: {
+      fa: "همکاری در توسعه محصول",
+      en: "Product development collaboration",
+    },
     subtitle: { fa: "Git و کار تیمی", en: "Git and teamwork" },
     description: {
       fa: "مشارکت در حل مسئله، نوشتن کد قابل نگهداری و مدیریت نسخه با Git در پروژه‌های واقعی و فریلنسری.",
@@ -177,7 +196,10 @@ export const projectsSeed: (typeof projects.$inferInsert)[] = [
 const resumeBase: Omit<typeof resumeItems.$inferInsert, "sortOrder">[] = [
   {
     category: "education",
-    organization: { fa: "دانشگاه آزاد اسلامی واحد پرند", en: "Azad University of Parand" },
+    organization: {
+      fa: "دانشگاه آزاد اسلامی واحد پرند",
+      en: "Azad University of Parand",
+    },
     title: { fa: "کارشناسی مهندسی عمران", en: "Bachelor of Civil Engineering" },
     period: { fa: "۱۳۹۳ - ۱۳۹۶", en: "2014 - 2017" },
     content: {
@@ -188,7 +210,10 @@ const resumeBase: Omit<typeof resumeItems.$inferInsert, "sortOrder">[] = [
   {
     category: "education",
     organization: { fa: "مکتب‌خونه", en: "Maktabkhooneh" },
-    title: { fa: "دوره‌های تخصصی توسعه وب", en: "Specialized Web Development Courses" },
+    title: {
+      fa: "دوره‌های تخصصی توسعه وب",
+      en: "Specialized Web Development Courses",
+    },
     period: { fa: "۱۴۰۱", en: "2022" },
     content: {
       fa: "گذراندن دوره‌های Node.js، React JS، Git و طراحی وب Front-End با مجموع بیش از ۱۳۰ ساعت آموزش.",
@@ -217,8 +242,14 @@ const resumeBase: Omit<typeof resumeItems.$inferInsert, "sortOrder">[] = [
   },
   {
     category: "experience",
-    organization: { fa: "پروژه‌های شخصی و فریلنسری", en: "Personal and freelance projects" },
-    title: { fa: "طراح وب و توسعه‌دهنده WordPress", en: "Web Designer and WordPress Developer" },
+    organization: {
+      fa: "پروژه‌های شخصی و فریلنسری",
+      en: "Personal and freelance projects",
+    },
+    title: {
+      fa: "طراح وب و توسعه‌دهنده WordPress",
+      en: "Web Designer and WordPress Developer",
+    },
     period: { fa: "۱۴۰۱ تاکنون", en: "2022 - Present" },
     content: {
       fa: "طراحی و توسعه وب‌سایت‌های شخصی و کسب‌وکاری با WordPress و بهینه‌سازی ساختار و عملکرد آن‌ها.",
@@ -227,7 +258,10 @@ const resumeBase: Omit<typeof resumeItems.$inferInsert, "sortOrder">[] = [
   },
   {
     category: "experience",
-    organization: { fa: "یادگیری و توسعه مستمر", en: "Continuous learning and development" },
+    organization: {
+      fa: "یادگیری و توسعه مستمر",
+      en: "Continuous learning and development",
+    },
     title: { fa: "توسعه‌دهنده وب", en: "Web Developer" },
     period: { fa: "۱۴۰۲ تاکنون", en: "2023 - Present" },
     content: {

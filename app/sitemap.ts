@@ -2,6 +2,7 @@ import type { MetadataRoute } from "next";
 import { routing } from "@/i18n/routing";
 import { siteUrl } from "@/lib/site";
 import { getPublishedBlogPostsQuery } from "@/query/blogs.query";
+import { getProjectsQuery } from "@/query/content.query";
 
 // Posts are published over time, so the sitemap is regenerated hourly.
 export const revalidate = 3600;
@@ -20,11 +21,22 @@ const localized = (path: string, entry: Entry): MetadataRoute.Sitemap =>
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const lastModified = new Date();
-  const posts = (await getPublishedBlogPostsQuery()).filter((post) => !post.noIndex);
+  const [blogPosts, projects] = await Promise.all([
+    getPublishedBlogPostsQuery(),
+    getProjectsQuery({ publishedOnly: true }),
+  ]);
+  const posts = blogPosts.filter((post) => !post.noIndex);
 
   return [
     ...localized("", { lastModified, changeFrequency: "monthly", priority: 1 }),
     ...localized("/blog", { lastModified, changeFrequency: "weekly", priority: 0.8 }),
+    ...projects.flatMap((project) =>
+      localized(`/works/${project.slug}`, {
+        lastModified: project.updatedAt,
+        changeFrequency: "monthly",
+        priority: 0.7,
+      }),
+    ),
     ...posts.flatMap((post) =>
       localized(`/blog/${post.slug}`, {
         lastModified: post.updatedAt,

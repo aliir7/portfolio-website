@@ -1,26 +1,17 @@
 "use client";
 
-import { useState, useActionState, startTransition } from "react";
+import { useState, useActionState, useTransition } from "react";
 import { useForm } from "@tanstack/react-form";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import { signInAction, type LoginState } from "@/lib/actions/auth.actions";
 import { loginSchema, type LoginInput } from "@/lib/validations";
+import { zodIssuesToFieldErrors } from "@/lib/utils";
 
 const initialState: LoginState = {};
 
-function zodIssuesToFieldErrors(
-  issues: { path: PropertyKey[]; message: string }[],
-): Record<string, { message: string }[]> {
-  return issues.reduce<Record<string, { message: string }[]>>((acc, issue) => {
-    const key = String(issue.path[0] ?? "form");
-    if (!acc[key]) acc[key] = [];
-    acc[key].push({ message: issue.message });
-    return acc;
-  }, {});
-}
-
 export function useLoginForm() {
   const [state, action, pending] = useActionState(signInAction, initialState);
+  const [, startTransition] = useTransition();
   const { executeRecaptcha } = useGoogleReCaptcha();
   const [captchaLoading, setCaptchaLoading] = useState(false);
 
@@ -44,7 +35,6 @@ export function useLoginForm() {
         console.error("reCAPTCHA not ready");
         return;
       }
-
       setCaptchaLoading(true);
       try {
         const token = await executeRecaptcha("login");
@@ -53,8 +43,6 @@ export function useLoginForm() {
         formData.set("password", value.password);
         formData.set("rememberMe", String(value.rememberMe));
         formData.set("recaptchaToken", token);
-
-        // ✅ فراخوانی امپراتیو server action باید داخل transition باشد
         startTransition(() => {
           action(formData);
         });

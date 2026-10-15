@@ -22,4 +22,9 @@ export const socialIcons: Record<
 };
 
 /** Cloudinary folders used by the admin image uploaders. */
-export const uploadFolders = { blog: "portfolio/blog", projects: "portfolio/projects" } as const;
+export const uploadFolders = {
+  blog: "portfolio/blog",
+  projects: "portfolio/projects",
+  site: "portfolio/site",
+  profile: "portfolio/profile",
+} as const;

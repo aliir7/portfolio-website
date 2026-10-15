@@ -13,6 +13,7 @@ import { notifyResult } from "@/lib/utils/notify";
 import { skillSchema } from "@/lib/validations/profile";
 import type { SkillInput } from "@/types";
 import LocalizedField from "./localized-field";
+import NumberField from "./number-field";
 
 export default function SkillCreateForm() {
   const router = useRouter();
@@ -43,10 +44,7 @@ export default function SkillCreateForm() {
               <Label htmlFor="new-skill-name">نام مهارت</Label>
               <Input id="new-skill-name" dir="ltr" value={skill.name} onChange={(event) => setSkill({ ...skill, name: event.target.value })} />
             </div>
-            <div className="grid gap-2">
-              <Label htmlFor="new-skill-value">درصد تسلط</Label>
-              <Input id="new-skill-value" type="number" min={0} max={100} value={skill.value} onChange={(event) => setSkill({ ...skill, value: Math.min(100, Math.max(0, Number(event.target.value) || 0)) })} />
-            </div>
+            <NumberField id="new-skill-value" label="درصد تسلط" min={0} max={100} value={skill.value} onChange={(value) => setSkill({ ...skill, value })} />
           </div>
           <LocalizedField id="new-skill-description" label="توضیح" value={skill.description} onChange={(value) => setSkill({ ...skill, description: value })} multiline rows={4} />
           <div className="flex justify-end border-t border-border/60 pt-5">

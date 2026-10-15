@@ -48,6 +48,10 @@ Copy `.env.example` to `.env` and configure:
 - `BETTER_AUTH_URL`: local or production site URL.
 - `BETTER_AUTH_SECRET`: a long random secret.
 - Cloudinary variables from the Cloudinary dashboard.
+- `RESEND_API_KEY` and `RESEND_FROM_EMAIL`: password-reset e-mails and contact-form notifications (the notification goes to the profile e-mail).
+- `RECAPTCHA_SECRET_KEY` and `NEXT_PUBLIC_RECAPTCHA_SITE_KEY`: reCAPTCHA v3 for login, password reset and the contact form.
+- Variables are validated at server start (`lib/env.ts`): a missing or malformed value stops the app with one readable list. `DATABASE_URL`, `BETTER_AUTH_SECRET` (32+ characters) and the reCAPTCHA keys are required; Resend and Cloudinary are optional integrations. Use `SKIP_ENV_VALIDATION=1` only for builds that run without secrets.
+- `CSP_ENFORCE=true` switches the Content-Security-Policy from report-only to enforced (see `docs/ADR.md`, ADR-016).
 - `SEED_ADMIN_PASSWORD`: password for the seeded admin user (`alirezaeii.dev@gmail.com`), used only by `pnpm db:seed`.
 
 ### Database

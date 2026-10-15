@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
@@ -14,9 +15,11 @@ import { useContent } from "@/lib/content";
 import { toLocaleDigits, useDictionary, useLocale } from "@/lib/i18n";
 import { submitContactAction } from "@/lib/actions/contact.actions";
 import { getActionErrorMessage } from "@/lib/utils/format-error";
+import { RecaptchaProvider } from "../auth/recaptcha-provider";
 
-export const ContactSection = () => {
+const ContactSectionContent = () => {
   const { contact } = useDictionary();
+  const { executeRecaptcha } = useGoogleReCaptcha();
   const locale = useLocale();
   const { profile } = useContent();
   const contactInfo = [
@@ -61,8 +64,10 @@ export const ContactSection = () => {
 
     setIsSubmitting(true);
     try {
-      const result = await submitContactAction(formData);
-      if (!result.success) throw new Error(getActionErrorMessage(result.error));
+      if (!executeRecaptcha) throw new Error(contact.unexpectedError);
+      const token = await executeRecaptcha("contact");
+      const result = await submitContactAction(formData, token);
+      if (!result.success) throw new Error(result.message ?? getActionErrorMessage(result.error));
 
       toast.success(contact.success);
       setFormData({ name: "", email: "", message: "" });
@@ -291,5 +296,12 @@ export const ContactSection = () => {
     </RevealSection>
   );
 };
+
+/** reCAPTCHA v3 is scoped to this section; the token is verified by `submitContactAction`. */
+export const ContactSection = () => (
+  <RecaptchaProvider>
+    <ContactSectionContent />
+  </RecaptchaProvider>
+);
 
 export default ContactSection;

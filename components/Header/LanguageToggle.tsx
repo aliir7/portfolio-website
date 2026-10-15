@@ -1,6 +1,7 @@
 "use client";
 
 import { RiArrowDownSLine, RiCheckLine, RiTranslate2 } from "@remixicon/react";
+import { LOCALE_COOKIE } from "@/i18n/config";
 import { useLocale } from "@/lib/i18n";
 import { Link } from "@/i18n/navigation";
 import { Button } from "@/components/ui/button";
@@ -21,7 +22,7 @@ export default function LanguageToggle({ label }: { label: string }) {
   ];
 
   const setLocaleCookie = (nextLocale: "fa" | "en") => {
-    document.cookie = `portfolio-locale=${nextLocale}; path=/; max-age=31536000; samesite=lax`;
+    document.cookie = `${LOCALE_COOKIE}=${nextLocale}; path=/; max-age=31536000; samesite=lax`;
   };
 
   return (

@@ -4,6 +4,7 @@ import { getTranslations } from "next-intl/server";
 import { headers } from "next/headers";
 import { redirect } from "next/navigation";
 import { auth } from "@/lib/auth";
+import { env } from "@/lib/env";
 import {
   forgotPasswordSchema,
   loginSchema,
@@ -174,5 +175,5 @@ export async function resetPasswordAction(
 }
 
 function baseUrl() {
-  return process.env.BETTER_AUTH_URL ?? "http://localhost:3000";
+  return env.BETTER_AUTH_URL;
 }

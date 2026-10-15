@@ -1,19 +1,11 @@
 import { z } from "zod";
+import { localizedText } from "./localized";
 
-export const siteSettingsSchema = z.object({
-  siteName: z.string().trim().min(1).max(120),
-  siteTitle: z.string().trim().min(1).max(160),
-  siteDescription: z.string().trim().min(1).max(320),
-  locale: z.string().trim().min(2).max(10),
-  logoUrl: z.string().trim().url().optional().or(z.literal("")),
-  faviconUrl: z.string().trim().url().optional().or(z.literal("")),
-});
-
+/** Site-wide SEO text, written once per language. Site name and author come from the profile. */
 export const seoSettingsSchema = z.object({
-  title: z.string().trim().min(1).max(160),
-  description: z.string().trim().min(1).max(320),
-  keywords: z.array(z.string().trim().min(1).max(80)).max(30),
-  ogImage: z.string().trim().url().optional().or(z.literal("")),
-  twitterImage: z.string().trim().url().optional().or(z.literal("")),
-  canonicalUrl: z.string().trim().url().optional().or(z.literal("")),
+  title: localizedText(70),
+  description: localizedText(160),
+  /** Comma-separated. */
+  keywords: localizedText(300),
+  ogImage: z.string().trim().url().or(z.literal("")).optional(),
 });

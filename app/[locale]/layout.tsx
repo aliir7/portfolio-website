@@ -5,25 +5,13 @@ import { getMessages, setRequestLocale } from "next-intl/server";
 import Providers from "@/components/Providers";
 import { TIME_ZONE } from "@/i18n/config";
 import { hasLocale, type Locale } from "@/i18n/routing";
+import { getSeo } from "@/lib/seo";
 import { getPublicContent } from "@/query/content.query";
 
 const DIR: Record<Locale, "rtl" | "ltr"> = { fa: "rtl", en: "ltr" };
 
 
-const localeMetadata = {
-  fa: {
-    title: "علی رضایی | برنامه‌نویس React و Next.js",
-    description:
-      "نمونه‌کارها و رزومه علی رضایی، برنامه‌نویس React و Next.js ساکن تهران.",
-    locale: "fa_IR",
-  },
-  en: {
-    title: "Ali Rezaei | React & Next.js Developer",
-    description:
-      "The portfolio and resume of Ali Rezaei, a React and Next.js developer based in Tehran.",
-    locale: "en_US",
-  },
-} as const;
+const OG_LOCALE: Record<Locale, string> = { fa: "fa_IR", en: "en_US" };
 
 export async function generateMetadata({
   params,
@@ -34,33 +22,33 @@ export async function generateMetadata({
   if (!hasLocale(locale)) notFound();
   setRequestLocale(locale);
 
-  const content = localeMetadata[locale];
+  const seo = await getSeo(locale);
   return {
-    title: { absolute: content.title },
-    description: content.description,
+    title: { default: seo.title, template: `%s | ${seo.name}` },
+    description: seo.description,
+    keywords: seo.keywords,
+    applicationName: seo.name,
+    authors: [{ name: seo.name, url: siteUrl }],
+    creator: seo.name,
+    publisher: seo.name,
     alternates: {
       canonical: `/${locale}`,
       languages: { fa: "/fa", en: "/en", "x-default": "/fa" },
     },
     openGraph: {
       type: "website",
-      siteName: "Ali Rezaei Portfolio",
+      siteName: seo.name,
       url: `${siteUrl}/${locale}`,
-      locale: content.locale,
-      title: content.title,
-      description: content.description,
-      images: [
-        {
-          url: "/assets/img/user_img.png",
-          alt: locale === "fa" ? "علی رضایی" : "Ali Rezaei",
-        },
-      ],
+      locale: OG_LOCALE[locale],
+      title: seo.title,
+      description: seo.description,
+      images: [{ url: seo.image, alt: seo.name }],
     },
     twitter: {
       card: "summary_large_image",
-      title: content.title,
-      description: content.description,
-      images: ["/assets/img/user_img.png"],
+      title: seo.title,
+      description: seo.description,
+      images: [seo.image],
     },
   };
 }

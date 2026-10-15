@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useActionState } from "react";
+import { useState, useActionState, useTransition } from "react";
 import { useForm } from "@tanstack/react-form";
 import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
 import { requestPasswordResetAction } from "@/lib/actions/auth.actions";
@@ -18,6 +18,7 @@ export function useForgotPasswordForm() {
     requestPasswordResetAction,
     initialState,
   );
+  const [, startTransition] = useTransition();
   const { executeRecaptcha } = useGoogleReCaptcha();
   const [captchaLoading, setCaptchaLoading] = useState(false);
   const [captchaMissing, setCaptchaMissing] = useState(false);
@@ -45,7 +46,9 @@ export function useForgotPasswordForm() {
         const formData = new FormData();
         formData.set("email", value.email);
         formData.set("recaptchaToken", token);
-        action(formData);
+        startTransition(() => {
+          action(formData);
+        });
       } finally {
         setCaptchaLoading(false);
       }

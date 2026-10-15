@@ -22,3 +22,11 @@ export async function requireAdmin() {
   }
   return session;
 }
+
+/** For guest-only pages (login): a signed-in admin goes straight to the panel. */
+export async function redirectIfAdmin() {
+  const session = await getCurrentSession();
+  if (session?.user.role === "admin") {
+    redirect("/admin");
+  }
+}

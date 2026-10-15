@@ -1,4 +1,5 @@
 import LoginForm from "@/components/auth/login-form";
+import { redirectIfAdmin } from "@/lib/auth-guard";
 import  { Locale } from "@/i18n/routing";
 import type { Metadata } from "next";
 
@@ -20,6 +21,7 @@ export async function generateMetadata({
   } satisfies Metadata;
 }
 
-export default function LoginPage() {
+export default async function LoginPage() {
+  await redirectIfAdmin();
   return <LoginForm />;
 }

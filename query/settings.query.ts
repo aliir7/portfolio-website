@@ -1,40 +1,22 @@
 import "server-only";
 
 import { eq } from "drizzle-orm";
+import { cache } from "react";
 import { db } from "@/db";
 import { settings } from "@/db/schema";
-import type { SettingsMap } from "@/types";
+import { seoSettingsSchema } from "@/lib/validations/settings";
 import { withQuery } from "@/lib/utils/with-query";
 
-export function getSettingQuery<K extends keyof SettingsMap>(
-  key: K,
-): Promise<SettingsMap[K] | null> {
-  return withQuery(async () => {
+/** Raw SEO settings (both languages), or null when never saved or malformed. */
+export const getSeoSettingsQuery = cache(() =>
+  withQuery(async () => {
     const [row] = await db
       .select({ value: settings.value })
       .from(settings)
-      .where(eq(settings.key, key))
+      .where(eq(settings.key, "seo"))
       .limit(1);
 
-    return (row?.value as SettingsMap[K] | undefined) ?? null;
-  });
-}
-
-export function getSettingsQuery<K extends keyof SettingsMap>(
-  keys: readonly K[],
-): Promise<Partial<SettingsMap>> {
-  return withQuery(async () => {
-    if (!keys.length) return {};
-
-    const rows = await db.select({
-      key: settings.key,
-      value: settings.value,
-    }).from(settings);
-
-    return Object.fromEntries(
-      rows
-        .filter((row) => keys.includes(row.key as K))
-        .map((row) => [row.key, row.value]),
-    ) as Partial<SettingsMap>;
-  });
-}
+    const parsed = seoSettingsSchema.safeParse(row?.value);
+    return parsed.success ? parsed.data : null;
+  }, "settings.seo"),
+);

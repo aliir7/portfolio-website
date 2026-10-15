@@ -1,5 +1,6 @@
 import { cookies } from "next/headers";
-import { routing, type Locale } from "@/i18n/routing";
+import { LOCALE_COOKIE } from "@/i18n/config";
+import { resolveLocale, type Locale } from "@/i18n/routing";
 
 export type LocalizedAuthPath =
   | "/login"
@@ -8,10 +9,7 @@ export type LocalizedAuthPath =
 
 export async function getCurrentLocale(): Promise<Locale> {
   const store = await cookies();
-  const value = store.get("portfolio-locale")?.value as Locale | undefined;
-  return value && routing.locales.includes(value)
-    ? value
-    : routing.defaultLocale;
+  return resolveLocale(store.get(LOCALE_COOKIE)?.value);
 }
 
 export async function withLocale(path: LocalizedAuthPath): Promise<string> {

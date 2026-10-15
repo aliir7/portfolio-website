@@ -5,6 +5,14 @@ import { replaceStatements, runBatch, withSortOrder } from "@/db/helpers";
 import { profile, skills } from "@/db/schema";
 import { profileWithSkillsSchema, skillSchema } from "@/lib/validations";
 import { runAdminAction } from "@/lib/utils/admin-action";
+import type { ProfileInput } from "@/types";
+
+// Empty optional URLs from the form are stored as NULL.
+const toProfileValues = (data: ProfileInput) => ({
+  ...data,
+  avatarUrl: data.avatarUrl || null,
+  resumeUrl: data.resumeUrl || null,
+});
 
 /** Saves the profile and the full skills list in one atomic batch. */
 export async function updateProfileAction(input: unknown) {
@@ -17,10 +25,10 @@ export async function updateProfileAction(input: unknown) {
       await runBatch([
         db
           .insert(profile)
-          .values({ id: 1, ...data.profile })
+          .values({ id: 1, ...toProfileValues(data.profile) })
           .onConflictDoUpdate({
             target: profile.id,
-            set: { ...data.profile, updatedAt: new Date() },
+            set: { ...toProfileValues(data.profile), updatedAt: new Date() },
           }),
         ...replaceStatements(skills, withSortOrder(data.skills)),
       ]);

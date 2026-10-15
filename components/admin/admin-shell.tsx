@@ -3,7 +3,7 @@
 import Link from "next/link";
 import { signOutAction } from "@/lib/actions/auth.actions";
 import { usePathname } from "next/navigation";
-import { RiArticleLine, RiDashboardLine, RiMailLine, RiExternalLinkLine, RiFileList3Line, RiFolderChartLine, RiShareLine, RiToolsLine, RiUserSettingsLine } from "@remixicon/react";
+import { RiArticleLine, RiDashboardLine, RiMailLine, RiSearchEyeLine, RiExternalLinkLine, RiFileList3Line, RiFolderChartLine, RiShareLine, RiToolsLine, RiUserSettingsLine } from "@remixicon/react";
 import {
   Sidebar,
   SidebarContent,
@@ -31,6 +31,7 @@ const links = [
   { href: "/admin/resume", label: "رزومه", icon: RiFileList3Line },
   { href: "/admin/social-links", label: "شبکه‌های اجتماعی", icon: RiShareLine },
   { href: "/admin/messages", label: "پیام‌ها", icon: RiMailLine },
+  { href: "/admin/settings", label: "سئو", icon: RiSearchEyeLine },
 ];
 
 export default function AdminShell({ children }: Readonly<{ children: React.ReactNode }>) {

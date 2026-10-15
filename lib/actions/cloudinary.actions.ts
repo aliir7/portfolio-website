@@ -2,6 +2,7 @@
 
 import { v2 as cloudinary } from "cloudinary";
 import { getTranslations } from "next-intl/server";
+import { env } from "@/lib/env";
 import { requireAdmin } from "@/lib/auth-guard";
 import { cloudinaryUploadSchema } from "@/lib/validations";
 import { formatZodIssues } from "@/lib/utils/format-error";
@@ -18,7 +19,7 @@ type CloudinarySignature = {
 
 /**
  * Signs a direct browser-to-Cloudinary upload. Signing is a plain HMAC with the API
- * secret, so no SDK configuration is needed. Env vars are read at call time: a missing
+ * secret, so no SDK configuration is needed. Missing variables are checked at call time: a missing
  * variable fails this action with a clear message instead of breaking every page that
  * imports it.
  */
@@ -37,9 +38,9 @@ export async function createCloudinarySignature(folder: string): Promise<ActionR
 
   return withAction(
     async () => {
-      const cloudName = process.env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
-      const apiKey = process.env.NEXT_PUBLIC_CLOUDINARY_API_KEY;
-      const apiSecret = process.env.CLOUDINARY_API_SECRET;
+      const cloudName = env.NEXT_PUBLIC_CLOUDINARY_CLOUD_NAME;
+      const apiKey = env.NEXT_PUBLIC_CLOUDINARY_API_KEY;
+      const apiSecret = env.CLOUDINARY_API_SECRET;
       if (!cloudName || !apiKey || !apiSecret) throw new Error(t("actions.cloudinary.configMissing"));
 
       const timestamp = Math.floor(Date.now() / 1000);

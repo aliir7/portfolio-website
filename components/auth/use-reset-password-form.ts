@@ -1,6 +1,6 @@
 "use client";
 
-import { useActionState } from "react";
+import { useActionState, useTransition } from "react";
 import { useForm } from "@tanstack/react-form";
 import { resetPasswordAction } from "@/lib/actions/auth.actions";
 import {
@@ -17,6 +17,8 @@ export function useResetPasswordForm(token: string) {
     resetPasswordAction,
     initialState,
   );
+
+  const [, startTransition] = useTransition();
 
   const defaultValues: ResetPasswordInput = {
     password: "",
@@ -37,7 +39,9 @@ export function useResetPasswordForm(token: string) {
       formData.set("password", value.password);
       formData.set("confirmPassword", value.confirmPassword);
       formData.set("token", token);
-      action(formData);
+      startTransition(() => {
+        action(formData);
+      });
     },
   });
 

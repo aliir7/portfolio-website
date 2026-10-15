@@ -1,22 +1,7 @@
-export type SiteSettings = {
-  siteName: string;
-  siteTitle: string;
-  siteDescription: string;
-  locale: string;
-  logoUrl?: string;
-  faviconUrl?: string;
-};
+import type { z } from "zod";
+import type { seoSettingsSchema } from "@/lib/validations/settings";
 
-export type SeoSettings = {
-  title: string;
-  description: string;
-  keywords: string[];
-  ogImage?: string;
-  twitterImage?: string;
-  canonicalUrl?: string;
-};
+export type SeoSettings = z.infer<typeof seoSettingsSchema>;
 
-export type SettingsMap = {
-  site: SiteSettings;
-  seo: SeoSettings;
-};
+/** Keys stored in the `settings` table and the shape of each value. */
+export type SettingsMap = { seo: SeoSettings };

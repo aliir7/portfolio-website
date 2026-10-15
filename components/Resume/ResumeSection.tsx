@@ -3,12 +3,13 @@
 import ResumeColumn from "./ResumeColumn";
 import Shape from "../ui/shape";
 import RevealSection from "../ui/reveal-section";
+import { Button } from "@/components/ui/button";
 import { useContent } from "@/lib/content";
 import { useDictionary } from "@/lib/i18n";
 
 const ResumeSection = () => {
   const dictionary = useDictionary();
-  const { resume } = useContent();
+  const { resume, profile } = useContent();
   const educationItems = resume.filter((item) => item.category === "education");
   const experienceItems = resume.filter(
     (item) => item.category === "experience",
@@ -27,6 +28,13 @@ const ResumeSection = () => {
           <p className="text-muted-foreground dark:text-primary mx-auto mt-4 max-w-2xl leading-8">
             {dictionary.resume.subtitle}
           </p>
+          {profile.resumeUrl && (
+            <Button asChild variant="cta" size="lg" className="mt-6">
+              <a href={profile.resumeUrl} target="_blank" rel="noopener noreferrer">
+                {dictionary.resume.download}
+              </a>
+            </Button>
+          )}
         </div>
 
         <div className="grid gap-6 lg:grid-cols-2">

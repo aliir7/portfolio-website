@@ -7,7 +7,7 @@ import { projectCategories, publishStatuses } from "@/db/schema/values";
 import { emptyLocalized } from "@/lib/localize";
 import type { AdminProject, ProjectCategory, ProjectInput, ProjectStatus } from "@/types";
 import { uploadFolders } from "@/lib/constants";
-import ImageUploadField from "./image-upload-field";
+import UploadField from "./upload-field";
 import LocalizedField from "./localized-field";
 import SelectField from "./select-field";
 import TextField from "./text-field";
@@ -91,7 +91,7 @@ export default function ProjectFields({ idPrefix, form, onChange }: Props) {
         <SelectField id={id("category")} label="دسته‌بندی" value={form.category} options={projectCategories.map((value) => ({ value, label: categoryLabels[value] }))} onChange={(value) => set("category", value)} />
         <SelectField id={id("status")} label="وضعیت" value={form.status} options={publishStatuses.map((value) => ({ value, label: statusLabels[value] }))} onChange={(value) => set("status", value)} />
       </div>
-      <ImageUploadField id={id("image")} label="تصویر پروژه" folder={uploadFolders.projects} value={form.image ?? ""} onChange={(value) => set("image", value)} />
+      <UploadField id={id("image")} label="تصویر پروژه" folder={uploadFolders.projects} value={form.image ?? ""} onChange={(value) => set("image", value)} />
       <TechStackField id={id("tech")} value={form.techStack} onChange={(value) => set("techStack", value)} />
       <div className="grid gap-4 sm:grid-cols-2">
         <TextField id={id("repo")} label="لینک GitHub" value={form.repoUrl} placeholder="https://github.com/..." onChange={(value) => set("repoUrl", value)} />

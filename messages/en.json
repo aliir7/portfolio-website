@@ -75,13 +75,16 @@
   },
   "works": {
     "title": "My works",
-    "subtitle": "A collection of projects that showcase my experience building modern, scalable, and professional web applications."
+    "subtitle": "A collection of projects that showcase my experience building modern, scalable, and professional web applications.",
+    "back": "Back to works",
+    "technologies": "Technologies"
   },
   "resume": {
     "title": "My resume",
     "subtitle": "An overview of my education, work experience, and technical skills in software development.",
     "education": "Education & courses",
-    "experience": "Work experience"
+    "experience": "Work experience",
+    "download": "Download resume (PDF)"
   },
   "contact": {
     "eyebrow": "Start a new collaboration",
@@ -126,7 +129,9 @@
     },
     "contact": {
       "invalidForm": "Please check the contact form.",
-      "success": "Your message was sent successfully."
+      "success": "Your message was sent successfully.",
+      "captchaFailed": "Security verification failed. Please try again.",
+      "rateLimited": "Too many messages were sent. Please try again later."
     },
     "cloudinary": {
       "invalidFolder": "The upload folder is invalid.",
@@ -194,5 +199,12 @@
     "empty": "No posts have been published yet.",
     "back": "Back to blog",
     "readingTime": "{minutes} min read"
+  },
+  "errorPage": {
+    "title": "Something went wrong",
+    "description": "An error occurred while loading this page. Try again or go back to the home page.",
+    "retry": "Try again",
+    "home": "Home page",
+    "loading": "Loading"
   }
 }

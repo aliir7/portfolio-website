@@ -4,13 +4,14 @@ import { admin, captcha } from "better-auth/plugins";
 import { nextCookies } from "better-auth/next-js";
 import { db } from "@/db";
 import * as schema from "@/db/schema";
-import { getResend } from "@/lib/email";
-
-const baseUrl = process.env.BETTER_AUTH_URL ?? "http://localhost:3000";
+import { sendEmail } from "@/lib/email";
+import { logger } from "@/lib/utils/logger";
+import { env } from "@/lib/env";
+import { recaptchaConfig } from "@/lib/recaptcha";
 
 export const auth = betterAuth({
-  baseURL: baseUrl,
-  secret: process.env.BETTER_AUTH_SECRET,
+  baseURL: env.BETTER_AUTH_URL,
+  secret: env.BETTER_AUTH_SECRET,
   database: drizzleAdapter(db, {
     provider: "pg",
     schema: schema.authSchema,
@@ -22,8 +23,8 @@ export const auth = betterAuth({
     requireEmailVerification: false,
     revokeSessionsOnPasswordReset: true,
     sendResetPassword: async ({ user, url }) => {
-      void getResend().emails.send({
-        from: process.env.RESEND_FROM_EMAIL ?? "onboarding@resend.dev",
+      // Not awaited on purpose: response time must not reveal whether the account exists.
+      void sendEmail({
         to: user.email,
         subject: "Reset your password",
         html: `
@@ -34,7 +35,7 @@ export const auth = betterAuth({
             <p>This link expires in 1 hour.</p>
           </div>
         `,
-      });
+      }).catch((error) => logger.error({ action: "auth.sendResetPassword", err: error }, "Reset e-mail failed"));
     },
   },
   plugins: [
@@ -44,8 +45,8 @@ export const auth = betterAuth({
     }),
     captcha({
       provider: "google-recaptcha",
-      secretKey: process.env.RECAPTCHA_SECRET_KEY ?? "",
-      minScore: 0.5,
+      secretKey: recaptchaConfig.secretKey,
+      minScore: recaptchaConfig.minScore,
     }),
     nextCookies(),
   ],
@@ -68,5 +69,5 @@ export const auth = betterAuth({
       },
     },
   },
-  trustedOrigins: [baseUrl],
+  trustedOrigins: [env.BETTER_AUTH_URL],
 });

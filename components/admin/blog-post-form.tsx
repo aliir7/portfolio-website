@@ -15,7 +15,7 @@ import { uploadFolders } from "@/lib/constants";
 import { notifyResult } from "@/lib/utils/notify";
 import { blogPostSchema, type BlogPostInput } from "@/lib/validations/blog";
 import type { BlogPostWithTags, BlogTag, BlogStatus } from "@/types";
-import ImageUploadField from "./image-upload-field";
+import UploadField from "./upload-field";
 import SelectField from "./select-field";
 import TextField from "./text-field";
 
@@ -128,7 +128,7 @@ export default function BlogPostForm({ tags, post }: Props) {
             <CardHeader><CardTitle>انتشار</CardTitle></CardHeader>
             <CardContent className="grid gap-5">
               <SelectField id="post-status" label="وضعیت" value={form.status} options={publishStatuses.map((value) => ({ value, label: statusLabels[value] }))} onChange={(value) => set("status", value)} />
-              <ImageUploadField id="post-cover" label="تصویر شاخص" folder={uploadFolders.blog} value={form.coverImage ?? ""} onChange={(value) => set("coverImage", value)} />
+              <UploadField id="post-cover" label="تصویر شاخص" folder={uploadFolders.blog} value={form.coverImage ?? ""} onChange={(value) => set("coverImage", value)} />
               <div className="grid gap-3">
                 <Label>تگ‌ها</Label>
                 {tagOptions.map((tag) => (
@@ -155,7 +155,7 @@ export default function BlogPostForm({ tags, post }: Props) {
               <TextField id="post-meta-title" label="عنوان سئو (حداکثر ۷۰ کاراکتر)" dir="auto" value={form.metaTitle ?? ""} onChange={(value) => set("metaTitle", value)} />
               <TextField id="post-meta-description" label="توضیح سئو (حداکثر ۱۶۰ کاراکتر)" dir="auto" rows={3} value={form.metaDescription ?? ""} onChange={(value) => set("metaDescription", value)} />
               <TextField id="post-canonical" label="Canonical URL" value={form.canonicalUrl ?? ""} onChange={(value) => set("canonicalUrl", value)} />
-              <ImageUploadField id="post-og-image" label="تصویر OpenGraph" folder={uploadFolders.blog} value={form.ogImage ?? ""} onChange={(value) => set("ogImage", value)} />
+              <UploadField id="post-og-image" label="تصویر OpenGraph" folder={uploadFolders.blog} value={form.ogImage ?? ""} onChange={(value) => set("ogImage", value)} />
               <div className="flex items-center gap-2">
                 <Checkbox id="post-noindex" checked={form.noIndex} onCheckedChange={(checked) => set("noIndex", checked === true)} />
                 <Label htmlFor="post-noindex">عدم ایندکس توسط موتورهای جستجو (noindex)</Label>

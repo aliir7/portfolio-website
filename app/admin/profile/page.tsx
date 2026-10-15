@@ -17,7 +17,10 @@ export default async function AdminProfilePage() {
                 location: profile.location,
                 email: profile.email,
                 phone: profile.phone,
-                resumeUrl: profile.resumeUrl,
+                avatarUrl: profile.avatarUrl ?? "",
+                resumeUrl: profile.resumeUrl ?? "",
+                experienceYears: profile.experienceYears,
+                completedProjects: profile.completedProjects,
               },
               skills: skills.map(({ name, value, description }) => ({ name, value, description })),
             }

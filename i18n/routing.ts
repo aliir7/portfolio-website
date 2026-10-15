@@ -16,3 +16,8 @@ export type Locale = (typeof routing.locales)[number];
 export function hasLocale(value: string | null | undefined): value is Locale {
   return (routing.locales as readonly string[]).includes(value as string);
 }
+
+/** A saved cookie value (or nothing) to a supported locale. */
+export function resolveLocale(value: string | null | undefined): Locale {
+  return hasLocale(value) ? value : routing.defaultLocale;
+}

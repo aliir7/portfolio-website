@@ -7,6 +7,7 @@ import { CTAButtons } from "./CTAButtons";
 import Shape from "../ui/shape";
 import RevealSection from "../ui/reveal-section";
 import { useContent } from "@/lib/content";
+import { defaultAvatar } from "@/lib/site";
 import { toLocaleDigits, useDictionary, useLocale } from "@/lib/i18n";
 
 const HeroSection = () => {
@@ -81,7 +82,7 @@ const HeroSection = () => {
             {/* کانتینر ماسک‌کننده (دایره سبز رنگ با overflow-hidden) */}
             <div className="bg-primary relative z-10 flex h-85 w-85 items-end justify-center overflow-hidden rounded-full shadow-[0_24px_70px_-24px_var(--primary)] md:h-120 md:w-120">
               <Image
-                src="/assets/img/user_img.png"
+                src={profile.avatarUrl ?? defaultAvatar}
                 alt={profile.name}
                 width={500}
                 height={500}
@@ -93,7 +94,7 @@ const HeroSection = () => {
             {/* نشان‌های شناور (Badges) */}
             <div className="border-foreground absolute top-1/7 -right-2 z-20 flex cursor-default items-center gap-3 rounded-full border-2 bg-card/95 px-5 py-3 shadow-[0_10px_28px_-14px_var(--hero-shadow),3px_3px_0_var(--hero-shadow)] backdrop-blur-sm transition-transform hover:-translate-y-1 dark:border-white md:top-1/4 md:right-2">
               <span className="text-card-foreground text-xl font-black lg:text-3xl">
-                {toLocaleDigits("12", locale)}+
+                {toLocaleDigits(String(profile.experienceYears), locale)}+
               </span>
               <span className="text-primary text-sm leading-tight font-bold lg:text-xs">
                 {hero.years}
@@ -104,7 +105,7 @@ const HeroSection = () => {
 
             <div className="border-foreground absolute bottom-12 -left-1 z-20 flex cursor-default items-center gap-3 rounded-full border-2 bg-card/95 px-5 py-3 shadow-[0_10px_28px_-14px_var(--hero-shadow),3px_3px_0_var(--hero-shadow)] backdrop-blur-sm transition-transform hover:-translate-y-1 dark:border-white md:left-10">
               <span className="text-card-foreground text-xl font-black lg:text-3xl">
-                {toLocaleDigits("330", locale)}
+                {toLocaleDigits(String(profile.completedProjects), locale)}
               </span>
               <span className="text-primary text-xs leading-tight font-bold">
                 {hero.projects}

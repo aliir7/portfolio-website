@@ -1,5 +1,6 @@
 import Home from "@/components/Home/Home";
-import { siteUrl } from "@/lib/site";
+import { getSeo } from "@/lib/seo";
+import { absoluteUrl, defaultAvatar, siteUrl } from "@/lib/site";
 import { getPublicContent } from "@/query/content.query";
 
 // Rendered from the database and refreshed on demand by admin actions
@@ -12,9 +13,7 @@ export default async function LocalePage({ params }: { params: Promise<{ locale:
   const content = await getPublicContent(isEnglish ? "en" : "fa");
   const { profile } = content;
 
-  const description = isEnglish
-    ? "The portfolio of Ali Rezaei, a React and Next.js developer based in Tehran."
-    : "پورتفولیوی علی رضایی، برنامه‌نویس React و Next.js ساکن تهران.";
+  const { description } = await getSeo(isEnglish ? "en" : "fa");
   const structuredData = {
     "@context": "https://schema.org",
     "@graph": [
@@ -23,7 +22,7 @@ export default async function LocalePage({ params }: { params: Promise<{ locale:
         "@id": `${siteUrl}/#person`,
         name: profile.name,
         url: `${siteUrl}/${locale}`,
-        image: `${siteUrl}/assets/img/user_img.png`,
+        image: absoluteUrl(profile.avatarUrl ?? defaultAvatar),
         jobTitle: profile.role,
         description,
         address: {

@@ -14,8 +14,10 @@ import type { Project } from "@/types";
 import { RiExternalLinkLine, RiGithubLine } from "@remixicon/react";
 import Image from "next/image";
 import Link from "next/link";
+import { Link as LocaleLink } from "@/i18n/navigation";
 import { Button } from "../ui/button";
 import { useDictionary, useLocale } from "@/lib/i18n";
+import TechBadges from "./TechBadges";
 
 type WorkCardProps = {
   project: Project;
@@ -40,7 +42,11 @@ const WorkCard = ({ project }: WorkCardProps) => {
       {/* MAIN CONTENT WRAPPER – keep content above shape */}
       <div className="relative z-10">
         <CardHeader className="mt-4 space-y-1.5 md:mt-6">
-          <CardTitle className="text-lg">{project.title}</CardTitle>
+          <CardTitle className="text-lg">
+            <LocaleLink href={`/works/${project.slug}`} className="hover:text-primary transition-colors">
+              {project.title}
+            </LocaleLink>
+          </CardTitle>
           <CardDescription className="line-clamp-2">
             {project.description}
           </CardDescription>
@@ -50,27 +56,23 @@ const WorkCard = ({ project }: WorkCardProps) => {
               variant="outline"
               className="bg-primary text-primary-foreground px-3 py-3 capitalize"
             >
-              {project.category}
+              {dictionary.common[project.category] ?? project.category}
             </Badge>
           </CardAction>
         </CardHeader>
 
         <CardContent className="pb-4 md:pb-6">
-          <div className="mt-2 flex flex-wrap gap-2 md:mt-4">
-            {project.techStack.map((tech) => (
-              <Badge
-                key={tech}
-                variant="outline"
-                className="border-foreground dark:border-primary px-2 py-2 text-center text-xs capitalize"
-              >
-                {tech}
-              </Badge>
-            ))}
-          </div>
+          <TechBadges items={project.techStack} className="mt-2 md:mt-4" />
         </CardContent>
 
         {/* FOOTER – anchor for shape */}
         <CardFooter className="bg-card relative z-10 gap-2 overflow-hidden border-none p-3 md:gap-3 md:p-4">
+          <Button className="relative z-10" variant="ctaLink" asChild>
+            <LocaleLink href={`/works/${project.slug}`} className="text-sm font-medium">
+              {dictionary.common.more}
+            </LocaleLink>
+          </Button>
+
           {project.repoUrl && (
             <Button className="relative z-10" variant="ctaLink" asChild>
               <Link

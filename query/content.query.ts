@@ -82,3 +82,9 @@ export const getPublicContent = cache(async (locale: Locale): Promise<PublicCont
     socialLinks: localizeAll(socialRows),
   };
 });
+
+/** A published project by slug, resolved to one locale; reuses the request-cached public content. */
+export async function getPublicProject(locale: Locale, slug: string) {
+  const { projects } = await getPublicContent(locale);
+  return projects.find((project) => project.slug === slug) ?? null;
+}
