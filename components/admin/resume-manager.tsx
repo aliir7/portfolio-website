@@ -9,6 +9,7 @@ import type { ResumeItemInput } from "@/types";
 import { ListEditorPage, ListItemCard } from "./list-editor";
 import LocalizedField from "./localized-field";
 import SelectField from "./select-field";
+import { useFormValidation } from "./use-form-validation";
 import { useListEditor } from "./use-list-editor";
 
 const categoryLabels: Record<ResumeItemInput["category"], string> = {
@@ -30,14 +31,17 @@ export default function ResumeManager({
   initial: ResumeItemInput[];
 }) {
   const list = useListEditor(initial);
+  const v = useFormValidation(resumeSchema, list.values);
 
   return (
     <ListEditorPage
       eyebrow="محتوا"
       title="رزومه"
       description="تحصیلات و تجربه‌ها در ستون خودشان و به همین ترتیب نمایش داده می‌شوند."
-      onSave={async () => notifyResult(await saveResumeAction(list.values))}
-      saveDisabled={!resumeSchema.safeParse(list.values).success}
+      onSave={() =>
+        v.submit(async () => notifyResult(await saveResumeAction(list.values)))
+      }
+      saving={v.pending}
       addLabel="افزودن مورد"
       onAdd={() => list.add(emptyItem)}
       isEmpty={!list.rows.length}
@@ -60,24 +64,28 @@ export default function ResumeManager({
               label: categoryLabels[value],
             }))}
             onChange={(category) => list.update(row.uid, { category })}
+            {...v.field(`${index}.category`)}
           />
           <LocalizedField
             id={`${row.uid}-organization`}
             label="محل یا سازمان"
             value={row.organization}
             onChange={(organization) => list.update(row.uid, { organization })}
+            {...v.localized(`${index}.organization`)}
           />
           <LocalizedField
             id={`${row.uid}-title`}
             label="عنوان"
             value={row.title}
             onChange={(title) => list.update(row.uid, { title })}
+            {...v.localized(`${index}.title`)}
           />
           <LocalizedField
             id={`${row.uid}-period`}
             label="بازه زمانی"
             value={row.period}
             onChange={(period) => list.update(row.uid, { period })}
+            {...v.localized(`${index}.period`)}
           />
           <LocalizedField
             id={`${row.uid}-content`}
@@ -85,6 +93,7 @@ export default function ResumeManager({
             value={row.content}
             onChange={(content) => list.update(row.uid, { content })}
             multiline
+            {...v.localized(`${index}.content`)}
           />
         </ListItemCard>
       ))}

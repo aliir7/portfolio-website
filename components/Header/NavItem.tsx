@@ -39,7 +39,6 @@ function NavItem({ onNavigate }: NavItemProps) {
       <div className="mt-6">
         <SocialList />
       </div>
-
       <Button asChild variant="cta" size="lg" className="mt-6 w-1/2 md:w-full">
         <Link href="/login" onClick={onNavigate}>
           {dictionary.common.login}

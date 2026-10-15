@@ -8,6 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Spinner } from "@/components/ui/spinner";
 import { saveSeoSettingsAction } from "@/lib/actions/settings.actions";
 import { uploadFolders } from "@/lib/constants";
 import { emptyLocalized } from "@/lib/localize";
@@ -18,6 +19,7 @@ import { RiSaveLine } from "@remixicon/react";
 import { useState } from "react";
 import LocalizedField from "./localized-field";
 import UploadField from "./upload-field";
+import { useFormValidation } from "./use-form-validation";
 
 const emptySeo: SeoSettings = {
   title: emptyLocalized(),
@@ -32,6 +34,7 @@ export default function SeoSettingsForm({
   initial?: SeoSettings;
 }) {
   const [form, setForm] = useState(initial);
+  const v = useFormValidation(seoSettingsSchema, form);
 
   return (
     <div className="mx-auto max-w-3xl space-y-8">
@@ -45,10 +48,14 @@ export default function SeoSettingsForm({
           </p>
         </div>
         <Button
-          onClick={async () => notifyResult(await saveSeoSettingsAction(form))}
-          disabled={!seoSettingsSchema.safeParse(form).success}
+          onClick={() =>
+            v.submit(async () =>
+              notifyResult(await saveSeoSettingsAction(form)),
+            )
+          }
+          disabled={v.pending}
         >
-          <RiSaveLine /> ذخیره تغییرات
+          {v.pending ? <Spinner /> : <RiSaveLine />} ذخیره تغییرات
         </Button>
       </section>
       <Card className="glass-panel border-0">
@@ -65,6 +72,7 @@ export default function SeoSettingsForm({
             label="عنوان"
             value={form.title}
             onChange={(title) => setForm({ ...form, title })}
+            {...v.localized("title")}
           />
           <LocalizedField
             id="seo-description"
@@ -72,12 +80,14 @@ export default function SeoSettingsForm({
             value={form.description}
             onChange={(description) => setForm({ ...form, description })}
             multiline
+            {...v.localized("description")}
           />
           <LocalizedField
             id="seo-keywords"
             label="کلمات کلیدی"
             value={form.keywords}
             onChange={(keywords) => setForm({ ...form, keywords })}
+            {...v.localized("keywords")}
           />
           <UploadField
             id="seo-og-image"
@@ -85,6 +95,7 @@ export default function SeoSettingsForm({
             folder={uploadFolders.site}
             value={form.ogImage ?? ""}
             onChange={(ogImage) => setForm({ ...form, ogImage })}
+            {...v.field("ogImage")}
           />
         </CardContent>
       </Card>

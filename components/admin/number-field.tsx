@@ -2,6 +2,7 @@
 
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
+import FieldError from "./field-error";
 
 type Props = {
   id: string;
@@ -13,10 +14,12 @@ type Props = {
   min?: number;
   max?: number;
   suffix?: string;
+  error?: string;
+  onBlur?: () => void;
 };
 
 /** Integer input that keeps the value inside [min, max] (empty or invalid input becomes `min`). */
-export default function NumberField({ id, value, onChange, label, ariaLabel, min = 0, max = Number.MAX_SAFE_INTEGER, suffix }: Props) {
+export default function NumberField({ id, value, onChange, label, ariaLabel, min = 0, max = Number.MAX_SAFE_INTEGER, suffix, error, onBlur }: Props) {
   return (
     <div className="grid gap-2">
       {label && <Label htmlFor={id}>{label}</Label>}
@@ -27,12 +30,16 @@ export default function NumberField({ id, value, onChange, label, ariaLabel, min
           min={min}
           max={max}
           value={value}
+          onBlur={onBlur}
           aria-label={label ? undefined : ariaLabel}
+          aria-invalid={error ? true : undefined}
+          aria-describedby={error ? `${id}-error` : undefined}
           className={suffix ? "pe-8" : undefined}
           onChange={(event) => onChange(Math.min(max, Math.max(min, Math.trunc(Number(event.target.value)) || min)))}
         />
         {suffix && <span className="text-muted-foreground absolute end-3 top-1/2 -translate-y-1/2 text-sm">{suffix}</span>}
       </div>
+      <FieldError id={id} error={error} />
     </div>
   );
 }

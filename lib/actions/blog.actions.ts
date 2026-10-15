@@ -108,8 +108,36 @@ export async function createBlogTagAction(input: unknown) {
     input,
     messages: { invalid: "actions.blog.invalidTag", success: "actions.blog.tagCreated" },
     run: async (data) => {
-      const [tag] = await db.insert(blogTags).values(data).returning({ id: blogTags.id });
+      const [tag] = await db.insert(blogTags).values(data).returning();
       return tag;
+    },
+  });
+}
+
+export async function updateBlogTagAction(id: string, input: unknown) {
+  return runAdminAction({
+    name: "blog.updateTag",
+    schema: blogTagSchema,
+    input,
+    messages: { invalid: "actions.blog.invalidTag", success: "actions.blog.tagUpdated" },
+    run: async (data, { t }) => {
+      const [tag] = await db.update(blogTags).set(data).where(eq(blogTags.id, id)).returning();
+      if (!tag) throw new Error(t("actions.blog.tagNotFound"));
+      return tag;
+    },
+  });
+}
+
+/** Deleting a tag removes it from every post (the link rows cascade); the posts themselves stay. */
+export async function deleteBlogTagAction(id: string) {
+  return runAdminAction({
+    name: "blog.deleteTag",
+    schema: idSchema,
+    input: id,
+    messages: { invalid: "actions.common.invalidForm", success: "actions.blog.tagDeleted" },
+    run: async (tagId, { t }) => {
+      const deleted = await db.delete(blogTags).where(eq(blogTags.id, tagId)).returning({ id: blogTags.id });
+      if (!deleted.length) throw new Error(t("actions.blog.tagNotFound"));
     },
   });
 }

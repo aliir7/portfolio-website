@@ -25,16 +25,9 @@ const ResumeSection = () => {
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">
             {dictionary.resume.title}
           </h2>
-          <p className="text-muted-foreground dark:text-primary mx-auto mt-4 max-w-2xl leading-8">
+          <p className="text-primary dark:text-primary mx-auto mt-4 max-w-2xl leading-8">
             {dictionary.resume.subtitle}
           </p>
-          {profile.resumeUrl && (
-            <Button asChild variant="cta" size="lg" className="mt-6">
-              <a href={profile.resumeUrl} target="_blank" rel="noopener noreferrer">
-                {dictionary.resume.download}
-              </a>
-            </Button>
-          )}
         </div>
 
         <div className="grid gap-6 lg:grid-cols-2">

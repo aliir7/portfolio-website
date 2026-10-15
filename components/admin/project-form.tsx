@@ -9,11 +9,13 @@ import {
   SheetHeader,
   SheetTitle,
 } from "@/components/ui/sheet";
+import { Spinner } from "@/components/ui/spinner";
 import { projectSchema } from "@/lib/validations/projects.validations";
 import type { AdminProject, ProjectInput } from "@/types";
 import { RiSaveLine } from "@remixicon/react";
 import { useEffect, useState } from "react";
 import ProjectFields, { emptyProject, toProjectInput } from "./project-fields";
+import { useFormValidation } from "./use-form-validation";
 
 type Props = {
   project: AdminProject | null;
@@ -29,10 +31,13 @@ export default function ProjectForm({
   onSave,
 }: Props) {
   const [form, setForm] = useState<ProjectInput>(emptyProject);
+  const validation = useFormValidation(projectSchema, form);
+  const { reset } = validation;
 
   useEffect(() => {
     setForm(project ? toProjectInput(project) : emptyProject);
-  }, [project, open]);
+    reset();
+  }, [project, open, reset]);
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
@@ -48,14 +53,19 @@ export default function ProjectForm({
           </SheetDescription>
         </SheetHeader>
         <div className="grid gap-5 overflow-y-auto px-4 pb-4">
-          <ProjectFields idPrefix="project" form={form} onChange={setForm} />
+          <ProjectFields
+            idPrefix="project"
+            form={form}
+            onChange={setForm}
+            validation={validation}
+          />
         </div>
         <SheetFooter>
           <Button
-            onClick={() => onSave(form)}
-            disabled={!projectSchema.safeParse(form).success}
+            onClick={() => validation.submit(() => onSave(form))}
+            disabled={validation.pending}
           >
-            <RiSaveLine /> ذخیره پروژه
+            {validation.pending ? <Spinner /> : <RiSaveLine />} ذخیره پروژه
           </Button>
           <Button variant="ghost" onClick={() => onOpenChange(false)}>
             انصراف

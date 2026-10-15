@@ -8,6 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { Spinner } from "@/components/ui/spinner";
 import { createProjectAction } from "@/lib/actions/admin/projects.actions";
 import { notifyResult } from "@/lib/utils/notify";
 import { projectSchema } from "@/lib/validations/projects.validations";
@@ -16,15 +17,18 @@ import { RiArrowRightLine, RiSaveLine } from "@remixicon/react";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import ProjectFields, { emptyProject } from "./project-fields";
+import { useFormValidation } from "./use-form-validation";
 
 export default function ProjectCreateForm() {
   const router = useRouter();
   const [form, setForm] = useState<ProjectInput>(emptyProject);
+  const validation = useFormValidation(projectSchema, form);
 
-  const save = async () => {
-    if (notifyResult(await createProjectAction(form)))
-      router.push("/admin/projects");
-  };
+  const save = () =>
+    validation.submit(async () => {
+      if (notifyResult(await createProjectAction(form)))
+        router.push("/admin/projects");
+    });
 
   return (
     <div className="mx-auto max-w-4xl space-y-8">
@@ -52,13 +56,11 @@ export default function ProjectCreateForm() {
             idPrefix="new-project"
             form={form}
             onChange={setForm}
+            validation={validation}
           />
           <div className="border-border/60 flex justify-end border-t pt-5">
-            <Button
-              onClick={save}
-              disabled={!projectSchema.safeParse(form).success}
-            >
-              <RiSaveLine /> ذخیره پروژه
+            <Button onClick={save} disabled={validation.pending}>
+              {validation.pending ? <Spinner /> : <RiSaveLine />} ذخیره پروژه
             </Button>
           </div>
         </CardContent>

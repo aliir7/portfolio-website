@@ -8,8 +8,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
-import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
+import { Spinner } from "@/components/ui/spinner";
 import { createSkillAction } from "@/lib/actions/admin/profile.actions";
 import { emptyLocalized } from "@/lib/localize";
 import { notifyResult } from "@/lib/utils/notify";
@@ -20,6 +19,8 @@ import { useRouter } from "next/navigation";
 import { useState } from "react";
 import LocalizedField from "./localized-field";
 import NumberField from "./number-field";
+import TextField from "./text-field";
+import { useFormValidation } from "./use-form-validation";
 
 export default function SkillCreateForm() {
   const router = useRouter();
@@ -28,11 +29,13 @@ export default function SkillCreateForm() {
     value: 50,
     description: emptyLocalized(),
   });
+  const v = useFormValidation(skillSchema, skill);
 
-  const save = async () => {
-    if (notifyResult(await createSkillAction(skill)))
-      router.push("/admin/profile");
-  };
+  const save = () =>
+    v.submit(async () => {
+      if (notifyResult(await createSkillAction(skill)))
+        router.push("/admin/profile");
+    });
 
   return (
     <div className="mx-auto max-w-3xl space-y-8">
@@ -55,17 +58,13 @@ export default function SkillCreateForm() {
         </CardHeader>
         <CardContent className="grid gap-5">
           <div className="grid gap-4 sm:grid-cols-[1fr_140px]">
-            <div className="grid gap-2">
-              <Label htmlFor="new-skill-name">نام مهارت</Label>
-              <Input
-                id="new-skill-name"
-                dir="ltr"
-                value={skill.name}
-                onChange={(event) =>
-                  setSkill({ ...skill, name: event.target.value })
-                }
-              />
-            </div>
+            <TextField
+              id="new-skill-name"
+              label="نام مهارت"
+              value={skill.name}
+              onChange={(name) => setSkill({ ...skill, name })}
+              {...v.field("name")}
+            />
             <NumberField
               id="new-skill-value"
               label="درصد تسلط"
@@ -73,22 +72,21 @@ export default function SkillCreateForm() {
               max={100}
               value={skill.value}
               onChange={(value) => setSkill({ ...skill, value })}
+              {...v.field("value")}
             />
           </div>
           <LocalizedField
             id="new-skill-description"
             label="توضیح"
             value={skill.description}
-            onChange={(value) => setSkill({ ...skill, description: value })}
+            onChange={(description) => setSkill({ ...skill, description })}
             multiline
             rows={4}
+            {...v.localized("description")}
           />
           <div className="border-border/60 flex justify-end border-t pt-5">
-            <Button
-              onClick={save}
-              disabled={!skillSchema.safeParse(skill).success}
-            >
-              <RiSaveLine /> ذخیره مهارت
+            <Button onClick={save} disabled={v.pending}>
+              {v.pending ? <Spinner /> : <RiSaveLine />} ذخیره مهارت
             </Button>
           </div>
         </CardContent>

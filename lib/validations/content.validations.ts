@@ -18,7 +18,7 @@ export const resumeItemSchema = z.object({
 
 export const socialLinkSchema = z.object({
   platform: z.enum(socialPlatforms),
-  href: z.string().trim().url().max(500),
+  href: z.url().max(500),
 });
 
 export const servicesSchema = z.array(serviceSchema).max(30);

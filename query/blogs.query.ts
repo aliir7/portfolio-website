@@ -1,9 +1,9 @@
 import "server-only";
 
-import { and, desc, eq, lte } from "drizzle-orm";
+import { and, count, desc, eq, lte } from "drizzle-orm";
 import { cache } from "react";
 import { db } from "@/db";
-import { blogPosts, blogTags } from "@/db/schema";
+import { blogPostTags, blogPosts, blogTags } from "@/db/schema";
 import { withQuery } from "@/lib/utils/with-query";
 import type { BlogPostWithTags } from "@/types";
 
@@ -64,4 +64,18 @@ export function getAdminBlogPostByIdQuery(id: string) {
 
 export function getBlogTagsQuery() {
   return withQuery(() => db.select().from(blogTags).orderBy(blogTags.name), "blog.tags");
+}
+
+/** Tags with the number of posts using them (any status), for the tag manager. */
+export function getBlogTagsWithCountQuery() {
+  return withQuery(
+    () =>
+      db
+        .select({ id: blogTags.id, name: blogTags.name, slug: blogTags.slug, createdAt: blogTags.createdAt, postCount: count(blogPostTags.postId) })
+        .from(blogTags)
+        .leftJoin(blogPostTags, eq(blogPostTags.tagId, blogTags.id))
+        .groupBy(blogTags.id)
+        .orderBy(blogTags.name),
+    "blog.tagsWithCount",
+  );
 }

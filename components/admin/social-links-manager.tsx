@@ -9,6 +9,7 @@ import type { SocialLinkInput } from "@/types";
 import { ListEditorPage, ListItemCard } from "./list-editor";
 import SelectField from "./select-field";
 import TextField from "./text-field";
+import { useFormValidation } from "./use-form-validation";
 import { useListEditor } from "./use-list-editor";
 
 export default function SocialLinksManager({
@@ -17,6 +18,7 @@ export default function SocialLinksManager({
   initial: SocialLinkInput[];
 }) {
   const list = useListEditor(initial);
+  const v = useFormValidation(socialLinksSchema, list.values);
   // Each platform may appear once (also enforced by a unique column).
   const freePlatform = socialPlatforms.find(
     (platform) => !list.values.some((link) => link.platform === platform),
@@ -27,10 +29,12 @@ export default function SocialLinksManager({
       eyebrow="محتوا"
       title="شبکه‌های اجتماعی"
       description="لینک‌های نمایش‌داده‌شده در معرفی و منوی موبایل سایت."
-      onSave={async () =>
-        notifyResult(await saveSocialLinksAction(list.values))
+      onSave={() =>
+        v.submit(async () =>
+          notifyResult(await saveSocialLinksAction(list.values)),
+        )
       }
-      saveDisabled={!socialLinksSchema.safeParse(list.values).success}
+      saving={v.pending}
       addLabel="افزودن لینک"
       onAdd={() =>
         freePlatform && list.add({ platform: freePlatform, href: "" })
@@ -59,13 +63,15 @@ export default function SocialLinksManager({
                 list.values.some((link) => link.platform === value),
             }))}
             onChange={(platform) => list.update(row.uid, { platform })}
+            {...v.field(`${index}.platform`)}
           />
           <TextField
             id={`${row.uid}-href`}
             label="آدرس"
-            value={row.href}
             placeholder="https://..."
+            value={row.href}
             onChange={(href) => list.update(row.uid, { href })}
+            {...v.field(`${index}.href`)}
           />
         </ListItemCard>
       ))}

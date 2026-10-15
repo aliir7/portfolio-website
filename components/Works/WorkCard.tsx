@@ -43,7 +43,10 @@ const WorkCard = ({ project }: WorkCardProps) => {
       <div className="relative z-10">
         <CardHeader className="mt-4 space-y-1.5 md:mt-6">
           <CardTitle className="text-lg">
-            <LocaleLink href={`/works/${project.slug}`} className="hover:text-primary transition-colors">
+            <LocaleLink
+              href={`/works/${project.slug}`}
+              className="hover:text-primary transition-colors"
+            >
               {project.title}
             </LocaleLink>
           </CardTitle>
@@ -68,24 +71,13 @@ const WorkCard = ({ project }: WorkCardProps) => {
         {/* FOOTER – anchor for shape */}
         <CardFooter className="bg-card relative z-10 gap-2 overflow-hidden border-none p-3 md:gap-3 md:p-4">
           <Button className="relative z-10" variant="ctaLink" asChild>
-            <LocaleLink href={`/works/${project.slug}`} className="text-sm font-medium">
+            <LocaleLink
+              href={`/works/${project.slug}`}
+              className="text-sm font-medium"
+            >
               {dictionary.common.more}
             </LocaleLink>
           </Button>
-
-          {project.repoUrl && (
-            <Button className="relative z-10" variant="ctaLink" asChild>
-              <Link
-                href={project.repoUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="inline-flex items-center gap-1.5 text-sm font-medium"
-              >
-                <RiGithubLine className="size-4" />
-                {dictionary.common.repository}
-              </Link>
-            </Button>
-          )}
 
           {project.liveUrl && (
             <Button className="relative z-10" variant="ctaLink" asChild>

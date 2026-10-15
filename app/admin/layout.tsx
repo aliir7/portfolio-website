@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import type { ReactNode } from "react";
+import { Toaster } from "sonner";
 import AdminShell from "@/components/admin/admin-shell";
 import { requireAdmin } from "@/lib/auth-guard";
 
@@ -20,6 +21,7 @@ export default async function AdminLayout({
     <html lang="fa" dir="rtl" suppressHydrationWarning>
       <body suppressHydrationWarning>
         <AdminShell>{children}</AdminShell>
+        <Toaster richColors position="bottom-left" dir="rtl" />
       </body>
     </html>
   );

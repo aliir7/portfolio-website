@@ -167,7 +167,10 @@
       "updated": "Blog post updated successfully.",
       "deleted": "Blog post deleted successfully.",
       "invalidTag": "Please check the tag information.",
-      "tagCreated": "Tag created successfully."
+      "tagCreated": "Tag created successfully.",
+      "tagUpdated": "The tag was updated successfully.",
+      "tagDeleted": "The tag was deleted successfully.",
+      "tagNotFound": "The tag was not found."
     },
     "common": {
       "invalidForm": "Please check the submitted information.",
@@ -205,6 +208,9 @@
       },
       "currentPassword": {
         "required": "Please enter your current password"
+      },
+      "urlOrPath": {
+        "invalid": "The address must start with https:// or /"
       }
     }
   },

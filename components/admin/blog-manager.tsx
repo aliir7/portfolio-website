@@ -29,7 +29,10 @@ export default function BlogManager({ initialPosts }: { initialPosts: BlogPostWi
           <h2 className="text-3xl font-black">بلاگ</h2>
           <p className="mt-2 text-muted-foreground">پیش‌نویس‌ها و پست‌های منتشرشده.</p>
         </div>
-        <Button asChild><Link href="/admin/blog/new"><RiAddLine /> پست جدید</Link></Button>
+        <div className="flex gap-2">
+          <Button asChild variant="outline"><Link href="/admin/blog/tags">مدیریت تگ‌ها</Link></Button>
+          <Button asChild><Link href="/admin/blog/new"><RiAddLine /> پست جدید</Link></Button>
+        </div>
       </section>
       {posts.length === 0 && <p className="text-muted-foreground rounded-2xl border border-dashed p-8 text-center">هنوز پستی ثبت نشده است.</p>}
       <div className="grid gap-4">

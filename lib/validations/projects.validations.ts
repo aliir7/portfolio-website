@@ -1,8 +1,12 @@
 import { projectCategories, publishStatuses } from "@/db/schema/values";
 import { z } from "zod";
-import { localizedText, optionalLocalizedText } from "./localized.validations";
+import {
+  localizedText,
+  optionalLocalizedText,
+  urlOrPath,
+} from "./localized.validations";
 
-const optionalUrl = z.url().optional().or(z.literal(""));
+const optionalUrl = z.url().or(z.literal(""));
 
 export const projectSchema = z.object({
   title: localizedText(160),
@@ -16,7 +20,7 @@ export const projectSchema = z.object({
   content: optionalLocalizedText(20000),
   category: z.enum(projectCategories),
   techStack: z.array(z.string().trim().min(1).max(60)).max(30),
-  image: optionalUrl.nullable().optional(),
+  image: urlOrPath.nullable().optional(),
   repoUrl: optionalUrl,
   liveUrl: optionalUrl,
   status: z.enum(publishStatuses),

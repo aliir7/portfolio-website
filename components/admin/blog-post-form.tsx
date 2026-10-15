@@ -11,6 +11,7 @@ import {
 } from "@/components/ui/card";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Label } from "@/components/ui/label";
+import { Spinner } from "@/components/ui/spinner";
 import { publishStatuses } from "@/db/schema/values";
 import {
   createBlogPostAction,
@@ -21,6 +22,7 @@ import { uploadFolders } from "@/lib/constants";
 import { notifyResult } from "@/lib/utils/notify";
 import {
   blogPostSchema,
+  blogTagSchema,
   type BlogPostInput,
 } from "@/lib/validations/blog.validations";
 import type { BlogPostWithTags, BlogStatus, BlogTag } from "@/types";
@@ -31,6 +33,7 @@ import { useState } from "react";
 import SelectField from "./select-field";
 import TextField from "./text-field";
 import UploadField from "./upload-field";
+import { useFormValidation } from "./use-form-validation";
 
 const emptyPost: BlogPostInput = {
   title: "",
@@ -78,6 +81,8 @@ export default function BlogPostForm({ tags, post }: Props) {
   const [tagOptions, setTagOptions] = useState(tags);
   const [newTag, setNewTag] = useState({ name: "", slug: "" });
   const [preview, setPreview] = useState(false);
+  const v = useFormValidation(blogPostSchema, form);
+  const tagValidation = useFormValidation(blogTagSchema, newTag);
 
   const set = <K extends keyof BlogPostInput>(
     key: K,
@@ -92,25 +97,24 @@ export default function BlogPostForm({ tags, post }: Props) {
         : form.tagIds.filter((id) => id !== tagId),
     );
 
-  const addTag = async () => {
-    const result = await createBlogTagAction(newTag);
-    if (!notifyResult(result) || !result.success || !result.data) return;
-    const created: BlogTag = {
-      id: result.data.id,
-      ...newTag,
-      createdAt: new Date(),
-    };
-    setTagOptions((current) => [...current, created]);
-    toggleTag(created.id, true);
-    setNewTag({ name: "", slug: "" });
-  };
+  const addTag = () =>
+    tagValidation.submit(async () => {
+      const result = await createBlogTagAction(newTag);
+      if (!notifyResult(result) || !result.success || !result.data) return;
+      const created = result.data;
+      setTagOptions((current) => [...current, created]);
+      toggleTag(created.id, true);
+      setNewTag({ name: "", slug: "" });
+      tagValidation.reset();
+    });
 
-  const save = async () => {
-    const result = post
-      ? await updateBlogPostAction(post.id, form)
-      : await createBlogPostAction(form);
-    if (notifyResult(result)) router.push("/admin/blog");
-  };
+  const save = () =>
+    v.submit(async () => {
+      const result = post
+        ? await updateBlogPostAction(post.id, form)
+        : await createBlogPostAction(form);
+      if (notifyResult(result)) router.push("/admin/blog");
+    });
 
   return (
     <div className="space-y-8">
@@ -131,11 +135,8 @@ export default function BlogPostForm({ tags, post }: Props) {
               <RiArrowRightLine /> بازگشت
             </Link>
           </Button>
-          <Button
-            onClick={save}
-            disabled={!blogPostSchema.safeParse(form).success}
-          >
-            <RiSaveLine /> ذخیره پست
+          <Button onClick={save} disabled={v.pending}>
+            {v.pending ? <Spinner /> : <RiSaveLine />} ذخیره پست
           </Button>
         </div>
       </section>
@@ -155,6 +156,7 @@ export default function BlogPostForm({ tags, post }: Props) {
               dir="auto"
               value={form.title}
               onChange={(value) => set("title", value)}
+              {...v.field("title")}
             />
             <TextField
               id="post-slug"
@@ -162,6 +164,7 @@ export default function BlogPostForm({ tags, post }: Props) {
               placeholder="my-first-post"
               value={form.slug}
               onChange={(value) => set("slug", value)}
+              {...v.field("slug")}
             />
             <TextField
               id="post-excerpt"
@@ -170,6 +173,7 @@ export default function BlogPostForm({ tags, post }: Props) {
               rows={3}
               value={form.excerpt ?? ""}
               onChange={(value) => set("excerpt", value)}
+              {...v.field("excerpt")}
             />
             <div className="grid gap-2">
               <div className="flex items-center justify-between">
@@ -193,6 +197,7 @@ export default function BlogPostForm({ tags, post }: Props) {
                   rows={18}
                   value={form.content}
                   onChange={(value) => set("content", value)}
+                  {...v.field("content")}
                 />
               )}
             </div>
@@ -214,6 +219,7 @@ export default function BlogPostForm({ tags, post }: Props) {
                   label: statusLabels[value],
                 }))}
                 onChange={(value) => set("status", value)}
+                {...v.field("status")}
               />
               <UploadField
                 id="post-cover"
@@ -221,9 +227,15 @@ export default function BlogPostForm({ tags, post }: Props) {
                 folder={uploadFolders.blog}
                 value={form.coverImage ?? ""}
                 onChange={(value) => set("coverImage", value)}
+                {...v.field("coverImage")}
               />
               <div className="grid gap-3">
                 <Label>تگ‌ها</Label>
+                {tagOptions.length === 0 && (
+                  <p className="text-muted-foreground text-sm">
+                    هنوز تگی ساخته نشده است.
+                  </p>
+                )}
                 {tagOptions.map((tag) => (
                   <div key={tag.id} className="flex items-center gap-2">
                     <Checkbox
@@ -245,6 +257,7 @@ export default function BlogPostForm({ tags, post }: Props) {
                     onChange={(name) =>
                       setNewTag((current) => ({ ...current, name }))
                     }
+                    {...tagValidation.field("name")}
                   />
                   <TextField
                     id="new-tag-slug"
@@ -253,15 +266,23 @@ export default function BlogPostForm({ tags, post }: Props) {
                     onChange={(slug) =>
                       setNewTag((current) => ({ ...current, slug }))
                     }
+                    {...tagValidation.field("slug")}
                   />
                   <Button
                     variant="outline"
                     size="sm"
                     onClick={addTag}
-                    disabled={!newTag.name.trim() || !newTag.slug.trim()}
+                    disabled={tagValidation.pending}
                   >
-                    <RiAddLine /> افزودن تگ
+                    {tagValidation.pending ? <Spinner /> : <RiAddLine />} افزودن
+                    تگ
                   </Button>
+                  <Link
+                    href="/admin/blog/tags"
+                    className="text-primary text-sm"
+                  >
+                    مدیریت تگ‌ها (ویرایش و حذف)
+                  </Link>
                 </div>
               </div>
             </CardContent>
@@ -281,6 +302,7 @@ export default function BlogPostForm({ tags, post }: Props) {
                 dir="auto"
                 value={form.metaTitle ?? ""}
                 onChange={(value) => set("metaTitle", value)}
+                {...v.field("metaTitle")}
               />
               <TextField
                 id="post-meta-description"
@@ -289,12 +311,14 @@ export default function BlogPostForm({ tags, post }: Props) {
                 rows={3}
                 value={form.metaDescription ?? ""}
                 onChange={(value) => set("metaDescription", value)}
+                {...v.field("metaDescription")}
               />
               <TextField
                 id="post-canonical"
                 label="Canonical URL"
                 value={form.canonicalUrl ?? ""}
                 onChange={(value) => set("canonicalUrl", value)}
+                {...v.field("canonicalUrl")}
               />
               <UploadField
                 id="post-og-image"
@@ -302,6 +326,7 @@ export default function BlogPostForm({ tags, post }: Props) {
                 folder={uploadFolders.blog}
                 value={form.ogImage ?? ""}
                 onChange={(value) => set("ogImage", value)}
+                {...v.field("ogImage")}
               />
               <div className="flex items-center gap-2">
                 <Checkbox

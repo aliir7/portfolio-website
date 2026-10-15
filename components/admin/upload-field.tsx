@@ -36,10 +36,12 @@ type Props = {
   /** One of `uploadFolders`. */
   folder: string;
   kind?: keyof typeof kinds;
+  error?: string;
+  onBlur?: () => void;
 };
 
 /** A URL field with direct signed upload to Cloudinary (the URL can still be pasted by hand). */
-export default function UploadField({ id, label, value, onChange, folder, kind = "image" }: Props) {
+export default function UploadField({ id, label, value, onChange, folder, kind = "image", error, onBlur }: Props) {
   const config = kinds[kind];
   const fileInput = useRef<HTMLInputElement>(null);
   const [uploading, setUploading] = useState(false);
@@ -74,6 +76,7 @@ export default function UploadField({ id, label, value, onChange, folder, kind =
 
       const { secure_url } = (await response.json()) as { secure_url: string };
       onChange(secure_url);
+      toast.success("فایل آپلود شد. برای اعمال، فرم را ذخیره کن.");
     } catch {
       toast.error("آپلود فایل ناموفق بود.");
     } finally {
@@ -84,7 +87,7 @@ export default function UploadField({ id, label, value, onChange, folder, kind =
 
   return (
     <div className="grid gap-2">
-      <TextField id={id} label={label} value={value} placeholder={config.placeholder} onChange={onChange} />
+      <TextField id={id} label={label} value={value} placeholder={config.placeholder} onChange={onChange} error={error} onBlur={onBlur} />
       <div className="flex items-center gap-2">
         <input
           ref={fileInput}

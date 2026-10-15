@@ -15,3 +15,12 @@ export const optionalLocalizedText = (max: number) =>
     fa: z.string().trim().max(max),
     en: z.string().trim().max(max),
   });
+
+/** An absolute http(s) URL (uploaded file) or a site path such as "/resume.pdf"; empty means "none". */
+export const urlOrPath = z
+  .string()
+  .trim()
+  .max(500)
+  .refine((value) => !value || value.startsWith("/") || /^https?:\/\//.test(value), {
+    message: "errors.validation.urlOrPath.invalid",
+  });

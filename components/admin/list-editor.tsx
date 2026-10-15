@@ -3,6 +3,7 @@
 import type { ReactNode } from "react";
 import { RiAddLine, RiArrowDownLine, RiArrowUpLine, RiDeleteBinLine, RiSaveLine } from "@remixicon/react";
 import { Button } from "@/components/ui/button";
+import { Spinner } from "@/components/ui/spinner";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 
 type PageProps = {
@@ -10,7 +11,7 @@ type PageProps = {
   title: string;
   description: string;
   onSave: () => void;
-  saveDisabled?: boolean;
+  saving?: boolean;
   addLabel: string;
   onAdd: () => void;
   addDisabled?: boolean;
@@ -19,7 +20,7 @@ type PageProps = {
 };
 
 /** Page frame shared by every ordered-list editor: heading, save, item list, add button. */
-export function ListEditorPage({ eyebrow, title, description, onSave, saveDisabled, addLabel, onAdd, addDisabled, isEmpty, children }: PageProps) {
+export function ListEditorPage({ eyebrow, title, description, onSave, saving, addLabel, onAdd, addDisabled, isEmpty, children }: PageProps) {
   return (
     <div className="mx-auto max-w-4xl space-y-8">
       <section className="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
@@ -28,7 +29,7 @@ export function ListEditorPage({ eyebrow, title, description, onSave, saveDisabl
           <h2 className="text-3xl font-black">{title}</h2>
           <p className="mt-2 text-muted-foreground">{description}</p>
         </div>
-        <Button onClick={onSave} disabled={saveDisabled}><RiSaveLine /> ذخیره تغییرات</Button>
+        <Button onClick={onSave} disabled={saving}>{saving ? <Spinner /> : <RiSaveLine />} ذخیره تغییرات</Button>
       </section>
       <div className="grid gap-4">
         {isEmpty && <p className="text-muted-foreground rounded-2xl border border-dashed p-8 text-center">موردی ثبت نشده است.</p>}
