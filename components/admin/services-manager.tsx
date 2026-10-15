@@ -3,7 +3,7 @@
 import { saveServicesAction } from "@/lib/actions/admin/content.actions";
 import { emptyLocalized } from "@/lib/localize";
 import { notifyResult } from "@/lib/utils/notify";
-import { servicesSchema } from "@/lib/validations/content";
+import { servicesSchema } from "@/lib/validations/content.validations";
 import type { ServiceInput } from "@/types";
 import { ListEditorPage, ListItemCard } from "./list-editor";
 import LocalizedField from "./localized-field";
@@ -15,7 +15,11 @@ const emptyService: ServiceInput = {
   description: emptyLocalized(),
 };
 
-export default function ServicesManager({ initial }: { initial: ServiceInput[] }) {
+export default function ServicesManager({
+  initial,
+}: {
+  initial: ServiceInput[];
+}) {
   const list = useListEditor(initial);
 
   return (
@@ -30,10 +34,33 @@ export default function ServicesManager({ initial }: { initial: ServiceInput[] }
       isEmpty={!list.rows.length}
     >
       {list.rows.map((row, index) => (
-        <ListItemCard key={row.uid} title="خدمت" index={index} count={list.rows.length} onMove={(offset) => list.move(row.uid, offset)} onRemove={() => list.remove(row.uid)}>
-          <LocalizedField id={`${row.uid}-title`} label="عنوان" value={row.title} onChange={(title) => list.update(row.uid, { title })} />
-          <LocalizedField id={`${row.uid}-subtitle`} label="زیرعنوان" value={row.subtitle} onChange={(subtitle) => list.update(row.uid, { subtitle })} />
-          <LocalizedField id={`${row.uid}-description`} label="توضیحات" value={row.description} onChange={(description) => list.update(row.uid, { description })} multiline />
+        <ListItemCard
+          key={row.uid}
+          title="خدمت"
+          index={index}
+          count={list.rows.length}
+          onMove={(offset) => list.move(row.uid, offset)}
+          onRemove={() => list.remove(row.uid)}
+        >
+          <LocalizedField
+            id={`${row.uid}-title`}
+            label="عنوان"
+            value={row.title}
+            onChange={(title) => list.update(row.uid, { title })}
+          />
+          <LocalizedField
+            id={`${row.uid}-subtitle`}
+            label="زیرعنوان"
+            value={row.subtitle}
+            onChange={(subtitle) => list.update(row.uid, { subtitle })}
+          />
+          <LocalizedField
+            id={`${row.uid}-description`}
+            label="توضیحات"
+            value={row.description}
+            onChange={(description) => list.update(row.uid, { description })}
+            multiline
+          />
         </ListItemCard>
       ))}
     </ListEditorPage>

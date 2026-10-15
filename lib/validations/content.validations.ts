@@ -1,6 +1,6 @@
-import { z } from "zod";
 import { resumeCategories, socialPlatforms } from "@/db/schema/values";
-import { localizedText } from "./localized";
+import { z } from "zod";
+import { localizedText } from "./localized.validations";
 
 export const serviceSchema = z.object({
   title: localizedText(160),
@@ -23,4 +23,6 @@ export const socialLinkSchema = z.object({
 
 export const servicesSchema = z.array(serviceSchema).max(30);
 export const resumeSchema = z.array(resumeItemSchema).max(50);
-export const socialLinksSchema = z.array(socialLinkSchema).max(socialPlatforms.length);
+export const socialLinksSchema = z
+  .array(socialLinkSchema)
+  .max(socialPlatforms.length);

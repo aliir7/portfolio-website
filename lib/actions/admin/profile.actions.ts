@@ -4,6 +4,8 @@ import { db } from "@/db";
 import { replaceStatements, runBatch, withSortOrder } from "@/db/helpers";
 import { profile, skills } from "@/db/schema";
 import { profileWithSkillsSchema, skillSchema } from "@/lib/validations";
+import { eq } from "drizzle-orm";
+import { scheduleAssetCleanup } from "@/lib/cloudinary";
 import { runAdminAction } from "@/lib/utils/admin-action";
 import type { ProfileInput } from "@/types";
 
@@ -22,6 +24,11 @@ export async function updateProfileAction(input: unknown) {
     input,
     messages: { invalid: "actions.profile.invalidForm", success: "actions.profile.updated" },
     run: async (data) => {
+      const [previous] = await db
+        .select({ avatarUrl: profile.avatarUrl, resumeUrl: profile.resumeUrl })
+        .from(profile)
+        .where(eq(profile.id, 1));
+
       await runBatch([
         db
           .insert(profile)
@@ -32,6 +39,7 @@ export async function updateProfileAction(input: unknown) {
           }),
         ...replaceStatements(skills, withSortOrder(data.skills)),
       ]);
+      scheduleAssetCleanup([previous?.avatarUrl, previous?.resumeUrl], [data.profile.avatarUrl, data.profile.resumeUrl]);
       return { success: true as const };
     },
   });

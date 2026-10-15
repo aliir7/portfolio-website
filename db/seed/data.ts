@@ -1,16 +1,9 @@
 // Initial content for `pnpm db:seed`. Persian text comes from the former
 // `lib/constants` mock data, English text from the former `lib/i18n` dictionaries.
 // After seeding, the database is the only owner of this content.
+import { estimateReadingTime } from "../../lib/utils/reading-time";
 import { withSortOrder } from "../helpers";
-import type {
-  profile,
-  projects,
-  resumeItems,
-  services,
-  skills,
-  socialLinks,
-  user,
-} from "../schema";
+import type { blogPostTags, blogPosts, blogTags, profile, projects, resumeItems, services, skills, socialLinks, user } from "../schema";
 
 export const ownerEmail = "alirezaeii.dev@gmail.com";
 
@@ -31,8 +24,8 @@ export const profileSeed: typeof profile.$inferInsert = {
   email: ownerEmail,
   phone: "0902 925 3481",
   resumeUrl: "/resume.pdf",
-  experienceYears: 3,
-  completedProjects: 7,
+  experienceYears: 12,
+  completedProjects: 330,
 };
 
 export const socialLinksSeed: (typeof socialLinks.$inferInsert)[] = [
@@ -49,10 +42,7 @@ const servicesBase: Omit<typeof services.$inferInsert, "sortOrder">[] = [
     },
   },
   {
-    title: {
-      fa: "طراحی و توسعه وب‌سایت",
-      en: "Website design and development",
-    },
+    title: { fa: "طراحی و توسعه وب‌سایت", en: "Website design and development" },
     subtitle: { fa: "WordPress و رابط کاربری", en: "WordPress and UI" },
     description: {
       fa: "طراحی و توسعه وب‌سایت‌های شخصی و کسب‌وکاری با تمرکز بر ساختار تمیز، واکنش‌گرایی و عملکرد مناسب.",
@@ -68,10 +58,7 @@ const servicesBase: Omit<typeof services.$inferInsert, "sortOrder">[] = [
     },
   },
   {
-    title: {
-      fa: "بهینه‌سازی برای موتورهای جستجو",
-      en: "Search engine optimization",
-    },
+    title: { fa: "بهینه‌سازی برای موتورهای جستجو", en: "Search engine optimization" },
     subtitle: { fa: "SEO تکنیکال و داخلی", en: "Technical and on-page SEO" },
     description: {
       fa: "بهبود ساختار صفحات، عملکرد و قابلیت دیده‌شدن وب‌سایت با استفاده از Google Search Console، Ahrefs و ابزارهای تحلیل کلمات کلیدی.",
@@ -79,10 +66,7 @@ const servicesBase: Omit<typeof services.$inferInsert, "sortOrder">[] = [
     },
   },
   {
-    title: {
-      fa: "همکاری در توسعه محصول",
-      en: "Product development collaboration",
-    },
+    title: { fa: "همکاری در توسعه محصول", en: "Product development collaboration" },
     subtitle: { fa: "Git و کار تیمی", en: "Git and teamwork" },
     description: {
       fa: "مشارکت در حل مسئله، نوشتن کد قابل نگهداری و مدیریت نسخه با Git در پروژه‌های واقعی و فریلنسری.",
@@ -196,10 +180,7 @@ export const projectsSeed: (typeof projects.$inferInsert)[] = [
 const resumeBase: Omit<typeof resumeItems.$inferInsert, "sortOrder">[] = [
   {
     category: "education",
-    organization: {
-      fa: "دانشگاه آزاد اسلامی واحد پرند",
-      en: "Azad University of Parand",
-    },
+    organization: { fa: "دانشگاه آزاد اسلامی واحد پرند", en: "Azad University of Parand" },
     title: { fa: "کارشناسی مهندسی عمران", en: "Bachelor of Civil Engineering" },
     period: { fa: "۱۳۹۳ - ۱۳۹۶", en: "2014 - 2017" },
     content: {
@@ -210,10 +191,7 @@ const resumeBase: Omit<typeof resumeItems.$inferInsert, "sortOrder">[] = [
   {
     category: "education",
     organization: { fa: "مکتب‌خونه", en: "Maktabkhooneh" },
-    title: {
-      fa: "دوره‌های تخصصی توسعه وب",
-      en: "Specialized Web Development Courses",
-    },
+    title: { fa: "دوره‌های تخصصی توسعه وب", en: "Specialized Web Development Courses" },
     period: { fa: "۱۴۰۱", en: "2022" },
     content: {
       fa: "گذراندن دوره‌های Node.js، React JS، Git و طراحی وب Front-End با مجموع بیش از ۱۳۰ ساعت آموزش.",
@@ -242,14 +220,8 @@ const resumeBase: Omit<typeof resumeItems.$inferInsert, "sortOrder">[] = [
   },
   {
     category: "experience",
-    organization: {
-      fa: "پروژه‌های شخصی و فریلنسری",
-      en: "Personal and freelance projects",
-    },
-    title: {
-      fa: "طراح وب و توسعه‌دهنده WordPress",
-      en: "Web Designer and WordPress Developer",
-    },
+    organization: { fa: "پروژه‌های شخصی و فریلنسری", en: "Personal and freelance projects" },
+    title: { fa: "طراح وب و توسعه‌دهنده WordPress", en: "Web Designer and WordPress Developer" },
     period: { fa: "۱۴۰۱ تاکنون", en: "2022 - Present" },
     content: {
       fa: "طراحی و توسعه وب‌سایت‌های شخصی و کسب‌وکاری با WordPress و بهینه‌سازی ساختار و عملکرد آن‌ها.",
@@ -258,10 +230,7 @@ const resumeBase: Omit<typeof resumeItems.$inferInsert, "sortOrder">[] = [
   },
   {
     category: "experience",
-    organization: {
-      fa: "یادگیری و توسعه مستمر",
-      en: "Continuous learning and development",
-    },
+    organization: { fa: "یادگیری و توسعه مستمر", en: "Continuous learning and development" },
     title: { fa: "توسعه‌دهنده وب", en: "Web Developer" },
     period: { fa: "۱۴۰۲ تاکنون", en: "2023 - Present" },
     content: {
@@ -272,3 +241,74 @@ const resumeBase: Omit<typeof resumeItems.$inferInsert, "sortOrder">[] = [
 ];
 
 export const resumeSeed = withSortOrder(resumeBase);
+
+// ---- Blog (sample posts so the blog is not empty; edit or delete them from /admin/blog)
+const tagIds = { nextjs: crypto.randomUUID(), react: crypto.randomUUID(), typescript: crypto.randomUUID() };
+const postIds = { nextjs: crypto.randomUUID(), typescript: crypto.randomUUID() };
+
+export const blogTagsSeed: (typeof blogTags.$inferInsert)[] = [
+  { id: tagIds.nextjs, name: "Next.js", slug: "nextjs" },
+  { id: tagIds.react, name: "React", slug: "react" },
+  { id: tagIds.typescript, name: "TypeScript", slug: "typescript" },
+];
+
+const nextjsPost = `در این یادداشت کوتاه، چند مفهوم مهمی را مرور می‌کنم که هنگام ساخت یک وب‌سایت با **Next.js 16** و App Router بیشتر با آن‌ها سروکار دارم.
+
+## چرا App Router؟
+
+با App Router، هر صفحه به‌طور پیش‌فرض یک Server Component است. یعنی کدی که فقط برای خواندن داده لازم است، به مرورگر ارسال نمی‌شود و بسته‌ی جاوااسکریپت سبک‌تر می‌ماند.
+
+## الگوی ساده‌ی کار با داده
+
+- داده را در Server Component بخوان و نتیجه را به‌صورت props پایین بده.
+- تغییر داده را با Server Action انجام بده و بعد از موفقیت، مسیر را revalidate کن.
+- فقط کامپوننت‌هایی که به تعامل نیاز دارند را \`"use client"\` کن.
+
+## جمع‌بندی
+
+نیازی نیست از روز اول همه‌چیز را بهینه کنی. با ساختار ساده شروع کن و فقط جایی پیچیدگی اضافه کن که اندازه‌گیری نشان بدهد لازم است.`;
+
+const typescriptPost = `**TypeScript** فقط چند نوع ساده روی جاوااسکریپت نیست؛ در پروژه‌های واقعی، قرارداد بین بخش‌های مختلف برنامه را مشخص می‌کند.
+
+## سه دلیل برای استفاده
+
+1. خطاها قبل از اجرا و هنگام نوشتن کد پیدا می‌شوند.
+2. تغییر ساختار داده در یک نقطه، همه‌ی جاهایی را که به آن وابسته‌اند نشان می‌دهد.
+3. تکمیل خودکار و مستندات داخل ویرایشگر، سرعت کار را بالا می‌برد.
+
+## یک قاعده‌ی عملی
+
+نوع‌ها را تا جای ممکن از منبع اصلی مشتق کن، مثلاً از اسکیمای دیتابیس یا اسکیمای ولیدیشن، و آن‌ها را دوباره دستی ننویس. به این ترتیب یک واقعیت فقط یک‌جا تعریف می‌شود.`;
+
+/** Posts need an author, so they are built once the admin user exists. */
+export const blogPostsSeed = (authorId: string): (typeof blogPosts.$inferInsert)[] => [
+  {
+    id: postIds.nextjs,
+    authorId,
+    title: "شروع کار با Next.js 16",
+    slug: "getting-started-with-nextjs-16",
+    excerpt: "مرور کوتاه چند مفهوم کلیدی App Router و الگوی ساده‌ی کار با داده در Next.js 16.",
+    content: nextjsPost,
+    status: "published",
+    publishedAt: new Date("2026-09-20T09:00:00.000Z"),
+    readingTimeMinutes: estimateReadingTime(nextjsPost),
+  },
+  {
+    id: postIds.typescript,
+    authorId,
+    title: "چرا TypeScript؟",
+    slug: "why-typescript",
+    excerpt: "سه دلیل عملی برای استفاده از TypeScript و یک قاعده برای مشتق‌کردن نوع‌ها از منبع اصلی.",
+    content: typescriptPost,
+    status: "published",
+    publishedAt: new Date("2026-09-27T09:00:00.000Z"),
+    readingTimeMinutes: estimateReadingTime(typescriptPost),
+  },
+];
+
+export const blogPostTagsSeed: (typeof blogPostTags.$inferInsert)[] = [
+  { postId: postIds.nextjs, tagId: tagIds.nextjs },
+  { postId: postIds.nextjs, tagId: tagIds.react },
+  { postId: postIds.typescript, tagId: tagIds.typescript },
+  { postId: postIds.typescript, tagId: tagIds.react },
+];

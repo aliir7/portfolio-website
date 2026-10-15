@@ -26,6 +26,7 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
     getProjectsQuery({ publishedOnly: true }),
   ]);
   const posts = blogPosts.filter((post) => !post.noIndex);
+  const tagSlugs = [...new Set(posts.flatMap((post) => post.tags.map((tag) => tag.slug)))];
 
   return [
     ...localized("", { lastModified, changeFrequency: "monthly", priority: 1 }),
@@ -36,6 +37,9 @@ export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
         changeFrequency: "monthly",
         priority: 0.7,
       }),
+    ),
+    ...tagSlugs.flatMap((slug) =>
+      localized(`/blog/tag/${slug}`, { lastModified, changeFrequency: "weekly", priority: 0.4 }),
     ),
     ...posts.flatMap((post) =>
       localized(`/blog/${post.slug}`, {

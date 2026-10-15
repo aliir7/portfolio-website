@@ -27,6 +27,7 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     alternates: {
       canonical: post.canonicalUrl ?? `${siteUrl}/${locale}/blog/${slug}`,
       languages: Object.fromEntries(routing.locales.map((l) => [l, `${siteUrl}/${l}/blog/${slug}`])),
+      types: { "application/rss+xml": `${siteUrl}/${locale}/blog/feed.xml` },
     },
     robots: { index: !post.noIndex, follow: true },
     openGraph: {

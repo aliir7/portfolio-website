@@ -1,11 +1,18 @@
 "use client";
 
-import { useEffect, useState } from "react";
-import { RiSaveLine } from "@remixicon/react";
 import { Button } from "@/components/ui/button";
-import { Sheet, SheetContent, SheetDescription, SheetFooter, SheetHeader, SheetTitle } from "@/components/ui/sheet";
-import { projectSchema } from "@/lib/validations/projects";
+import {
+  Sheet,
+  SheetContent,
+  SheetDescription,
+  SheetFooter,
+  SheetHeader,
+  SheetTitle,
+} from "@/components/ui/sheet";
+import { projectSchema } from "@/lib/validations/projects.validations";
 import type { AdminProject, ProjectInput } from "@/types";
+import { RiSaveLine } from "@remixicon/react";
+import { useEffect, useState } from "react";
 import ProjectFields, { emptyProject, toProjectInput } from "./project-fields";
 
 type Props = {
@@ -15,7 +22,12 @@ type Props = {
   onSave: (input: ProjectInput) => Promise<void>;
 };
 
-export default function ProjectForm({ project, open, onOpenChange, onSave }: Props) {
+export default function ProjectForm({
+  project,
+  open,
+  onOpenChange,
+  onSave,
+}: Props) {
   const [form, setForm] = useState<ProjectInput>(emptyProject);
 
   useEffect(() => {
@@ -24,19 +36,30 @@ export default function ProjectForm({ project, open, onOpenChange, onSave }: Pro
 
   return (
     <Sheet open={open} onOpenChange={onOpenChange}>
-      <SheetContent side="right" className="glass-panel w-full border-0 sm:max-w-xl">
+      <SheetContent
+        side="right"
+        className="glass-panel w-full border-0 sm:max-w-xl"
+      >
         <SheetHeader>
           <SheetTitle>{project ? "ویرایش پروژه" : "افزودن پروژه"}</SheetTitle>
-          <SheetDescription>عنوان و توضیحات را به هر دو زبان وارد کن. تغییرات در دیتابیس ذخیره می‌شود.</SheetDescription>
+          <SheetDescription>
+            عنوان و توضیحات را به هر دو زبان وارد کن. تغییرات در دیتابیس ذخیره
+            می‌شود.
+          </SheetDescription>
         </SheetHeader>
         <div className="grid gap-5 overflow-y-auto px-4 pb-4">
           <ProjectFields idPrefix="project" form={form} onChange={setForm} />
         </div>
         <SheetFooter>
-          <Button onClick={() => onSave(form)} disabled={!projectSchema.safeParse(form).success}>
+          <Button
+            onClick={() => onSave(form)}
+            disabled={!projectSchema.safeParse(form).success}
+          >
             <RiSaveLine /> ذخیره پروژه
           </Button>
-          <Button variant="ghost" onClick={() => onOpenChange(false)}>انصراف</Button>
+          <Button variant="ghost" onClick={() => onOpenChange(false)}>
+            انصراف
+          </Button>
         </SheetFooter>
       </SheetContent>
     </Sheet>

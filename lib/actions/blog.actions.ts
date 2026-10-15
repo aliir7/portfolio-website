@@ -6,6 +6,7 @@ import { runBatch } from "@/db/helpers";
 import { blogPostTags, blogPosts, blogTags } from "@/db/schema";
 import { blogPostSchema, blogTagSchema, idSchema } from "@/lib/validations";
 import type { BlogPostInput } from "@/lib/validations";
+import { scheduleAssetCleanup } from "@/lib/cloudinary";
 import { runAdminAction } from "@/lib/utils/admin-action";
 import { estimateReadingTime } from "@/lib/utils/reading-time";
 
@@ -59,6 +60,11 @@ export async function updateBlogPostAction(id: string, input: unknown) {
     input,
     messages: { invalid: "actions.blog.invalidPost", success: "actions.blog.updated" },
     run: async (data) => {
+      const [previous] = await db
+        .select({ coverImage: blogPosts.coverImage, ogImage: blogPosts.ogImage })
+        .from(blogPosts)
+        .where(eq(blogPosts.id, id));
+
       // A published post keeps its original publish date unless one is given.
       const publishedAt =
         data.status === "published"
@@ -73,6 +79,7 @@ export async function updateBlogPostAction(id: string, input: unknown) {
         db.delete(blogPostTags).where(eq(blogPostTags.postId, id)),
         ...tagStatements(id, data.tagIds),
       ]);
+      scheduleAssetCleanup([previous?.coverImage, previous?.ogImage], [data.coverImage, data.ogImage]);
       return { id };
     },
   });
@@ -85,7 +92,11 @@ export async function deleteBlogPostAction(id: string) {
     input: id,
     messages: { invalid: "actions.common.invalidForm", success: "actions.blog.deleted" },
     run: async (postId) => {
-      await db.delete(blogPosts).where(eq(blogPosts.id, postId));
+      const deleted = await db
+        .delete(blogPosts)
+        .where(eq(blogPosts.id, postId))
+        .returning({ coverImage: blogPosts.coverImage, ogImage: blogPosts.ogImage });
+      scheduleAssetCleanup(deleted.flatMap((post) => [post.coverImage, post.ogImage]));
     },
   });
 }

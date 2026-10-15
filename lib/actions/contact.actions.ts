@@ -5,7 +5,8 @@ import { after } from "next/server";
 import { getTranslations } from "next-intl/server";
 import { db } from "@/db";
 import { contactMessages } from "@/db/schema";
-import { escapeHtml, sendEmail } from "@/lib/email";
+import { sendEmail } from "@/lib/email";
+import { escapeHtml } from "@/lib/utils/escape-html";
 import { verifyRecaptcha } from "@/lib/recaptcha";
 import { siteUrl } from "@/lib/site";
 import { contactSchema, idSchema } from "@/lib/validations";
@@ -45,7 +46,7 @@ export async function submitContactAction(
   recaptchaToken: string,
 ): Promise<ActionResult<{ id: string }>> {
   const t = await getTranslations();
-  const fail = (key: string): ActionResult<{ id: string }> => ({
+  const fail = (key: Parameters<typeof t>[0]): ActionResult<{ id: string }> => ({
     success: false,
     error: { type: "custom", message: t(key) },
     message: t(key),

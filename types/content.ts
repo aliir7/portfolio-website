@@ -1,5 +1,3 @@
-import type { z } from "zod";
-import type { Locale } from "@/i18n/routing";
 import type {
   profile,
   projects,
@@ -10,7 +8,13 @@ import type {
 } from "@/db/schema";
 import type { LocalizedText } from "@/db/schema/_shared";
 import type { socialPlatforms } from "@/db/schema/values";
-import type { resumeItemSchema, serviceSchema, socialLinkSchema } from "@/lib/validations/content";
+import type { Locale } from "@/i18n/routing";
+import type {
+  resumeItemSchema,
+  serviceSchema,
+  socialLinkSchema,
+} from "@/lib/validations/content.validations";
+import type { z } from "zod";
 
 export type { Locale, LocalizedText };
 export type SocialPlatform = (typeof socialPlatforms)[number];

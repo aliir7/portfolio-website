@@ -9,6 +9,9 @@ import { db } from "../client";
 import { runBatch } from "../helpers";
 import {
   account,
+  blogPostTags,
+  blogPosts,
+  blogTags,
   profile,
   projects,
   resumeItems,
@@ -19,6 +22,9 @@ import {
 } from "../schema";
 import {
   adminSeed,
+  blogPostTagsSeed,
+  blogPostsSeed,
+  blogTagsSeed,
   profileSeed,
   projectsSeed,
   resumeSeed,
@@ -37,7 +43,8 @@ async function seedIfEmpty<T extends PgTable>(label: string, table: T, rows: T["
   console.log(`+ ${label}: ${rows.length} row(s)`);
 }
 
-async function seedAdmin(password: string) {
+/** Returns the admin's user id (existing or newly created). */
+async function seedAdmin(password: string): Promise<string> {
   const [existing] = await db
     .select({ id: user.id })
     .from(user)
@@ -46,7 +53,7 @@ async function seedAdmin(password: string) {
 
   if (existing) {
     console.log(`- admin: skipped (${adminSeed.email} already exists; password untouched)`);
-    return;
+    return existing.id;
   }
 
   const userId = crypto.randomUUID();
@@ -64,6 +71,21 @@ async function seedAdmin(password: string) {
     }),
   ]);
   console.log(`+ admin: ${adminSeed.email}`);
+  return userId;
+}
+
+/** Tags, posts and their links go in together, atomically, and only into an empty blog. */
+async function seedBlog(authorId: string) {
+  if ((await db.$count(blogPosts)) > 0 || (await db.$count(blogTags)) > 0) {
+    console.log("- blog: skipped (already has data)");
+    return;
+  }
+  await runBatch([
+    db.insert(blogTags).values(blogTagsSeed),
+    db.insert(blogPosts).values(blogPostsSeed(authorId)),
+    db.insert(blogPostTags).values(blogPostTagsSeed),
+  ]);
+  console.log(`+ blog: ${blogTagsSeed.length} tags, ${blogPostsSeed(authorId).length} posts`);
 }
 
 async function main() {
@@ -78,7 +100,8 @@ async function main() {
   await seedIfEmpty("projects", projects, projectsSeed);
   await seedIfEmpty("resume", resumeItems, resumeSeed);
   await seedIfEmpty("social links", socialLinks, socialLinksSeed);
-  await seedAdmin(password);
+  const adminId = await seedAdmin(password);
+  await seedBlog(adminId);
 }
 
 main().catch((error) => {

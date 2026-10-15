@@ -53,7 +53,8 @@
     "dashboard": "Dashboard",
     "noProjects": "No projects found in this category",
     "theme": "Change theme",
-    "language": "فارسی"
+    "language": "فارسی",
+    "login": "Login"
   },
   "hero": {
     "greeting": "Hello,",
@@ -77,7 +78,12 @@
     "title": "My works",
     "subtitle": "A collection of projects that showcase my experience building modern, scalable, and professional web applications.",
     "back": "Back to works",
-    "technologies": "Technologies"
+    "technologies": "Technologies",
+    "details": "Project details",
+    "category": "Category",
+    "date": "Date",
+    "related": "More projects",
+    "about": "About the project"
   },
   "resume": {
     "title": "My resume",
@@ -109,7 +115,8 @@
     "sendError": "Failed to send message",
     "unexpectedError": "Something went wrong",
     "location": "Location",
-    "phone": "Phone"
+    "phone": "Phone",
+    "recaptchaNotice": "This form is protected by reCAPTCHA and the Google <privacy>Privacy Policy</privacy> and <terms>Terms of Service</terms> apply."
   },
   "footer": {
     "backToTop": "Back to top",
@@ -166,6 +173,11 @@
       "invalidForm": "Please check the submitted information.",
       "saved": "Changes were saved successfully.",
       "deleted": "The item was deleted successfully."
+    },
+    "account": {
+      "invalidForm": "The submitted information is not valid.",
+      "passwordChanged": "Your password was changed successfully.",
+      "wrongPassword": "The current password is incorrect."
     }
   },
   "errors": {
@@ -190,6 +202,9 @@
       "confirmPassword": {
         "required": "Please confirm your password",
         "mismatch": "Passwords do not match"
+      },
+      "currentPassword": {
+        "required": "Please enter your current password"
       }
     }
   },
@@ -198,7 +213,10 @@
     "subtitle": "Notes on web development and professional experience",
     "empty": "No posts have been published yet.",
     "back": "Back to blog",
-    "readingTime": "{minutes} min read"
+    "readingTime": "{minutes} min read",
+    "tagTitle": "Tag: {name}",
+    "tagEmpty": "No posts have been published with this tag yet.",
+    "rss": "RSS feed"
   },
   "errorPage": {
     "title": "Something went wrong",

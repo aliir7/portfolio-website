@@ -9,6 +9,8 @@ export const projects = pgTable(
     slug: text("slug").notNull().unique(),
     title: localized("title").notNull(),
     description: localized("description").notNull(),
+    // Optional long-form Markdown shown on the project page (empty string = none).
+    content: localized("content").notNull().default({ fa: "", en: "" }),
     category: projectCategory("category").notNull(),
     techStack: text("tech_stack").array().notNull().default([]),
     image: text("image"),

@@ -1,5 +1,6 @@
 import { Link } from "@/i18n/navigation";
 import SocialList from "../Hero/SocialList";
+import { Button } from "../ui/button";
 import Shape from "../ui/shape";
 import { useDictionary, useLocale } from "@/lib/i18n";
 
@@ -25,7 +26,10 @@ function NavItem({ onNavigate }: NavItemProps) {
               isPersian ? "hover:-translate-x-0.5" : "hover:translate-x-0.5"
             }`}
           >
-            <Link href={key === "blog" ? "/blog" : `/#${key}`} onClick={onNavigate}>
+            <Link
+              href={key === "blog" ? "/blog" : `/#${key}`}
+              onClick={onNavigate}
+            >
               {name}
             </Link>
           </li>
@@ -35,6 +39,13 @@ function NavItem({ onNavigate }: NavItemProps) {
       <div className="mt-6">
         <SocialList />
       </div>
+
+      <Button asChild variant="cta" size="lg" className="mt-6 w-1/2 md:w-full">
+        <Link href="/login" onClick={onNavigate}>
+          {dictionary.common.login}
+        </Link>
+      </Button>
+
       <div className="">
         <Shape
           containerClassName={`top-30 h-[70%] ${

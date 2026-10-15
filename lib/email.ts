@@ -19,8 +19,3 @@ export async function sendEmail({ to, subject, html, replyTo }: EmailInput) {
   });
   if (error) throw new Error(`Resend failed: ${error.message}`);
 }
-
-const htmlEscapes: Record<string, string> = { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" };
-
-/** Escape user-provided text before putting it in an HTML e-mail body. */
-export const escapeHtml = (value: string) => value.replace(/[&<>"']/g, (char) => htmlEscapes[char]);

@@ -1,6 +1,6 @@
 import DashboardOverview from "@/components/admin/dashboard-overview";
-import { getProjectsQuery } from "@/query/content.query";
+import { getDashboardQuery } from "@/query/dashboard.query";
 
 export default async function AdminPage() {
-  return <DashboardOverview projects={await getProjectsQuery()} />;
+  return <DashboardOverview data={await getDashboardQuery()} />;
 }

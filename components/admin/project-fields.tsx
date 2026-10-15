@@ -16,6 +16,7 @@ export const emptyProject: ProjectInput = {
   title: emptyLocalized(),
   slug: "",
   description: emptyLocalized(),
+  content: emptyLocalized(),
   category: "frontend",
   techStack: [],
   repoUrl: "",
@@ -27,6 +28,7 @@ export const toProjectInput = (project: AdminProject): ProjectInput => ({
   title: project.title,
   slug: project.slug,
   description: project.description,
+  content: project.content,
   category: project.category,
   techStack: project.techStack,
   image: project.image,
@@ -87,6 +89,7 @@ export default function ProjectFields({ idPrefix, form, onChange }: Props) {
       <LocalizedField id={id("title")} label="عنوان پروژه" value={form.title} onChange={(value) => set("title", value)} />
       <TextField id={id("slug")} label="Slug" value={form.slug} placeholder="project-slug" onChange={(value) => set("slug", value)} />
       <LocalizedField id={id("description")} label="توضیحات" value={form.description} onChange={(value) => set("description", value)} multiline rows={4} />
+      <LocalizedField id={id("content")} label="شرح کامل (Markdown، اختیاری)" value={form.content} onChange={(value) => set("content", value)} multiline rows={8} />
       <div className="grid gap-4 sm:grid-cols-2">
         <SelectField id={id("category")} label="دسته‌بندی" value={form.category} options={projectCategories.map((value) => ({ value, label: categoryLabels[value] }))} onChange={(value) => set("category", value)} />
         <SelectField id={id("status")} label="وضعیت" value={form.status} options={publishStatuses.map((value) => ({ value, label: statusLabels[value] }))} onChange={(value) => set("status", value)} />

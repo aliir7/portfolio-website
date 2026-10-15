@@ -37,6 +37,7 @@ const sectionKeys = {
     "noProjects",
     "theme",
     "language",
+    "login",
   ],
   hero: [
     "greeting",

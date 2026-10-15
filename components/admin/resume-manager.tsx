@@ -4,7 +4,7 @@ import { resumeCategories } from "@/db/schema/values";
 import { saveResumeAction } from "@/lib/actions/admin/content.actions";
 import { emptyLocalized } from "@/lib/localize";
 import { notifyResult } from "@/lib/utils/notify";
-import { resumeSchema } from "@/lib/validations/content";
+import { resumeSchema } from "@/lib/validations/content.validations";
 import type { ResumeItemInput } from "@/types";
 import { ListEditorPage, ListItemCard } from "./list-editor";
 import LocalizedField from "./localized-field";
@@ -24,7 +24,11 @@ const emptyItem: ResumeItemInput = {
   content: emptyLocalized(),
 };
 
-export default function ResumeManager({ initial }: { initial: ResumeItemInput[] }) {
+export default function ResumeManager({
+  initial,
+}: {
+  initial: ResumeItemInput[];
+}) {
   const list = useListEditor(initial);
 
   return (
@@ -39,18 +43,49 @@ export default function ResumeManager({ initial }: { initial: ResumeItemInput[] 
       isEmpty={!list.rows.length}
     >
       {list.rows.map((row, index) => (
-        <ListItemCard key={row.uid} title="مورد" index={index} count={list.rows.length} onMove={(offset) => list.move(row.uid, offset)} onRemove={() => list.remove(row.uid)}>
+        <ListItemCard
+          key={row.uid}
+          title="مورد"
+          index={index}
+          count={list.rows.length}
+          onMove={(offset) => list.move(row.uid, offset)}
+          onRemove={() => list.remove(row.uid)}
+        >
           <SelectField
             id={`${row.uid}-category`}
             label="دسته‌بندی"
             value={row.category}
-            options={resumeCategories.map((value) => ({ value, label: categoryLabels[value] }))}
+            options={resumeCategories.map((value) => ({
+              value,
+              label: categoryLabels[value],
+            }))}
             onChange={(category) => list.update(row.uid, { category })}
           />
-          <LocalizedField id={`${row.uid}-organization`} label="محل یا سازمان" value={row.organization} onChange={(organization) => list.update(row.uid, { organization })} />
-          <LocalizedField id={`${row.uid}-title`} label="عنوان" value={row.title} onChange={(title) => list.update(row.uid, { title })} />
-          <LocalizedField id={`${row.uid}-period`} label="بازه زمانی" value={row.period} onChange={(period) => list.update(row.uid, { period })} />
-          <LocalizedField id={`${row.uid}-content`} label="توضیحات" value={row.content} onChange={(content) => list.update(row.uid, { content })} multiline />
+          <LocalizedField
+            id={`${row.uid}-organization`}
+            label="محل یا سازمان"
+            value={row.organization}
+            onChange={(organization) => list.update(row.uid, { organization })}
+          />
+          <LocalizedField
+            id={`${row.uid}-title`}
+            label="عنوان"
+            value={row.title}
+            onChange={(title) => list.update(row.uid, { title })}
+          />
+          <LocalizedField
+            id={`${row.uid}-period`}
+            label="بازه زمانی"
+            value={row.period}
+            onChange={(period) => list.update(row.uid, { period })}
+          />
+          <LocalizedField
+            id={`${row.uid}-content`}
+            label="توضیحات"
+            value={row.content}
+            onChange={(content) => list.update(row.uid, { content })}
+            multiline
+          />
         </ListItemCard>
       ))}
     </ListEditorPage>

@@ -154,7 +154,7 @@ function ForgotPasswordContent() {
 
 export default function ForgotPasswordForm() {
   return (
-    <RecaptchaProvider>
+    <RecaptchaProvider showBadge>
       <ForgotPasswordContent />
     </RecaptchaProvider>
   );

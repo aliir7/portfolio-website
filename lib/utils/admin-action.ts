@@ -18,6 +18,8 @@ type AdminActionOptions<S extends z.ZodType, R> = {
   /** Translation keys under `actions.*`. */
   messages: { invalid: string; success: string };
   run: (data: z.output<S>, ctx: { userId: string; t: Translate }) => Promise<R>;
+  /** Set to false for mutations that do not change public content (e.g. password change). */
+  revalidate?: boolean;
 };
 
 /**
@@ -30,6 +32,7 @@ export async function runAdminAction<S extends z.ZodType, R>({
   input,
   messages,
   run,
+  revalidate = true,
 }: AdminActionOptions<S, R>): Promise<ActionResult<R>> {
   const session = await requireAdmin();
   const t = (await getTranslations()) as unknown as Translate;
@@ -48,6 +51,6 @@ export async function runAdminAction<S extends z.ZodType, R>({
     successMessage: t(messages.success),
   });
 
-  if (result.success) revalidatePublicContent();
+  if (result.success && revalidate) revalidatePublicContent();
   return result;
 }

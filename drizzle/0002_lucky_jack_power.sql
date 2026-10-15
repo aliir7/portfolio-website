@@ -1,0 +1,1 @@
+ALTER TABLE "projects" ADD COLUMN "content" jsonb DEFAULT '{"fa":"","en":""}'::jsonb NOT NULL;

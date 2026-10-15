@@ -1,5 +1,5 @@
+import type { seoSettingsSchema } from "@/lib/validations/settings.validations";
 import type { z } from "zod";
-import type { seoSettingsSchema } from "@/lib/validations/settings";
 
 export type SeoSettings = z.infer<typeof seoSettingsSchema>;
 

@@ -18,7 +18,6 @@ import {
 } from "@/lib/validations";
 import { FormFieldUI } from "./form-field-ui";
 import { useResetPasswordForm } from "./use-reset-password-form";
-import { Translator } from "@/types";
 import { resolveFieldError } from "@/lib/utils/format-error";
 
 interface ResetPasswordFormProps {
@@ -26,7 +25,8 @@ interface ResetPasswordFormProps {
   linkError: string | null;
 }
 
-function InvalidLinkState({ t }: { t: Translator }) {
+function InvalidLinkState() {
+  const t = useTranslations();
   return (
     <main className="flex min-h-screen items-center justify-center px-6 py-24">
       <section className="glass-panel w-full max-w-md rounded-3xl p-8 text-center">
@@ -187,6 +187,6 @@ export default function ResetPasswordForm({
   linkError,
 }: ResetPasswordFormProps) {
   const t = useTranslations();
-  if (!token || linkError) return <InvalidLinkState t={t} />;
+  if (!token || linkError) return <InvalidLinkState />;
   return <ResetPasswordContent token={token} />;
 }

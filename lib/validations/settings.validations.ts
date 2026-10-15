@@ -1,5 +1,5 @@
 import { z } from "zod";
-import { localizedText } from "./localized";
+import { localizedText } from "./localized.validations";
 
 /** Site-wide SEO text, written once per language. Site name and author come from the profile. */
 export const seoSettingsSchema = z.object({
@@ -7,5 +7,5 @@ export const seoSettingsSchema = z.object({
   description: localizedText(160),
   /** Comma-separated. */
   keywords: localizedText(300),
-  ogImage: z.string().trim().url().or(z.literal("")).optional(),
+  ogImage: z.url().optional().or(z.literal("")),
 });

@@ -376,3 +376,12 @@
     animation: none;
   }
 }
+
+/* reCAPTCHA v3 badge: hidden everywhere, shown only while an auth form (data-recaptcha-badge) is mounted.
+   Pages that hide it (contact form) display Google's required notice text instead. */
+.grecaptcha-badge {
+  visibility: hidden;
+}
+body:has([data-recaptcha-badge]) .grecaptcha-badge {
+  visibility: visible;
+}

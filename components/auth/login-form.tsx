@@ -200,7 +200,7 @@ function LoginFormContent() {
 
 export default function LoginForm() {
   return (
-    <RecaptchaProvider>
+    <RecaptchaProvider showBadge>
       <LoginFormContent />
     </RecaptchaProvider>
   );

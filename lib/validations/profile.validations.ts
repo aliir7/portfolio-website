@@ -1,12 +1,14 @@
 import { z } from "zod";
-import { localizedText } from "./localized";
+import { localizedText } from "./localized.validations";
 
 // An absolute URL (uploaded file) or a site path such as "/resume.pdf"; empty means "none".
 const urlOrPath = z
   .string()
   .trim()
   .max(500)
-  .refine((value) => !value || value.startsWith("/") || /^https?:\/\//.test(value));
+  .refine(
+    (value) => !value || value.startsWith("/") || /^https?:\/\//.test(value),
+  );
 
 export const profileSchema = z.object({
   name: localizedText(120),

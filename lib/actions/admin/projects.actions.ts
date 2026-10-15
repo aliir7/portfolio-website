@@ -4,6 +4,7 @@ import { eq } from "drizzle-orm";
 import { db } from "@/db";
 import { projects } from "@/db/schema";
 import { idSchema, projectSchema } from "@/lib/validations";
+import { scheduleAssetCleanup } from "@/lib/cloudinary";
 import { runAdminAction } from "@/lib/utils/admin-action";
 import type { ProjectInput } from "@/types";
 
@@ -35,12 +36,14 @@ export async function updateProjectAction(id: string, input: unknown) {
     input,
     messages: { invalid: "actions.projects.invalidForm", success: "actions.projects.updated" },
     run: async (data, { t }) => {
+      const [previous] = await db.select({ image: projects.image }).from(projects).where(eq(projects.id, id));
       const [project] = await db
         .update(projects)
         .set(toProjectValues(data))
         .where(eq(projects.id, id))
         .returning();
       if (!project) throw new Error(t("actions.projects.notFound"));
+      scheduleAssetCleanup([previous?.image], [project.image]);
       return project;
     },
   });
@@ -56,8 +59,9 @@ export async function deleteProjectAction(id: string) {
       const deleted = await db
         .delete(projects)
         .where(eq(projects.id, projectId))
-        .returning({ id: projects.id });
+        .returning({ id: projects.id, image: projects.image });
       if (!deleted.length) throw new Error(t("actions.projects.notFound"));
+      scheduleAssetCleanup(deleted.map((project) => project.image));
     },
   });
 }
