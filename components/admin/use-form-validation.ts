@@ -39,6 +39,8 @@ export function useFormValidation(schema: z.ZodType, values: unknown) {
     setSubmitted(true);
     if (errors.length) {
       toast.error("لطفاً خطاهای فرم را برطرف کن.");
+      // Once the errors are rendered, move focus (and scroll) to the first invalid field.
+      requestAnimationFrame(() => document.querySelector<HTMLElement>('[aria-invalid="true"]')?.focus());
       return false;
     }
     setPending(true);
