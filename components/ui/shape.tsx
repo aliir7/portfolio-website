@@ -2,6 +2,11 @@ import { cn } from "@/lib/utils";
 import Image, { ImageProps } from "next/image";
 
 // با این ساختار، تمام پراپ‌های Image را دریافت می‌کنیم و مقادیر ضروری را Optional در نظر می‌گیریم
+/**
+ * The connector line has no fixed height: it is `absolute inset-y-0`, so it always spans the full
+ * height of the nearest positioned ancestor (place it directly inside the `relative` section). To make
+ * it shorter, inset it with `top-*` / `bottom-*` utilities in `containerClassName` instead of `h-*`.
+ */
 interface ShapeProps extends Partial<ImageProps> {
   containerClassName?: string;
   showConnector?: boolean;
@@ -21,7 +26,7 @@ const Shape = ({
     <div
       className={cn(
         showConnector &&
-          "bg-foreground before:bg-foreground before:border-foreground after:bg-foreground after:border-foreground absolute top-0 h-full w-0.5 before:absolute before:top-0 before:left-1/2 before:h-7.5 before:w-7.5 before:-translate-x-1/2 before:-translate-y-full before:rounded-full before:border-2 before:shadow-[4px_4px_var(--hero-shape-shadow)] before:content-[''] after:absolute after:bottom-0 after:left-1/2 after:h-7.5 after:w-7.5 after:-translate-x-1/2 after:translate-y-full after:rounded-full after:border-2 after:shadow-[4px_4px_var(--hero-shape-shadow)] after:content-[''] dark:bg-white dark:before:border-white dark:before:bg-white dark:after:border-white dark:after:bg-white",
+          "bg-foreground before:bg-foreground before:border-foreground after:bg-foreground after:border-foreground absolute inset-y-0 w-0.5 before:absolute before:top-0 before:left-1/2 before:h-7.5 before:w-7.5 before:-translate-x-1/2 before:-translate-y-full before:rounded-full before:border-2 before:shadow-[4px_4px_var(--hero-shape-shadow)] before:content-[''] after:absolute after:bottom-0 after:left-1/2 after:h-7.5 after:w-7.5 after:-translate-x-1/2 after:translate-y-full after:rounded-full after:border-2 after:shadow-[4px_4px_var(--hero-shape-shadow)] after:content-[''] dark:bg-white dark:before:border-white dark:before:bg-white dark:after:border-white dark:after:bg-white",
         !showConnector && "absolute",
         containerClassName,
       )}

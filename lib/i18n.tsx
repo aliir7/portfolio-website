@@ -52,7 +52,7 @@ const sectionKeys = {
   ],
   services: ["title", "subtitle"],
   skills: ["title"],
-  works: ["title", "subtitle"],
+  works: ["title", "subtitle", "viewAll"],
   resume: ["title", "subtitle", "education", "experience", "download"],
   contact: [
     "eyebrow",

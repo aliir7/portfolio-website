@@ -28,3 +28,8 @@ export const uploadFolders = {
   site: "portfolio/site",
   profile: "portfolio/profile",
 } as const;
+
+/** Projects shown in the home-page slider ("view all" opens the full list). */
+export const WORKS_SLIDER_COUNT = 6;
+/** Projects per page on /works. */
+export const WORKS_PAGE_SIZE = 6;

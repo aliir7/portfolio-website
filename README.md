@@ -74,3 +74,14 @@ pnpm db:seed
 - Contact submissions and admin CRUD operations use Server Actions with server-side Zod validation.
 - Database access is isolated in the server-side Drizzle layer; the database owns all portfolio content. See `docs/ADR.md` for the architectural decisions.
 - Cloudinary is used for media storage; signed upload parameters are generated server-side.
+
+## Sending e-mail (Resend)
+
+Password-reset e-mails and contact-form notifications go through Resend (`lib/email.ts`). Resend only delivers to the e-mail address of your own account until you verify a sending domain:
+
+1. Resend dashboard → **Domains** → **Add Domain**. Use a subdomain such as `mail.your-domain.com` to keep it separate from your normal mail.
+2. Add the records Resend shows (an **MX** and a **TXT (SPF)** record on the `send` host, and a **TXT (DKIM)** record at `resend._domainkey`) at the DNS provider that your domain's nameservers point to. Enter host names without the domain suffix.
+3. Click **Verify DNS Records** (usually minutes, up to 72 hours).
+4. Set `RESEND_FROM_EMAIL="Portfolio <noreply@mail.your-domain.com>"`; the domain must match the verified one exactly.
+
+No SMTP library (Nodemailer) is needed.

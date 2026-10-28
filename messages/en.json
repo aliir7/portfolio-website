@@ -83,7 +83,14 @@
     "category": "Category",
     "date": "Date",
     "related": "More projects",
-    "about": "About the project"
+    "about": "About the project",
+    "viewAll": "View all projects",
+    "pageTitle": "{title} (page {page})",
+    "empty": "No projects have been published yet.",
+    "previous": "Previous",
+    "next": "Next",
+    "pagination": "Projects pagination",
+    "pageLabel": "Page {page}"
   },
   "resume": {
     "title": "My resume",

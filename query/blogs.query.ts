@@ -1,9 +1,9 @@
 import "server-only";
 
 import { and, count, desc, eq, lte } from "drizzle-orm";
-import { cache } from "react";
 import { db } from "@/db";
 import { blogPostTags, blogPosts, blogTags } from "@/db/schema";
+import { cached } from "@/lib/cache";
 import { withQuery } from "@/lib/utils/with-query";
 import type { BlogPostWithTags } from "@/types";
 
@@ -23,7 +23,9 @@ const flattenTags = (post: PostWithTagLinks): BlogPostWithTags => ({
 const isPublished = () =>
   and(eq(blogPosts.status, "published"), lte(blogPosts.publishedAt, new Date()));
 
-export function getPublishedBlogPostsQuery() {
+// Public reads are cached across requests (tag "blog"); the admin queries below are not.
+// A post scheduled for the future appears once the cache entry is refreshed (at most an hour).
+export const getPublishedBlogPostsQuery = cached("blog-published", ["blog"], () => {
   return withQuery(async () => {
     const posts = await db.query.blogPosts.findMany({
       where: isPublished(),
@@ -32,9 +34,9 @@ export function getPublishedBlogPostsQuery() {
     });
     return posts.map(flattenTags);
   }, "blog.published");
-}
+});
 
-export const getBlogPostBySlugQuery = cache((slug: string) => {
+export const getBlogPostBySlugQuery = cached("blog-post", ["blog"], (slug: string) => {
   return withQuery(async () => {
     const post = await db.query.blogPosts.findFirst({
       where: and(eq(blogPosts.slug, slug), isPublished()),

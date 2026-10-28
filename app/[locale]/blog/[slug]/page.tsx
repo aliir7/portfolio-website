@@ -1,96 +1,56 @@
 import type { Metadata } from "next";
-import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
-import BlogContent from "@/components/Blog/BlogContent";
-import BlogMeta from "@/components/Blog/BlogMeta";
-import BlogTags from "@/components/Blog/BlogTags";
+import BlogList from "@/components/Blog/BlogList";
 import { Link } from "@/i18n/navigation";
 import { hasLocale, routing } from "@/i18n/routing";
 import { siteUrl } from "@/lib/site";
-import { getBlogPostBySlugQuery } from "@/query/blogs.query";
-import { getPublicContent } from "@/query/content.query";
+import { getPublishedBlogPostsQuery } from "@/query/blogs.query";
 
 export const revalidate = 3600;
 
 type Props = { params: Promise<{ locale: string; slug: string }> };
 
+// The tag comes from the (cached) published posts, so a tag with no published post is simply not public.
+async function getTagWithPosts(slug: string) {
+  const posts = await getPublishedBlogPostsQuery();
+  const tagged = posts.filter((post) => post.tags.some((item) => item.slug === slug));
+  const tag = tagged[0]?.tags.find((item) => item.slug === slug);
+  return tag ? { tag, posts: tagged } : null;
+}
+
 export async function generateMetadata({ params }: Props): Promise<Metadata> {
   const { locale, slug } = await params;
-  const post = await getBlogPostBySlugQuery(slug);
-  if (!post) return {};
+  if (!hasLocale(locale)) return {};
 
-  const image = post.ogImage ?? post.coverImage;
+  const [t, data] = await Promise.all([getTranslations({ locale, namespace: "blog" }), getTagWithPosts(slug)]);
+  if (!data) return {};
+
   return {
-    title: post.metaTitle ?? post.title,
-    description: post.metaDescription ?? post.excerpt ?? undefined,
+    title: t("tagTitle", { name: data.tag.name }),
     alternates: {
-      canonical: post.canonicalUrl ?? `${siteUrl}/${locale}/blog/${slug}`,
-      languages: Object.fromEntries(routing.locales.map((l) => [l, `${siteUrl}/${l}/blog/${slug}`])),
-      types: { "application/rss+xml": `${siteUrl}/${locale}/blog/feed.xml` },
-    },
-    robots: { index: !post.noIndex, follow: true },
-    openGraph: {
-      type: "article",
-      title: post.metaTitle ?? post.title,
-      description: post.metaDescription ?? post.excerpt ?? undefined,
-      publishedTime: post.publishedAt?.toISOString(),
-      modifiedTime: post.updatedAt.toISOString(),
-      images: image ? [image] : undefined,
+      canonical: `${siteUrl}/${locale}/blog/tag/${slug}`,
+      languages: Object.fromEntries(routing.locales.map((l) => [l, `${siteUrl}/${l}/blog/tag/${slug}`])),
     },
   };
 }
 
-export default async function BlogPostPage({ params }: Props) {
+export default async function BlogTagPage({ params }: Props) {
   const { locale, slug } = await params;
   if (!hasLocale(locale)) notFound();
 
-  const post = await getBlogPostBySlugQuery(slug);
-  if (!post) notFound();
-
-  const [t, { profile }] = await Promise.all([
-    getTranslations({ locale, namespace: "blog" }),
-    getPublicContent(locale),
-  ]);
-
-  const structuredData = {
-    "@context": "https://schema.org",
-    "@type": "BlogPosting",
-    headline: post.title,
-    description: post.excerpt ?? undefined,
-    image: post.coverImage ?? undefined,
-    datePublished: post.publishedAt?.toISOString(),
-    dateModified: post.updatedAt.toISOString(),
-    author: { "@type": "Person", name: profile.name, url: `${siteUrl}/${locale}` },
-    mainEntityOfPage: `${siteUrl}/${locale}/blog/${slug}`,
-  };
+  const [t, data] = await Promise.all([getTranslations({ locale, namespace: "blog" }), getTagWithPosts(slug)]);
+  if (!data) notFound();
 
   return (
     <main className="container-custom pt-32 pb-16">
-      <script
-        type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, "\\u003c") }}
-      />
-      <article className="mx-auto max-w-3xl space-y-8">
+      <div className="mx-auto max-w-2xl space-y-4 text-center">
         <Link href="/blog" className="text-primary text-sm font-medium">
           {t("back")}
         </Link>
-        <header className="space-y-4">
-          <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">{post.title}</h1>
-          <BlogMeta
-            date={post.publishedAt}
-            locale={locale}
-            readingTime={post.readingTimeMinutes ? t("readingTime", { minutes: post.readingTimeMinutes }) : undefined}
-          />
-          <BlogTags tags={post.tags} />
-        </header>
-        {post.coverImage && (
-          <div className="relative aspect-video overflow-hidden rounded-2xl">
-            <Image src={post.coverImage} alt={post.title} fill priority sizes="(max-width: 768px) 100vw, 768px" className="object-cover" />
-          </div>
-        )}
-        <BlogContent content={post.content} />
-      </article>
+        <h1 className="text-3xl font-bold tracking-tight sm:text-4xl">{t("tagTitle", { name: data.tag.name })}</h1>
+      </div>
+      <BlogList posts={data.posts} locale={locale} emptyLabel={t("tagEmpty")} readingTime={(minutes) => t("readingTime", { minutes })} />
     </main>
   );
 }

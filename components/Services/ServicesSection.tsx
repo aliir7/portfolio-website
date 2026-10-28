@@ -18,7 +18,7 @@ export const ServicesSection = () => {
     <RevealSection
       id="services"
       delay={0.1}
-      className="container mx-auto px-6 py-24 lg:py-32"
+      className="relative container mx-auto px-6 py-24 lg:py-32"
     >
       <div className="mb-20 text-center">
         <h2 className="text-4xl font-bold tracking-tight md:text-6xl">
@@ -56,12 +56,11 @@ export const ServicesSection = () => {
         </Swiper>
 
         {/* 👇 این کاملاً خارج از خود swiper است */}
-        <div className="services-pagination mt-8 flex justify-center" />
-        {/* shape */}
-        <Shape
-          containerClassName={locale === "fa" ? "-left-18" : "-right-18"}
-        />
+        <div className="services-pagination slider-pagination mt-8 flex justify-center" />
       </div>
+
+      {/* Direct child of the section, so it spans the whole section height */}
+      <Shape containerClassName={locale === "fa" ? "-left-12" : "-right-12"} />
     </RevealSection>
   );
 };

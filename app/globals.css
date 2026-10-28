@@ -220,18 +220,20 @@
     @apply font-heading text-card-foreground font-semibold;
   }
 
-  #services {
+  /* Pagination dots shared by the services and works sliders (class "slider-pagination") */
+  #services,
+  #works {
     --swiper-pagination-color: var(--primary);
     --swiper-pagination-bullet-inactive-color: var(--primary);
     --swiper-pagination-bullet-inactive-opacity: 0.45;
   }
 
-  #services .services-swiper-wrap .services-pagination {
-    position: static; /* چون پایین اسلایدر و خارجشه */
+  .slider-pagination {
+    position: static; /* below the slider, outside of it */
     width: 100%;
   }
 
-  #services .services-pagination .swiper-pagination-bullet {
+  .slider-pagination .swiper-pagination-bullet {
     position: relative;
     width: 0.65rem;
     height: 0.65rem;
@@ -246,7 +248,7 @@
     margin: 0 8px !important;
   }
 
-  #services .services-pagination .swiper-pagination-bullet-active {
+  .slider-pagination .swiper-pagination-bullet-active {
     background-color: var(--primary) !important;
     border-color: var(--primary) !important;
     opacity: 1 !important;
@@ -256,12 +258,12 @@
     transform: scale(1.35);
   }
 
-  .dark #services .services-pagination .swiper-pagination-bullet {
+  .dark .slider-pagination .swiper-pagination-bullet {
     border-color: color-mix(in srgb, var(--primary-light) 65%, transparent);
     background-color: transparent !important;
   }
 
-  .dark #services .services-pagination .swiper-pagination-bullet-active {
+  .dark .slider-pagination .swiper-pagination-bullet-active {
     background-color: var(--primary-light) !important;
     border-color: var(--primary-light) !important;
     box-shadow:
@@ -269,8 +271,7 @@
       0 3px 10px var(--pagination-shadow);
   }
 
-  #services
-    .services-pagination
+  .slider-pagination
     .swiper-pagination-bullets
     .swiper-pagination-bullet:not(:last-child) {
     margin-inline-end: 1.25rem;

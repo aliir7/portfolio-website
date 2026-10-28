@@ -4,6 +4,7 @@ import { asc, desc, eq } from "drizzle-orm";
 import { cache } from "react";
 import { db } from "@/db";
 import { profile, projects, resumeItems, services, skills, socialLinks } from "@/db/schema";
+import { cached } from "@/lib/cache";
 import { localize } from "@/lib/localize";
 import { withQuery } from "@/lib/utils/with-query";
 import type { Locale, PublicContent } from "@/types";
@@ -55,17 +56,23 @@ export function getProjectsQuery({ publishedOnly = false } = {}) {
   );
 }
 
-// `cache` makes the layout (provider) and the page (structured data) share one read per request.
+// One cross-request cache entry (tag "content") holds every row the public site needs, so a page render
+// costs a single cache read instead of six queries. `cache` below only de-duplicates within a request.
+const getCachedContentRows = cached("public-content", ["content"], async () => {
+  const [profileRow, skillRows, serviceRows, projectRows, resumeRows, socialRows] = await Promise.all([
+    getProfileQuery(),
+    getSkillsQuery(),
+    getServicesQuery(),
+    getProjectsQuery({ publishedOnly: true }),
+    getResumeItemsQuery(),
+    getSocialLinksQuery(),
+  ]);
+  return { profileRow, skillRows, serviceRows, projectRows, resumeRows, socialRows };
+});
+
+// `cache` makes the layout (provider) and the page (structured data) share one resolution per request.
 export const getPublicContent = cache(async (locale: Locale): Promise<PublicContent> => {
-  const [profileRow, skillRows, serviceRows, projectRows, resumeRows, socialRows] =
-    await Promise.all([
-      getProfileQuery(),
-      getSkillsQuery(),
-      getServicesQuery(),
-      getProjectsQuery({ publishedOnly: true }),
-      getResumeItemsQuery(),
-      getSocialLinksQuery(),
-    ]);
+  const { profileRow, skillRows, serviceRows, projectRows, resumeRows, socialRows } = await getCachedContentRows();
 
   if (!profileRow) {
     throw new Error("The profile table is empty. Run `pnpm db:seed` first.");
