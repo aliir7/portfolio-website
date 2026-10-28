@@ -9,13 +9,21 @@ import { Card, CardContent } from "@/components/ui/card";
 import { deleteBlogPostAction } from "@/lib/actions/blog.actions";
 import { formatDate } from "@/lib/utils/format-date";
 import { notifyResult } from "@/lib/utils/notify";
+import { useConfirm } from "./confirm-provider";
 import type { BlogPostWithTags } from "@/types";
 
 export default function BlogManager({ initialPosts }: { initialPosts: BlogPostWithTags[] }) {
   const [posts, setPosts] = useState(initialPosts);
+  const confirm = useConfirm();
 
   const remove = async (post: BlogPostWithTags) => {
-    if (!window.confirm(`پست «${post.title}» حذف شود؟`)) return;
+    const confirmed = await confirm({
+      title: "حذف پست",
+      description: `پست «${post.title}» برای همیشه حذف می‌شود و تصویرهای آپلودشده‌ی آن هم پاک می‌شوند.`,
+      confirmLabel: "حذف",
+      destructive: true,
+    });
+    if (!confirmed) return;
     if (notifyResult(await deleteBlogPostAction(post.id))) {
       setPosts((current) => current.filter((item) => item.id !== post.id));
     }

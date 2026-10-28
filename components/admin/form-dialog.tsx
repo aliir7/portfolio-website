@@ -5,6 +5,7 @@ import { RiSaveLine } from "@remixicon/react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogDescription, DialogFooter, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { Spinner } from "@/components/ui/spinner";
+import { useConfirm } from "./confirm-provider";
 
 type Props = {
   open: boolean;
@@ -25,12 +26,18 @@ type Props = {
  * interrupted, and unsaved changes are protected by a confirmation.
  */
 export default function FormDialog({ open, onOpenChange, title, description, submitLabel, onSubmit, dirty, pending, children }: Props) {
+  const confirm = useConfirm();
+
   const requestOpenChange = (next: boolean) => {
-    if (!next) {
-      if (pending) return;
-      if (dirty && !window.confirm("تغییرات ذخیره‌نشده از بین می‌رود. فرم بسته شود؟")) return;
-    }
-    onOpenChange(next);
+    if (!next && pending) return;
+    if (next || !dirty) return onOpenChange(next);
+    void confirm({
+      title: "بستن بدون ذخیره؟",
+      description: "تغییرات ذخیره‌نشده از بین می‌رود.",
+      confirmLabel: "بستن",
+      cancelLabel: "ادامه‌ی ویرایش",
+      destructive: true,
+    }).then((close) => close && onOpenChange(false));
   };
 
   const submitOnShortcut = (event: KeyboardEvent) => {

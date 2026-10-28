@@ -20,6 +20,7 @@ import {
 } from "@remixicon/react";
 import Link from "next/link";
 import { useMemo, useState } from "react";
+import { useConfirm } from "./confirm-provider";
 import ProjectForm from "./project-form";
 
 type ProjectsManagerProps = { initialItems: AdminProject[] };
@@ -31,6 +32,7 @@ export default function ProjectsManager({
   const [query, setQuery] = useState("");
   const [editing, setEditing] = useState<AdminProject | null>(null);
   const [formOpen, setFormOpen] = useState(false);
+  const confirm = useConfirm();
   const filtered = useMemo(
     () =>
       items.filter((item) =>
@@ -56,7 +58,14 @@ export default function ProjectsManager({
   };
 
   const remove = async (id: string) => {
-    if (!window.confirm("این پروژه حذف شود؟")) return;
+    const project = items.find((item) => item.id === id);
+    const confirmed = await confirm({
+      title: "حذف پروژه",
+      description: `پروژه‌ی «${project?.title.fa ?? ""}» برای همیشه حذف می‌شود.`,
+      confirmLabel: "حذف",
+      destructive: true,
+    });
+    if (!confirmed) return;
     const result = await deleteProjectAction(id);
     if (!notifyResult(result)) return;
     setItems((current) => current.filter((item) => item.id !== id));

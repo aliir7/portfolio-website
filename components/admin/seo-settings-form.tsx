@@ -20,6 +20,7 @@ import { useState } from "react";
 import LocalizedField from "./localized-field";
 import UploadField from "./upload-field";
 import { useFormValidation } from "./use-form-validation";
+import { useUnsavedChangesGuard } from "./use-unsaved-changes-guard";
 
 const emptySeo: SeoSettings = {
   title: emptyLocalized(),
@@ -35,6 +36,7 @@ export default function SeoSettingsForm({
 }) {
   const [form, setForm] = useState(initial);
   const v = useFormValidation(seoSettingsSchema, form);
+  useUnsavedChangesGuard(v.isDirty);
 
   return (
     <div className="mx-auto max-w-3xl space-y-8">

@@ -4,12 +4,13 @@ import { socialPlatforms } from "@/db/schema/values";
 import { saveSocialLinksAction } from "@/lib/actions/admin/content.actions";
 import { socialIcons } from "@/lib/constants";
 import { notifyResult } from "@/lib/utils/notify";
-import { socialLinksSchema } from "@/lib/validations/content.validations";
+import { socialLinksSchema } from "@/lib/validations";
 import type { SocialLinkInput } from "@/types";
 import { ListEditorPage, ListItemCard } from "./list-editor";
 import SelectField from "./select-field";
 import TextField from "./text-field";
 import { useFormValidation } from "./use-form-validation";
+import { useUnsavedChangesGuard } from "./use-unsaved-changes-guard";
 import { useListEditor } from "./use-list-editor";
 
 export default function SocialLinksManager({
@@ -19,6 +20,7 @@ export default function SocialLinksManager({
 }) {
   const list = useListEditor(initial);
   const v = useFormValidation(socialLinksSchema, list.values);
+  useUnsavedChangesGuard(v.isDirty);
   // Each platform may appear once (also enforced by a unique column).
   const freePlatform = socialPlatforms.find(
     (platform) => !list.values.some((link) => link.platform === platform),

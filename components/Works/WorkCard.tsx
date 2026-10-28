@@ -17,6 +17,7 @@ import Link from "next/link";
 import { Link as LocaleLink } from "@/i18n/navigation";
 import { Button } from "../ui/button";
 import { useDictionary, useLocale } from "@/lib/i18n";
+import { WORK_CARD_MAX_BADGES } from "@/lib/constants";
 import TechBadges from "./TechBadges";
 
 type WorkCardProps = {
@@ -27,7 +28,7 @@ const WorkCard = ({ project }: WorkCardProps) => {
   const dictionary = useDictionary();
   const locale = useLocale();
   return (
-    <Card className="group/card hover:border-secondary-foreground dark:hover:border-primary hover:shadow-4px relative overflow-hidden border pt-0 transition-all duration-300 [--card-spacing:--spacing(3)] hover:-translate-y-1 md:[--card-spacing:--spacing(4)]">
+    <Card className="group/card hover:border-secondary-foreground dark:hover:border-primary hover:shadow-4px relative h-full overflow-hidden border pt-0 transition-all duration-300 [--card-spacing:--spacing(3)] hover:-translate-y-1 md:[--card-spacing:--spacing(4)]">
       {/* IMAGE */}
       <div className="relative aspect-video overflow-hidden">
         <Image
@@ -40,17 +41,19 @@ const WorkCard = ({ project }: WorkCardProps) => {
       </div>
 
       {/* MAIN CONTENT WRAPPER – keep content above shape */}
-      <div className="relative z-10">
+      <div className="relative z-10 flex flex-1 flex-col">
         <CardHeader className="mt-4 space-y-1.5 md:mt-6">
-          <CardTitle className="text-lg">
+          {/* One line (full title in the tooltip) and a reserved two-line description keep every card aligned */}
+          <CardTitle className="line-clamp-1 text-lg">
             <LocaleLink
               href={`/works/${project.slug}`}
+              title={project.title}
               className="hover:text-primary transition-colors"
             >
               {project.title}
             </LocaleLink>
           </CardTitle>
-          <CardDescription className="line-clamp-2">
+          <CardDescription className="line-clamp-2 min-h-10">
             {project.description}
           </CardDescription>
 
@@ -64,8 +67,12 @@ const WorkCard = ({ project }: WorkCardProps) => {
           </CardAction>
         </CardHeader>
 
-        <CardContent className="pb-4 md:pb-6">
-          <TechBadges items={project.techStack} className="mt-2 md:mt-4" />
+        <CardContent className="flex-1 pb-4 md:pb-6">
+          <TechBadges
+            items={project.techStack}
+            max={WORK_CARD_MAX_BADGES}
+            className="mt-2 md:mt-4"
+          />
         </CardContent>
 
         {/* FOOTER – anchor for shape */}

@@ -6,7 +6,6 @@ import { useContent } from "@/lib/content";
 import { useDictionary } from "@/lib/i18n";
 import { Link } from "@/i18n/navigation";
 import RevealSection from "../ui/reveal-section";
-import Shape from "../ui/shape";
 import WorksSlider from "./WorksSlider";
 
 const WorksSection = () => {
@@ -15,9 +14,6 @@ const WorksSection = () => {
 
   return (
     <RevealSection id="works" delay={0.3} className="container-custom relative py-16">
-      {/* Decorative line: spans the whole section height */}
-      <Shape containerClassName="right-1 hidden md:block" />
-
       <div className="relative z-10">
         <div className="mx-auto max-w-2xl text-center">
           <h2 className="text-3xl font-bold tracking-tight sm:text-4xl">{dictionary.works.title}</h2>

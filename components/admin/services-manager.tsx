@@ -8,6 +8,7 @@ import type { ServiceInput } from "@/types";
 import { ListEditorPage, ListItemCard } from "./list-editor";
 import LocalizedField from "./localized-field";
 import { useFormValidation } from "./use-form-validation";
+import { useUnsavedChangesGuard } from "./use-unsaved-changes-guard";
 import { useListEditor } from "./use-list-editor";
 
 const emptyService: ServiceInput = {
@@ -23,6 +24,7 @@ export default function ServicesManager({
 }) {
   const list = useListEditor(initial);
   const v = useFormValidation(servicesSchema, list.values);
+  useUnsavedChangesGuard(v.isDirty);
 
   return (
     <ListEditorPage

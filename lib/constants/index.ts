@@ -33,3 +33,6 @@ export const uploadFolders = {
 export const WORKS_SLIDER_COUNT = 6;
 /** Projects per page on /works. */
 export const WORKS_PAGE_SIZE = 6;
+
+/** Most technology chips on a project card (more collapse into "+N"); the project page lists all of them. */
+export const WORK_CARD_MAX_BADGES = 4;

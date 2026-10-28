@@ -11,6 +11,7 @@ import LocalizedField from "./localized-field";
 import SelectField from "./select-field";
 import { useFormValidation } from "./use-form-validation";
 import { useListEditor } from "./use-list-editor";
+import { useUnsavedChangesGuard } from "./use-unsaved-changes-guard";
 
 const categoryLabels: Record<ResumeItemInput["category"], string> = {
   education: "تحصیلات",
@@ -32,6 +33,7 @@ export default function ResumeManager({
 }) {
   const list = useListEditor(initial);
   const v = useFormValidation(resumeSchema, list.values);
+  useUnsavedChangesGuard(v.isDirty);
 
   return (
     <ListEditorPage

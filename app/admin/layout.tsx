@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import type { ReactNode } from "react";
 import { Toaster } from "sonner";
 import AdminShell from "@/components/admin/admin-shell";
+import { ConfirmProvider } from "@/components/admin/confirm-provider";
 import { requireAdmin } from "@/lib/auth-guard";
 
 export const dynamic = "force-dynamic";
@@ -20,7 +21,9 @@ export default async function AdminLayout({
   return (
     <html lang="fa" dir="rtl" suppressHydrationWarning>
       <body suppressHydrationWarning>
-        <AdminShell>{children}</AdminShell>
+        <ConfirmProvider>
+          <AdminShell>{children}</AdminShell>
+        </ConfirmProvider>
         <Toaster richColors position="bottom-left" dir="rtl" />
       </body>
     </html>

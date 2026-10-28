@@ -9,10 +9,11 @@ import {
   updateBlogTagAction,
 } from "@/lib/actions/blog.actions";
 import { notifyResult } from "@/lib/utils/notify";
-import { blogTagSchema } from "@/lib/validations/blog.validations";
+import { blogTagSchema } from "@/lib/validations";
 import type { BlogTag } from "@/types";
 import { RiAddLine, RiDeleteBinLine, RiSaveLine } from "@remixicon/react";
 import { useState } from "react";
+import { useConfirm } from "./confirm-provider";
 import TextField from "./text-field";
 import { useFormValidation } from "./use-form-validation";
 
@@ -32,6 +33,7 @@ export default function TagEditor({ tag, onSaved, onDeleted }: Props) {
     slug: tag?.slug ?? "",
   });
   const [deleting, setDeleting] = useState(false);
+  const confirm = useConfirm();
   const v = useFormValidation(blogTagSchema, draft);
 
   const save = () =>
@@ -52,7 +54,13 @@ export default function TagEditor({ tag, onSaved, onDeleted }: Props) {
     const used = tag.postCount
       ? ` این تگ روی ${tag.postCount} پست استفاده شده و از آن‌ها برداشته می‌شود.`
       : "";
-    if (!window.confirm(`تگ «${tag.name}» حذف شود؟${used}`)) return;
+    const confirmed = await confirm({
+      title: "حذف تگ",
+      description: `تگ «${tag.name}» حذف می‌شود.${used}`,
+      confirmLabel: "حذف",
+      destructive: true,
+    });
+    if (!confirmed) return;
     setDeleting(true);
     try {
       if (notifyResult(await deleteBlogTagAction(tag.id))) onDeleted?.();

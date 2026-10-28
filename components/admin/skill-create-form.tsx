@@ -12,7 +12,7 @@ import { Spinner } from "@/components/ui/spinner";
 import { createSkillAction } from "@/lib/actions/admin/profile.actions";
 import { emptyLocalized } from "@/lib/localize";
 import { notifyResult } from "@/lib/utils/notify";
-import { skillSchema } from "@/lib/validations/profile.validations";
+import { skillSchema } from "@/lib/validations";
 import type { SkillInput } from "@/types";
 import { RiArrowRightLine, RiSaveLine } from "@remixicon/react";
 import { useRouter } from "next/navigation";
@@ -21,6 +21,7 @@ import LocalizedField from "./localized-field";
 import NumberField from "./number-field";
 import TextField from "./text-field";
 import { useFormValidation } from "./use-form-validation";
+import { useUnsavedChangesGuard } from "./use-unsaved-changes-guard";
 
 export default function SkillCreateForm() {
   const router = useRouter();
@@ -30,11 +31,13 @@ export default function SkillCreateForm() {
     description: emptyLocalized(),
   });
   const v = useFormValidation(skillSchema, skill);
+  useUnsavedChangesGuard(v.isDirty);
 
   const save = () =>
     v.submit(async () => {
-      if (notifyResult(await createSkillAction(skill)))
-        router.push("/admin/profile");
+      const ok = notifyResult(await createSkillAction(skill));
+      if (ok) router.push("/admin/profile");
+      return ok;
     });
 
   return (

@@ -16,6 +16,10 @@ export function useFormValidation(schema: z.ZodType, values: unknown) {
   const [submitted, setSubmitted] = useState(false);
   const [pending, setPending] = useState(false);
 
+  // Dirty = differs from the values at mount (or from the last successful save).
+  const serialized = JSON.stringify(values);
+  const [baseline, setBaseline] = useState(serialized);
+
   const result = schema.safeParse(values);
   const errors: [path: string, message: string][] = result.success
     ? []
@@ -34,7 +38,10 @@ export function useFormValidation(schema: z.ZodType, values: unknown) {
     setSubmitted(false);
   }, []);
 
-  /** Runs `handler` only when the data is valid; otherwise reveals every error and shows a toast. */
+  /**
+   * Runs `handler` only when the data is valid; otherwise reveals every error and shows a toast.
+   * A handler that returns `true` reports a successful save, which makes the current values the new baseline.
+   */
   const submit = async (handler: () => unknown) => {
     setSubmitted(true);
     if (errors.length) {
@@ -45,7 +52,7 @@ export function useFormValidation(schema: z.ZodType, values: unknown) {
     }
     setPending(true);
     try {
-      await handler();
+      if ((await handler()) === true) setBaseline(serialized);
     } finally {
       setPending(false);
     }
@@ -54,6 +61,7 @@ export function useFormValidation(schema: z.ZodType, values: unknown) {
 
   return {
     isValid: result.success,
+    isDirty: serialized !== baseline,
     pending,
     submit,
     reset,

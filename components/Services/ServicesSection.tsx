@@ -18,7 +18,7 @@ export const ServicesSection = () => {
     <RevealSection
       id="services"
       delay={0.1}
-      className="relative container mx-auto px-6 py-24 lg:py-32"
+      className="container mx-auto px-6 py-24 lg:py-32"
     >
       <div className="mb-20 text-center">
         <h2 className="text-4xl font-bold tracking-tight md:text-6xl">
@@ -57,10 +57,16 @@ export const ServicesSection = () => {
 
         {/* 👇 این کاملاً خارج از خود swiper است */}
         <div className="services-pagination slider-pagination mt-8 flex justify-center" />
-      </div>
 
-      {/* Direct child of the section, so it spans the whole section height */}
-      <Shape containerClassName={locale === "fa" ? "-left-12" : "-right-12"} />
+        {/* right Deco, the same as in the Hero section; its height follows this slider block */}
+        <div className="hidden md:block">
+          <Shape
+            width={226}
+            className="absolute -bottom-51.5 -left-11.5 h-56.5 max-w-56.5"
+            containerClassName="-right-18"
+          />
+        </div>
+      </div>
     </RevealSection>
   );
 };

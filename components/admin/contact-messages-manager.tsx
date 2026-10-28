@@ -8,11 +8,13 @@ import { Card, CardContent } from "@/components/ui/card";
 import { deleteContactMessageAction, markContactMessageReadAction } from "@/lib/actions/contact.actions";
 import { formatDate } from "@/lib/utils/format-date";
 import { notifyResult } from "@/lib/utils/notify";
+import { useConfirm } from "./confirm-provider";
 import type { ContactMessage } from "@/types";
 
 export default function ContactMessagesManager({ initialMessages }: { initialMessages: ContactMessage[] }) {
   const [messages, setMessages] = useState(initialMessages);
   const [onlyUnread, setOnlyUnread] = useState(false);
+  const confirm = useConfirm();
 
   const unreadCount = messages.filter((message) => !message.readAt).length;
   const visible = onlyUnread ? messages.filter((message) => !message.readAt) : messages;
@@ -23,7 +25,13 @@ export default function ContactMessagesManager({ initialMessages }: { initialMes
   };
 
   const remove = async (message: ContactMessage) => {
-    if (!window.confirm(`پیام «${message.name}» حذف شود؟`)) return;
+    const confirmed = await confirm({
+      title: "حذف پیام",
+      description: `پیام «${message.name}» برای همیشه حذف می‌شود.`,
+      confirmLabel: "حذف",
+      destructive: true,
+    });
+    if (!confirmed) return;
     if (notifyResult(await deleteContactMessageAction(message.id))) {
       setMessages((current) => current.filter((item) => item.id !== message.id));
     }

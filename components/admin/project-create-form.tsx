@@ -1,5 +1,8 @@
 "use client";
 
+import { useRouter } from "next/navigation";
+import { useState } from "react";
+import { RiArrowRightLine, RiSaveLine } from "@remixicon/react";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -13,21 +16,21 @@ import { createProjectAction } from "@/lib/actions/admin/projects.actions";
 import { notifyResult } from "@/lib/utils/notify";
 import { projectSchema } from "@/lib/validations/projects.validations";
 import type { ProjectInput } from "@/types";
-import { RiArrowRightLine, RiSaveLine } from "@remixicon/react";
-import { useRouter } from "next/navigation";
-import { useState } from "react";
 import ProjectFields, { emptyProject } from "./project-fields";
 import { useFormValidation } from "./use-form-validation";
+import { useUnsavedChangesGuard } from "./use-unsaved-changes-guard";
 
 export default function ProjectCreateForm() {
   const router = useRouter();
   const [form, setForm] = useState<ProjectInput>(emptyProject);
   const validation = useFormValidation(projectSchema, form);
+  useUnsavedChangesGuard(validation.isDirty);
 
   const save = () =>
     validation.submit(async () => {
-      if (notifyResult(await createProjectAction(form)))
-        router.push("/admin/projects");
+      const ok = notifyResult(await createProjectAction(form));
+      if (ok) router.push("/admin/projects");
+      return ok;
     });
 
   return (

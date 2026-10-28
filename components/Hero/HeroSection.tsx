@@ -26,7 +26,9 @@ const HeroSection = () => {
           <div className="z-10 flex flex-col space-y-6">
             <h3 className="text-xl font-medium tracking-wide md:text-2xl">
               {hero.greeting}{" "}
-              <span className="text-primary font-semibold">{hero.welcome} </span>
+              <span className="text-primary font-semibold">
+                {hero.welcome}{" "}
+              </span>
               {hero.welcomeEnd}
             </h3>
 
@@ -35,9 +37,7 @@ const HeroSection = () => {
               {profile.name}
             </h1>
 
-            <h2 className="text-2xl font-bold md:text-3xl">
-              {profile.role}
-            </h2>
+            <h2 className="text-2xl font-bold md:text-3xl">{profile.role}</h2>
 
             <p className="text-muted-foreground max-w-lg text-lg leading-8">
               {profile.bio}
@@ -92,7 +92,7 @@ const HeroSection = () => {
             </div>
 
             {/* نشان‌های شناور (Badges) */}
-            <div className="border-foreground absolute top-1/7 -right-2 z-20 flex cursor-default items-center gap-3 rounded-full border-2 bg-card/95 px-5 py-3 shadow-[0_10px_28px_-14px_var(--hero-shadow),3px_3px_0_var(--hero-shadow)] backdrop-blur-sm transition-transform hover:-translate-y-1 dark:border-white md:top-1/4 md:right-2">
+            <div className="border-foreground bg-card/95 absolute top-1/7 -right-2 z-20 flex cursor-default items-center gap-3 rounded-full border-2 px-5 py-3 shadow-[0_10px_28px_-14px_var(--hero-shadow),3px_3px_0_var(--hero-shadow)] backdrop-blur-sm transition-transform hover:-translate-y-1 md:top-1/4 md:right-2 dark:border-white">
               <span className="text-card-foreground text-xl font-black lg:text-3xl">
                 {toLocaleDigits(String(profile.experienceYears), locale)}+
               </span>
@@ -103,7 +103,7 @@ const HeroSection = () => {
               </span>
             </div>
 
-            <div className="border-foreground absolute bottom-12 -left-1 z-20 flex cursor-default items-center gap-3 rounded-full border-2 bg-card/95 px-5 py-3 shadow-[0_10px_28px_-14px_var(--hero-shadow),3px_3px_0_var(--hero-shadow)] backdrop-blur-sm transition-transform hover:-translate-y-1 dark:border-white md:left-10">
+            <div className="border-foreground bg-card/95 absolute bottom-12 -left-1 z-20 flex cursor-default items-center gap-3 rounded-full border-2 px-5 py-3 shadow-[0_10px_28px_-14px_var(--hero-shadow),3px_3px_0_var(--hero-shadow)] backdrop-blur-sm transition-transform hover:-translate-y-1 md:left-10 dark:border-white">
               <span className="text-card-foreground text-xl font-black lg:text-3xl">
                 {toLocaleDigits(String(profile.completedProjects), locale)}
               </span>

@@ -5,6 +5,7 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/pagination";
 import { useLocale } from "@/lib/i18n";
+import Shape from "../ui/shape";
 import type { Project } from "@/types";
 import WorkCard from "./WorkCard";
 
@@ -13,7 +14,15 @@ export default function WorksSlider({ projects }: { projects: Project[] }) {
   const locale = useLocale();
 
   return (
-    <div className="mt-12">
+    <div className="relative mt-12">
+      {/* right Deco, the same as in the Hero section; its height follows this slider block */}
+      <div className="hidden md:block">
+        <Shape
+          width={226}
+          className="absolute -bottom-51.5 -left-11.5 h-56.5 max-w-56.5"
+          containerClassName="-right-18"
+        />
+      </div>
       <Swiper
         key={locale}
         modules={[Pagination, Autoplay]}
@@ -23,7 +32,11 @@ export default function WorksSlider({ projects }: { projects: Project[] }) {
         slidesPerView={1}
         watchOverflow
         grabCursor
-        autoplay={{ delay: 6000, pauseOnMouseEnter: true, disableOnInteraction: false }}
+        autoplay={{
+          delay: 6000,
+          pauseOnMouseEnter: true,
+          disableOnInteraction: false,
+        }}
         pagination={{ clickable: true, el: ".works-pagination" }}
         breakpoints={{
           768: { slidesPerView: 2 },
@@ -33,7 +46,7 @@ export default function WorksSlider({ projects }: { projects: Project[] }) {
         {projects.map((project) => (
           <SwiperSlide key={project.id} className="h-auto">
             {/* Equal-height cards inside the stretched slide */}
-            <div className="h-full [&>*]:h-full">
+            <div className="h-full *:h-full">
               <WorkCard project={project} />
             </div>
           </SwiperSlide>
