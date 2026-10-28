@@ -26,22 +26,25 @@ function NavItem({ onNavigate }: NavItemProps) {
               isPersian ? "hover:-translate-x-0.5" : "hover:translate-x-0.5"
             }`}
           >
-            <Link href={key === "blog" ? "/blog" : `/#${key}`} onClick={onNavigate}>
+            <Link
+              href={key === "blog" ? "/blog" : `/#${key}`}
+              onClick={onNavigate}
+            >
               {name}
             </Link>
           </li>
         ))}
       </ul>
+      <div className="mt-6">
+        <SocialList />
+      </div>
 
-      <Button asChild variant="cta" size="lg" className="mt-6">
+      <Button asChild variant="cta" size="lg" className="mt-6 w-1/2 md:w-full">
         <Link href="/login" onClick={onNavigate}>
           {dictionary.common.login}
         </Link>
       </Button>
 
-      <div className="mt-6">
-        <SocialList />
-      </div>
       <div className="">
         <Shape
           containerClassName={`top-30 bottom-24 ${

@@ -31,7 +31,9 @@ export async function generateMetadata({ params }: Props): Promise<Metadata> {
     description: project.description,
     alternates: {
       canonical: `${siteUrl}/${locale}/works/${slug}`,
-      languages: Object.fromEntries(routing.locales.map((l) => [l, `${siteUrl}/${l}/works/${slug}`])),
+      languages: Object.fromEntries(
+        routing.locales.map((l) => [l, `${siteUrl}/${l}/works/${slug}`]),
+      ),
     },
     openGraph: {
       type: "website",
@@ -59,7 +61,11 @@ export default async function ProjectPage({ params }: Props) {
   // Up to three other projects, same category first.
   const related = projects
     .filter((item) => item.id !== project.id)
-    .sort((a, b) => Number(b.category === project.category) - Number(a.category === project.category))
+    .sort(
+      (a, b) =>
+        Number(b.category === project.category) -
+        Number(a.category === project.category),
+    )
     .slice(0, 3);
 
   const structuredData = {
@@ -71,33 +77,50 @@ export default async function ProjectPage({ params }: Props) {
     dateCreated: project.createdAt.toISOString(),
     url: `${siteUrl}/${locale}/works/${slug}`,
     inLanguage: locale,
-    author: { "@type": "Person", name: profile.name, url: `${siteUrl}/${locale}` },
+    author: {
+      "@type": "Person",
+      name: profile.name,
+      url: `${siteUrl}/${locale}`,
+    },
   };
 
   return (
     <main className="container-custom pt-28 pb-20">
       <script
         type="application/ld+json"
-        dangerouslySetInnerHTML={{ __html: JSON.stringify(structuredData).replace(/</g, "\\u003c") }}
+        dangerouslySetInnerHTML={{
+          __html: JSON.stringify(structuredData).replace(/</g, "\\u003c"),
+        }}
       />
 
-      <nav aria-label="Breadcrumb" className="text-muted-foreground flex flex-wrap items-center gap-2 text-sm">
-        <Link href="/" className="hover:text-primary transition-colors">{nav("home")}</Link>
+      <nav
+        aria-label="Breadcrumb"
+        className="text-muted-foreground flex flex-wrap items-center gap-2 text-sm"
+      >
+        <Link href="/" className="hover:text-primary transition-colors">
+          {nav("home")}
+        </Link>
         <span aria-hidden>/</span>
-        <Link href="/#works" className="hover:text-primary transition-colors">{works("title")}</Link>
+        <Link href="/#works" className="hover:text-primary transition-colors">
+          {works("title")}
+        </Link>
         <span aria-hidden>/</span>
         <span className="text-foreground line-clamp-1">{project.title}</span>
       </nav>
 
       <header className="mt-8 max-w-3xl space-y-5">
         <Badge className="px-3 py-3">{common(project.category)}</Badge>
-        <h1 className="text-4xl leading-tight font-black tracking-tight sm:text-5xl">{project.title}</h1>
-        <p className="text-muted-foreground text-lg leading-8">{project.description}</p>
+        <h1 className="text-4xl leading-tight font-black tracking-tight sm:text-5xl">
+          {project.title}
+        </h1>
+        <p className="text-muted-foreground text-lg leading-8">
+          {project.description}
+        </p>
       </header>
 
       <div className="mt-10 grid gap-10 lg:grid-cols-[minmax(0,1fr)_340px] lg:items-start">
         <div className="min-w-0 space-y-10">
-          <div className="border-border/60 relative aspect-[16/10] overflow-hidden rounded-3xl border shadow-lg">
+          <div className="border-border/60 relative aspect-16/10 overflow-hidden rounded-3xl border shadow-lg">
             <Image
               src={project.image || "/assets/img/placeholder.svg"}
               alt={project.title}
@@ -129,7 +152,9 @@ export default async function ProjectPage({ params }: Props) {
                 </div>
                 <div className="flex justify-between gap-4">
                   <dt className="text-muted-foreground">{works("date")}</dt>
-                  <dd className="font-medium">{formatDate(project.createdAt, locale)}</dd>
+                  <dd className="font-medium">
+                    {formatDate(project.createdAt, locale)}
+                  </dd>
                 </div>
               </dl>
 
@@ -142,14 +167,22 @@ export default async function ProjectPage({ params }: Props) {
                 <div className="grid gap-3">
                   {project.liveUrl && (
                     <Button asChild variant="cta" size="lg">
-                      <a href={project.liveUrl} target="_blank" rel="noopener noreferrer">
+                      <a
+                        href={project.liveUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
                         <RiExternalLinkLine /> {common("viewProject")}
                       </a>
                     </Button>
                   )}
                   {project.repoUrl && (
                     <Button asChild variant="outline" size="lg">
-                      <a href={project.repoUrl} target="_blank" rel="noopener noreferrer">
+                      <a
+                        href={project.repoUrl}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                      >
                         <RiGithubLine /> {common("repository")}
                       </a>
                     </Button>
