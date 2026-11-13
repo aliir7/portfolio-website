@@ -12,8 +12,11 @@ export async function withQuery<T>(query: () => Promise<T>, name = "server-query
     return data;
   } catch (error) {
     const durationMs = Math.round(performance.now() - startedAt);
-    const t = await getTranslations();
     logger.error({ query: name, durationMs, err: error }, "Server query failed");
-    throw new Error(formatError(error, t), { cause: error });
+    // Outside a request (the build, a cached function) there is no locale to translate with:
+    // fall back to the raw message so the real cause is never hidden behind a translation error.
+    const t = await getTranslations().catch(() => null);
+    const message = t ? formatError(error, t) : error instanceof Error ? error.message : "Server query failed";
+    throw new Error(message, { cause: error });
   }
 }

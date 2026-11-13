@@ -4,7 +4,7 @@ import { useRef, useState } from "react";
 import { RiDeleteBinLine, RiUploadLine } from "@remixicon/react";
 import { toast } from "sonner";
 import { Button } from "@/components/ui/button";
-import { createCloudinarySignature } from "@/lib/actions/cloudinary.actions";
+import { createCloudinarySignature } from "@/lib/actions/admin/cloudinary.actions";
 import { notifyResult } from "@/lib/utils/notify";
 import TextField from "./text-field";
 

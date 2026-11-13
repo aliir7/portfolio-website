@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
-import WorksListing, { worksMetadata } from "@/components/Works/WorksListing";
+import WorksListing, { worksMetadata } from "@/components/Works/works-listing";
 import { hasLocale } from "@/i18n/routing";
 
 export const revalidate = 3600;

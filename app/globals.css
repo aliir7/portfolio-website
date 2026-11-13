@@ -189,6 +189,20 @@
 
   html {
     scroll-behavior: smooth;
+    /* Anchor links (#works, #contact) stop below the fixed 80px header instead of under it */
+    scroll-padding-top: 6rem;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+  }
+
+  /* Side decorations hang outside the container: clip them instead of creating a horizontal scrollbar.
+     `clip` (unlike `hidden`) does not create a scroll container, so position: sticky keeps working. */
+  body {
+    overflow-x: clip;
   }
 
   ::view-transition-old(root),

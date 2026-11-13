@@ -8,7 +8,7 @@ import {
   createProjectAction,
   deleteProjectAction,
   updateProjectAction,
-} from "@/lib/actions/admin/projects.actions";
+} from "@/lib/actions/admin/project.actions";
 import { notifyResult } from "@/lib/utils/notify";
 import type { AdminProject, ProjectInput } from "@/types";
 import {

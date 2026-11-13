@@ -12,9 +12,9 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Spinner } from "@/components/ui/spinner";
-import { createProjectAction } from "@/lib/actions/admin/projects.actions";
+import { createProjectAction } from "@/lib/actions/admin/project.actions";
 import { notifyResult } from "@/lib/utils/notify";
-import { projectSchema } from "@/lib/validations/projects.validations";
+import { projectSchema } from "@/lib/validations/project.validations";
 import type { ProjectInput } from "@/types";
 import ProjectFields, { emptyProject } from "./project-fields";
 import { useFormValidation } from "./use-form-validation";

@@ -90,7 +90,8 @@
     "previous": "Previous",
     "next": "Next",
     "pagination": "Projects pagination",
-    "pageLabel": "Page {page}"
+    "pageLabel": "Page {page}",
+    "breadcrumb": "Breadcrumb"
   },
   "resume": {
     "title": "My resume",

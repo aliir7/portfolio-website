@@ -6,7 +6,7 @@ import { RiAddLine, RiDeleteBinLine, RiEditLine, RiExternalLinkLine } from "@rem
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
-import { deleteBlogPostAction } from "@/lib/actions/blog.actions";
+import { deleteBlogPostAction } from "@/lib/actions/admin/blog.actions";
 import { formatDate } from "@/lib/utils/format-date";
 import { notifyResult } from "@/lib/utils/notify";
 import { useConfirm } from "./confirm-provider";

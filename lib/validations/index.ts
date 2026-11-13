@@ -5,5 +5,5 @@ export * from "./contact.validations";
 export * from "./content.validations";
 export * from "./localized.validations";
 export * from "./profile.validations";
-export * from "./projects.validations";
+export * from "./project.validations";
 export * from "./settings.validations";

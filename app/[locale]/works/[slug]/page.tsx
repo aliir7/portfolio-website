@@ -3,12 +3,13 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
-import BlogContent from "@/components/Blog/BlogContent";
+import BlogContent from "@/components/Blog/blog-content";
+import Breadcrumb from "@/components/breadcrumb";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import TechBadges from "@/components/Works/TechBadges";
-import WorkCard from "@/components/Works/WorkCard";
+import TechBadges from "@/components/Works/tech-badges";
+import WorkCard from "@/components/Works/work-card";
 import { Link } from "@/i18n/navigation";
 import { hasLocale, routing } from "@/i18n/routing";
 import { absoluteUrl, siteUrl } from "@/lib/site";
@@ -85,7 +86,7 @@ export default async function ProjectPage({ params }: Props) {
   };
 
   return (
-    <main className="container-custom pt-28 pb-20">
+    <main className="container-custom pt-36 pb-20">
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
@@ -93,20 +94,14 @@ export default async function ProjectPage({ params }: Props) {
         }}
       />
 
-      <nav
-        aria-label="Breadcrumb"
-        className="text-muted-foreground flex flex-wrap items-center gap-2 text-sm"
-      >
-        <Link href="/" className="hover:text-primary transition-colors">
-          {nav("home")}
-        </Link>
-        <span aria-hidden>/</span>
-        <Link href="/#works" className="hover:text-primary transition-colors">
-          {works("title")}
-        </Link>
-        <span aria-hidden>/</span>
-        <span className="text-foreground line-clamp-1">{project.title}</span>
-      </nav>
+      <Breadcrumb
+        label={works("breadcrumb")}
+        items={[
+          { label: nav("home"), href: "/" },
+          { label: works("title"), href: "/works" },
+          { label: project.title },
+        ]}
+      />
 
       <header className="mt-8 max-w-3xl space-y-5">
         <Badge className="px-3 py-3">{common(project.category)}</Badge>

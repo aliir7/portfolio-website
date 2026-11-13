@@ -14,9 +14,9 @@ interface ShapeProps extends Partial<ImageProps> {
 
 const Shape = ({
   src = "/assets/img/shape-1.png",
-  alt = "deco-shape",
-  width = 100,
-  height = 100,
+  alt = "",
+  width = 226,
+  height = 226,
   className,
   containerClassName,
   showConnector = true,
@@ -37,6 +37,8 @@ const Shape = ({
         width={width}
         height={height}
         loading="lazy"
+        decoding="async"
+        aria-hidden="true"
         className={cn("block object-cover dark:invert", className)}
         {...props}
       />

@@ -10,3 +10,10 @@ ignoredBuiltDependencies:
   - unrs-resolver
 minimumReleaseAgeExclude:
   - shadcn@4.11.0
+  - '@better-auth/mongo-adapter@1.7.22'
+  - framer-motion@14.13.0
+  - icu-minify@4.15.1
+  - motion-dom@14.13.0
+  - next-intl-swc-plugin-extractor@4.15.1
+  - next-intl@4.15.1
+  - use-intl@4.15.1

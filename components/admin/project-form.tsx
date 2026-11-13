@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useMemo, useState } from "react";
-import { projectSchema } from "@/lib/validations/projects.validations";
+import { projectSchema } from "@/lib/validations/project.validations";
 import type { AdminProject, ProjectInput } from "@/types";
 import FormDialog from "./form-dialog";
 import ProjectFields, { emptyProject, toProjectInput } from "./project-fields";

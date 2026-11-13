@@ -1,6 +1,6 @@
 import { notFound } from "next/navigation";
 import BlogPostForm from "@/components/admin/blog-post-form";
-import { getAdminBlogPostByIdQuery, getBlogTagsQuery } from "@/query/blogs.query";
+import { getAdminBlogPostByIdQuery, getBlogTagsQuery } from "@/query/blog.query";
 
 export default async function AdminEditBlogPostPage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;

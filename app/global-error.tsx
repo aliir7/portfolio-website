@@ -1,7 +1,7 @@
 "use client";
 
 import "./globals.css";
-import ErrorState from "@/components/ErrorState";
+import ErrorState from "@/components/error-state";
 
 // Last resort: replaces the whole document, so it must render <html>/<body> itself and cannot use
 // translations or providers. Both languages are shown.

@@ -1,0 +1,306 @@
+"use client";
+
+import { useTranslations } from "next-intl";
+import { useState } from "react";
+import { useGoogleReCaptcha } from "react-google-recaptcha-v3";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Textarea } from "@/components/ui/textarea";
+import { Label } from "@/components/ui/label";
+import { toast } from "sonner";
+import { RiMailLine, RiPhoneLine, RiMapPinLine } from "@remixicon/react";
+import { cn } from "@/lib/utils";
+import RevealSection from "../ui/reveal-section";
+import Shape from "../ui/shape";
+import { useContent } from "@/lib/content";
+import { toLocaleDigits, useDictionary, useLocale } from "@/lib/i18n";
+import { submitContactAction } from "@/lib/actions/contact.actions";
+import { getActionErrorMessage } from "@/lib/utils/format-error";
+import { Spinner } from "../ui/spinner";
+import { RecaptchaProvider } from "../auth/recaptcha-provider";
+
+const ContactSectionContent = () => {
+  const { contact } = useDictionary();
+  const { executeRecaptcha } = useGoogleReCaptcha();
+  const contactMessages = useTranslations("contact");
+  const locale = useLocale();
+  const { profile } = useContent();
+  const contactInfo = [
+    { icon: RiMailLine, key: "email", value: profile.email, href: `mailto:${profile.email}` },
+    {
+      icon: RiPhoneLine,
+      key: "phone",
+      value: profile.phone,
+      href: `tel:${profile.phone.replace(/\s+/g, "")}`,
+    },
+    {
+      icon: RiMapPinLine,
+      key: "location",
+      value: profile.location,
+      href: `https://maps.google.com/?q=${encodeURIComponent(profile.location)}`,
+    },
+  ];
+  const [formData, setFormData] = useState({
+    name: "",
+    email: "",
+    message: "",
+  });
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [errors, setErrors] = useState<Partial<typeof formData>>({});
+
+  const validateForm = () => {
+    const newErrors: Partial<typeof formData> = {};
+    if (!formData.name.trim()) newErrors.name = contact.requiredName;
+    if (!formData.email.trim()) newErrors.email = contact.requiredEmail;
+    else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(formData.email))
+      newErrors.email = contact.invalidEmail;
+    if (!formData.message.trim()) newErrors.message = contact.requiredMessage;
+    else if (formData.message.trim().length < 10)
+      newErrors.message = contact.shortMessage;
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!validateForm()) return;
+
+    setIsSubmitting(true);
+    try {
+      if (!executeRecaptcha) throw new Error(contact.unexpectedError);
+      const token = await executeRecaptcha("contact");
+      const result = await submitContactAction(formData, token);
+      if (!result.success) throw new Error(result.message ?? getActionErrorMessage(result.error));
+
+      toast.success(contact.success);
+      setFormData({ name: "", email: "", message: "" });
+    } catch (error) {
+      toast.error(
+        error instanceof Error ? error.message : contact.unexpectedError,
+      );
+    } finally {
+      setIsSubmitting(false);
+    }
+  };
+
+  const handleChange = (
+    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>,
+  ) => {
+    setFormData((prev) => ({ ...prev, [e.target.name]: e.target.value }));
+    if (errors[e.target.name as keyof typeof errors]) {
+      setErrors((prev) => ({ ...prev, [e.target.name]: undefined }));
+    }
+  };
+
+  return (
+    <RevealSection
+      id="contact"
+      delay={0.5}
+      className="section-gradient relative overflow-hidden py-20"
+    >
+      <div className="container-custom relative z-10">
+        <div className="mx-auto mb-14 max-w-2xl text-center">
+          <h2 className="mt-3 text-3xl font-bold tracking-tight sm:text-4xl">
+            {contact.title}
+          </h2>
+          <span className="text-primary mt-5 block text-sm font-bold tracking-[0.2em]">
+            {contact.eyebrow}
+          </span>
+          <p className="text-muted-foreground mx-auto mt-4 max-w-2xl leading-8">
+            {contact.intro}
+          </p>
+        </div>
+
+        <div className="mx-auto grid max-w-5xl gap-6 lg:grid-cols-[0.85fr_1.15fr]">
+          <div className="bg-card border-border/60 hover:shadow-4px rounded-3xl border p-6 shadow-sm transition-all duration-300 sm:p-8">
+            <h3 className="text-2xl font-bold">{contact.infoTitle}</h3>
+            <p className="text-muted-foreground mt-3 text-sm leading-7">
+              {contact.infoText}
+            </p>
+            <div className="space-y-4">
+              {contactInfo.map((item) => (
+                <a
+                  key={item.key}
+                  href={item.href}
+                  className="group bg-background/60 border-border/50 hover:border-primary/50 flex items-center gap-4 rounded-2xl border p-4 transition-all hover:-translate-y-0.5 hover:shadow-md"
+                  target={item.href.startsWith("http") ? "_blank" : undefined}
+                  rel={
+                    item.href.startsWith("http")
+                      ? "noopener noreferrer"
+                      : undefined
+                  }
+                >
+                  <div className="bg-primary/10 text-primary group-hover:bg-primary group-hover:text-primary-foreground flex h-12 w-12 shrink-0 items-center justify-center rounded-xl transition-colors">
+                    <item.icon className="size-6" />
+                  </div>
+                  <div className="min-w-0">
+                    <p className="text-muted-foreground text-sm">
+                      {item.key === "email"
+                        ? contact.email
+                        : item.key === "phone"
+                          ? contact.phone
+                          : contact.location}
+                    </p>
+                    <p
+                      className={cn(
+                        "truncate font-medium",
+                        item.key === "phone" && "direction-ltr text-right",
+                      )}
+                      dir={item.key === "phone" ? "ltr" : undefined}
+                    >
+                      {item.key === "location" && locale === "en"
+                        ? "Tehran, Iran"
+                        : item.key === "phone"
+                          ? toLocaleDigits(item.value, locale)
+                          : item.value}
+                    </p>
+                  </div>
+                </a>
+              ))}
+            </div>
+          </div>
+
+          <form
+            onSubmit={handleSubmit}
+            className="bg-card border-border/60 hover:shadow-4px rounded-3xl border p-6 shadow-sm transition-all duration-300 sm:p-8"
+            noValidate
+          >
+            <h3 className="mb-6 text-2xl font-bold">{contact.messageTitle}</h3>
+            <div className="grid gap-4 sm:grid-cols-2">
+              <div className="space-y-1.5">
+                <Label htmlFor="name">{contact.name}</Label>
+                <Input
+                  id="name"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleChange}
+                  placeholder={contact.namePlaceholder}
+                  className={cn(
+                    errors.name &&
+                      "border-destructive focus:border-destructive",
+                  )}
+                  aria-invalid={errors.name ? "true" : "false"}
+                  aria-describedby={errors.name ? "name-error" : undefined}
+                  disabled={isSubmitting}
+                />
+                {errors.name && (
+                  <p
+                    id="name-error"
+                    className="text-destructive text-sm"
+                    role="alert"
+                  >
+                    {errors.name}
+                  </p>
+                )}
+              </div>
+
+              <div className="space-y-1.5">
+                <Label htmlFor="email">{contact.email}</Label>
+                <Input
+                  id="email"
+                  name="email"
+                  type="email"
+                  value={formData.email}
+                  onChange={handleChange}
+                  placeholder="alirezaeii.dev@gmail.com"
+                  className={cn(
+                    errors.email &&
+                      "border-destructive focus:border-destructive",
+                  )}
+                  aria-invalid={errors.email ? "true" : "false"}
+                  aria-describedby={errors.email ? "email-error" : undefined}
+                  disabled={isSubmitting}
+                />
+                {errors.email && (
+                  <p
+                    id="email-error"
+                    className="text-destructive text-sm"
+                    role="alert"
+                  >
+                    {errors.email}
+                  </p>
+                )}
+              </div>
+            </div>
+
+            <div className="space-y-1.5">
+              <Label htmlFor="message">{contact.message}</Label>
+              <Textarea
+                id="message"
+                name="message"
+                value={formData.message}
+                onChange={handleChange}
+                placeholder={contact.messagePlaceholder}
+                rows={5}
+                className={cn(
+                  errors.message &&
+                    "border-destructive focus:border-destructive",
+                )}
+                aria-invalid={errors.message ? "true" : "false"}
+                aria-describedby={errors.message ? "message-error" : undefined}
+                disabled={isSubmitting}
+              />
+              {errors.message && (
+                <p
+                  id="message-error"
+                  className="text-destructive text-sm"
+                  role="alert"
+                >
+                  {errors.message}
+                </p>
+              )}
+            </div>
+
+            <Button
+              type="submit"
+              variant="cta"
+              size="lg"
+              className="mt-4 w-full px-8 py-3 text-base sm:w-auto"
+              disabled={isSubmitting}
+            >
+              {isSubmitting ? (
+                <>
+                  <Spinner className="mr-2" />
+                  {contact.submitting}
+                </>
+              ) : (
+                contact.submit
+              )}
+            </Button>
+            <p className="text-muted-foreground mt-3 text-xs leading-6">
+              {contactMessages.rich("recaptchaNotice", {
+                privacy: (chunks) => (
+                  <a href="https://policies.google.com/privacy" target="_blank" rel="noopener noreferrer" className="underline">
+                    {chunks}
+                  </a>
+                ),
+                terms: (chunks) => (
+                  <a href="https://policies.google.com/terms" target="_blank" rel="noopener noreferrer" className="underline">
+                    {chunks}
+                  </a>
+                ),
+              })}
+            </p>
+          </form>
+        </div>
+      </div>
+      <div className="hidden md:block">
+        <Shape
+          width={226}
+              height={226}
+              className="absolute -bottom-51.5 -left-11.5"
+          containerClassName="-right-18"
+        />
+      </div>
+    </RevealSection>
+  );
+};
+
+/** reCAPTCHA v3 is scoped to this section; the token is verified by `submitContactAction`. */
+export const ContactSection = () => (
+  <RecaptchaProvider>
+    <ContactSectionContent />
+  </RecaptchaProvider>
+);
+
+export default ContactSection;

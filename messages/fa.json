@@ -90,7 +90,8 @@
     "previous": "قبلی",
     "next": "بعدی",
     "pagination": "صفحه‌بندی پروژه‌ها",
-    "pageLabel": "صفحه {page}"
+    "pageLabel": "صفحه {page}",
+    "breadcrumb": "مسیر صفحه"
   },
   "resume": {
     "title": "رزومه من",

@@ -2,7 +2,7 @@
 
 import { useTranslations } from "next-intl";
 import { useEffect } from "react";
-import ErrorState from "@/components/ErrorState";
+import ErrorState from "@/components/error-state";
 
 // Catches errors thrown by pages under the locale layout. Errors thrown by the layout itself
 // (e.g. the content queries when the database is down) end in `app/global-error.tsx`.

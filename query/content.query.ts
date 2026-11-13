@@ -6,6 +6,7 @@ import { db } from "@/db";
 import { profile, projects, resumeItems, services, skills, socialLinks } from "@/db/schema";
 import { cached } from "@/lib/cache";
 import { localize } from "@/lib/localize";
+import { logger } from "@/lib/utils/logger";
 import { withQuery } from "@/lib/utils/with-query";
 import type { Locale, PublicContent } from "@/types";
 
@@ -70,11 +71,48 @@ const getCachedContentRows = cached("public-content", ["content"], async () => {
   return { profileRow, skillRows, serviceRows, projectRows, resumeRows, socialRows };
 });
 
+// Only `next build` may fall back to placeholder content (database not migrated/seeded yet, or unreachable),
+// so a first deployment can still complete. At runtime a failure is an error: ISR then keeps serving the last
+// good page, and the first render of a new page fails loudly instead of showing an empty site.
+const isBuildPhase = () => process.env.NEXT_PHASE === "phase-production-build";
+
+const emptyContent = (): PublicContent => ({
+  profile: {
+    id: 1,
+    name: "",
+    role: "",
+    bio: "",
+    location: "",
+    email: "",
+    phone: "",
+    avatarUrl: null,
+    resumeUrl: null,
+    experienceYears: 0,
+    completedProjects: 0,
+    updatedAt: new Date(),
+  },
+  skills: [],
+  services: [],
+  projects: [],
+  resume: [],
+  socialLinks: [],
+});
+
 // `cache` makes the layout (provider) and the page (structured data) share one resolution per request.
 export const getPublicContent = cache(async (locale: Locale): Promise<PublicContent> => {
-  const { profileRow, skillRows, serviceRows, projectRows, resumeRows, socialRows } = await getCachedContentRows();
+  let rows: Awaited<ReturnType<typeof getCachedContentRows>>;
+  try {
+    rows = await getCachedContentRows();
+  } catch (error) {
+    if (!isBuildPhase()) throw error;
+    logger.warn({ err: error }, "Build: could not read the database, using empty content. Run migrations and the seed, then redeploy.");
+    return emptyContent();
+  }
+
+  const { profileRow, skillRows, serviceRows, projectRows, resumeRows, socialRows } = rows;
 
   if (!profileRow) {
+    if (isBuildPhase()) return emptyContent();
     throw new Error("The profile table is empty. Run `pnpm db:seed` first.");
   }
 

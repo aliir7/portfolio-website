@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { RiAddLine, RiArrowRightLine, RiSaveLine } from "@remixicon/react";
-import BlogContent from "@/components/Blog/BlogContent";
+import BlogContent from "@/components/Blog/blog-content";
 import { Button } from "@/components/ui/button";
 import {
   Card,
@@ -21,7 +21,7 @@ import {
   createBlogPostAction,
   createBlogTagAction,
   updateBlogPostAction,
-} from "@/lib/actions/blog.actions";
+} from "@/lib/actions/admin/blog.actions";
 import { uploadFolders } from "@/lib/constants";
 import { notifyResult } from "@/lib/utils/notify";
 import {

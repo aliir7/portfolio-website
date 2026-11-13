@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import ErrorState from "@/components/ErrorState";
+import ErrorState from "@/components/error-state";
 
 // The admin panel is Persian-only, so its texts are not translated.
 export default function AdminError({ error, reset }: { error: Error & { digest?: string }; reset: () => void }) {

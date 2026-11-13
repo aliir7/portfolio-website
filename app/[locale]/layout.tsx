@@ -1,8 +1,9 @@
 import { siteUrl } from "@/lib/site";
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
+import { preload } from "react-dom";
 import { getMessages, setRequestLocale } from "next-intl/server";
-import Providers from "@/components/Providers";
+import Providers from "@/components/app-providers";
 import { TIME_ZONE } from "@/i18n/config";
 import { hasLocale, type Locale } from "@/i18n/routing";
 import { getSeo } from "@/lib/seo";
@@ -21,6 +22,13 @@ export async function generateMetadata({
   const { locale } = await params;
   if (!hasLocale(locale)) notFound();
   setRequestLocale(locale);
+
+  // Text is the LCP element on most pages: fetch the active language's font file early.
+  preload(locale === "fa" ? "/fonts/Yekan.woff2" : "/fonts/Jost.ttf", {
+    as: "font",
+    type: locale === "fa" ? "font/woff2" : "font/ttf",
+    crossOrigin: "anonymous",
+  });
 
   const seo = await getSeo(locale);
   return {
@@ -67,7 +75,7 @@ export default async function LocaleLayout({
   const [messages, content] = await Promise.all([getMessages(), getPublicContent(locale)]);
 
   return (
-    <html lang={locale} dir={DIR[locale]} suppressHydrationWarning>
+    <html lang={locale} dir={DIR[locale]} data-scroll-behavior="smooth" suppressHydrationWarning>
       <body suppressHydrationWarning>
         <Providers locale={locale} messages={messages} timeZone={TIME_ZONE} content={content}>
           {children}

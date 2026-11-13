@@ -4,6 +4,6 @@ export * from "./blog";
 export * from "./contact";
 export * from "./content";
 export * from "./profile";
-export * from "./projects";
+export * from "./project";
 export * from "./settings";
 export * from "./translator";

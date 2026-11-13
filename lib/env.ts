@@ -8,7 +8,9 @@ if (typeof window !== "undefined") {
   throw new Error("lib/env.ts contains server secrets and must not be imported in client code.");
 }
 
-const DEFAULT_AUTH_URL = "http://localhost:3000";
+// On Vercel the deployment host is injected (without protocol), so the auth URL needs no manual setting.
+const vercelHost = process.env.VERCEL_PROJECT_PRODUCTION_URL ?? process.env.VERCEL_URL;
+const DEFAULT_AUTH_URL = vercelHost ? `https://${vercelHost}` : "http://localhost:3000";
 
 const schema = z.object({
   DATABASE_URL: z.string().startsWith("postgres", "must be a PostgreSQL connection string"),
@@ -34,7 +36,16 @@ const parsed = schema.safeParse(raw);
 
 // `SKIP_ENV_VALIDATION=1` is an escape hatch for builds that run without secrets (CI, Docker).
 if (!parsed.success && !process.env.SKIP_ENV_VALIDATION) {
-  throw new Error(`Invalid environment variables:\n${z.prettifyError(parsed.error)}`);
+  const message = `Invalid environment variables:\n${z.prettifyError(parsed.error)}`;
+
+  // Static generation does not need runtime secrets, and several modules that import `env` are evaluated
+  // during `next build` (e.g. the auth route). A hosting dashboard that is not fully configured must not
+  // fail the build: warn now, and fail loudly as soon as the server starts (see `instrumentation.ts`).
+  if (process.env.NEXT_PHASE === "phase-production-build") {
+    console.warn(`[env] ${message}\n[env] The build continues; fix these variables before the server starts.`);
+  } else {
+    throw new Error(message);
+  }
 }
 
 export const env = (parsed.success ? parsed.data : { BETTER_AUTH_URL: DEFAULT_AUTH_URL, ...raw }) as Env;

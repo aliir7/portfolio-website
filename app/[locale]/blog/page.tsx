@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
 import { RiRssLine } from "@remixicon/react";
-import BlogList from "@/components/Blog/BlogList";
+import BlogList from "@/components/Blog/blog-list";
 import { Link } from "@/i18n/navigation";
 import { hasLocale, routing } from "@/i18n/routing";
 import { siteUrl } from "@/lib/site";
-import { getPublishedBlogPostsQuery } from "@/query/blogs.query";
+import { getPublishedBlogPostsQuery } from "@/query/blog.query";
 
 export const revalidate = 3600;
 

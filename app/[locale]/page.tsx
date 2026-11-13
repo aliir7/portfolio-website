@@ -1,4 +1,4 @@
-import Home from "@/components/Home/Home";
+import Home from "@/components/Home/home-page";
 import { getSeo } from "@/lib/seo";
 import { absoluteUrl, defaultAvatar, siteUrl } from "@/lib/site";
 import { getPublicContent } from "@/query/content.query";

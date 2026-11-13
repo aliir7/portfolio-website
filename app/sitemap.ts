@@ -1,7 +1,8 @@
 import type { MetadataRoute } from "next";
 import { routing } from "@/i18n/routing";
 import { siteUrl } from "@/lib/site";
-import { getPublishedBlogPostsQuery } from "@/query/blogs.query";
+import { logger } from "@/lib/utils/logger";
+import { getPublishedBlogPostsQuery } from "@/query/blog.query";
 import { getProjectsQuery } from "@/query/content.query";
 
 // Posts are published over time, so the sitemap is regenerated hourly.
@@ -21,10 +22,17 @@ const localized = (path: string, entry: Entry): MetadataRoute.Sitemap =>
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const lastModified = new Date();
-  const [blogPosts, projects] = await Promise.all([
-    getPublishedBlogPostsQuery(),
-    getProjectsQuery({ publishedOnly: true }),
-  ]);
+  // The sitemap is built during `next build`: a database that is not ready must not fail the deployment.
+  let blogPosts: Awaited<ReturnType<typeof getPublishedBlogPostsQuery>> = [];
+  let projects: Awaited<ReturnType<typeof getProjectsQuery>> = [];
+  try {
+    [blogPosts, projects] = await Promise.all([
+      getPublishedBlogPostsQuery(),
+      getProjectsQuery({ publishedOnly: true }),
+    ]);
+  } catch (error) {
+    logger.warn({ err: error }, "Sitemap: could not read posts and projects, listing the static pages only");
+  }
   const posts = blogPosts.filter((post) => !post.noIndex);
   const tagSlugs = [...new Set(posts.flatMap((post) => post.tags.map((tag) => tag.slug)))];
 

@@ -77,3 +77,10 @@ pnpm db:seed           # seed content + admin (needs SEED_ADMIN_PASSWORD)
 - DRY and single ownership: one definition per fact; derive types with `$inferSelect` / `z.infer`.
 - Don't add new dependencies without checking with me first.
 - Don't add a second ORM, a CMS, or an extra service layer without a concrete need.
+
+## Naming conventions
+- **Files:** `kebab-case` everywhere (`work-card.tsx`, `use-form-validation.ts`); exported components `PascalCase`, hooks `useCamelCase`. A single-word component gets a descriptive name (`site-header`), never a file that differs from another only by letter case.
+- **Domain modules:** singular domain + role suffix: `blog.query.ts`, `blog.actions.ts`, `blog.validations.ts`, `project.*`; DB schema files are the singular domain (`blog.ts`, `project.ts`); types are `types/<domain>.ts`.
+- **Server actions:** public ones in `lib/actions/`, admin-only ones in `lib/actions/admin/`.
+- **Constants:** `UPPER_SNAKE_CASE` for fixed tuning values (`WORKS_PAGE_SIZE`), `camelCase` for lookup objects and values derived from the environment (`socialIcons`, `siteUrl`).
+- **Folders:** new folders are `kebab-case`; the old PascalCase feature folders in `components/` stay until they are renamed with a two-step `git mv` (case-only renames are unsafe between Windows and Linux).

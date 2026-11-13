@@ -85,3 +85,8 @@ Password-reset e-mails and contact-form notifications go through Resend (`lib/em
 4. Set `RESEND_FROM_EMAIL="Portfolio <noreply@mail.your-domain.com>"`; the domain must match the verified one exactly.
 
 No SMTP library (Nodemailer) is needed.
+
+## Deploying to Vercel
+1. Set these variables in the project settings (Production and Preview): `DATABASE_URL`, `BETTER_AUTH_SECRET` (32+ characters), `RECAPTCHA_SECRET_KEY`, `NEXT_PUBLIC_RECAPTCHA_SITE_KEY`, `NEXT_PUBLIC_SITE_URL`, and the Resend/Cloudinary variables you use. `BETTER_AUTH_URL` is optional (it defaults to the deployment host). The build only warns about invalid variables; the server refuses to start with them.
+2. Apply the schema and the content to the production database once: `pnpm db:migrate` then `pnpm db:seed` (needs `SEED_ADMIN_PASSWORD`). A build against an empty database succeeds with placeholder content; save anything in the admin panel (or redeploy) afterwards.
+3. Check the build log for lines starting with `[env]` or `Build: could not read the database`.

@@ -7,7 +7,7 @@ import {
   createBlogTagAction,
   deleteBlogTagAction,
   updateBlogTagAction,
-} from "@/lib/actions/blog.actions";
+} from "@/lib/actions/admin/blog.actions";
 import { notifyResult } from "@/lib/utils/notify";
 import { blogTagSchema } from "@/lib/validations";
 import type { BlogTag } from "@/types";

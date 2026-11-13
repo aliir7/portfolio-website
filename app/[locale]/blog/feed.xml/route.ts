@@ -3,7 +3,7 @@ import { hasLocale } from "@/i18n/routing";
 import { getSeo } from "@/lib/seo";
 import { siteUrl } from "@/lib/site";
 import { escapeHtml as escapeXml } from "@/lib/utils/escape-html";
-import { getPublishedBlogPostsQuery } from "@/query/blogs.query";
+import { getPublishedBlogPostsQuery } from "@/query/blog.query";
 
 export const revalidate = 3600;
 

@@ -1,1 +1,1 @@
-export { default } from "@/components/LocaleLoading";
+export { default } from "@/components/locale-loading";

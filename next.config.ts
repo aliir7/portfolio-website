@@ -57,6 +57,7 @@ const nextConfig: NextConfig = {
   images: {
     // Optimized images (Cloudinary uploads get a new URL when replaced) are kept for 30 days.
     minimumCacheTTL: 60 * 60 * 24 * 30,
+    formats: ["image/avif", "image/webp"],
     remotePatterns: [
       {
         protocol: "https",

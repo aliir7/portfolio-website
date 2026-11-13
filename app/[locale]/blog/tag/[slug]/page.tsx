@@ -1,20 +1,22 @@
 import type { Metadata } from "next";
 import { notFound } from "next/navigation";
 import { getTranslations } from "next-intl/server";
-import BlogList from "@/components/Blog/BlogList";
+import BlogList from "@/components/Blog/blog-list";
 import { Link } from "@/i18n/navigation";
 import { hasLocale, routing } from "@/i18n/routing";
 import { siteUrl } from "@/lib/site";
-import { getBlogTagsQuery, getPublishedBlogPostsQuery } from "@/query/blogs.query";
+import { getPublishedBlogPostsQuery } from "@/query/blog.query";
 
 export const revalidate = 3600;
 
 type Props = { params: Promise<{ locale: string; slug: string }> };
 
+// The tag comes from the (cached) published posts, so a tag with no published post is simply not public.
 async function getTagWithPosts(slug: string) {
-  const [tags, posts] = await Promise.all([getBlogTagsQuery(), getPublishedBlogPostsQuery()]);
-  const tag = tags.find((item) => item.slug === slug);
-  return tag ? { tag, posts: posts.filter((post) => post.tags.some((item) => item.id === tag.id)) } : null;
+  const posts = await getPublishedBlogPostsQuery();
+  const tagged = posts.filter((post) => post.tags.some((item) => item.slug === slug));
+  const tag = tagged[0]?.tags.find((item) => item.slug === slug);
+  return tag ? { tag, posts: tagged } : null;
 }
 
 export async function generateMetadata({ params }: Props): Promise<Metadata> {

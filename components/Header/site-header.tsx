@@ -1,0 +1,57 @@
+"use client";
+import { Link } from "@/i18n/navigation";
+import { useDictionary, useDocumentLocale } from "@/lib/i18n";
+import { cn } from "@/lib/utils";
+import Image from "next/image";
+import { useEffect, useState } from "react";
+import LanguageToggle from "./language-toggle";
+import NavMenu from "./nav-menu";
+import ThemeToggle from "./theme-toggle";
+
+const Header = () => {
+  const [isScrolled, setIsScrolled] = useState<boolean>(false);
+  const locale = useDocumentLocale();
+  const dictionary = useDictionary();
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY >= 20);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
+  return (
+    <header
+      className={cn(
+        "fixed top-0 right-0 z-1000 w-full border-b border-transparent transition-all duration-500",
+        isScrolled
+          ? "border-border/60 bg-card/90 shadow-sm backdrop-blur-md"
+          : "bg-transparent",
+      )}
+    >
+      <nav className="nav container flex h-20 max-w-385 items-center justify-between">
+        {/* logo */}
+        <Link href="/" className="text-xl font-bold">
+          <Image
+            src="/assets/img/logo.png"
+            alt="Logo"
+            width={40}
+            height={40}
+            loading="eager"
+            className="h-10 w-10 shrink-0 object-contain"
+          />
+        </Link>
+        <div className="flex flex-row-reverse items-center gap-4">
+          {/* nav btns */}
+          <NavMenu />
+          <ThemeToggle />
+          <LanguageToggle label={dictionary.common.language} />
+          {/* nav menu */}
+        </div>
+      </nav>
+    </header>
+  );
+};
+
+export default Header;

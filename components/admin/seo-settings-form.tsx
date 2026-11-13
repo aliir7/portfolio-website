@@ -9,7 +9,7 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Spinner } from "@/components/ui/spinner";
-import { saveSeoSettingsAction } from "@/lib/actions/settings.actions";
+import { saveSeoSettingsAction } from "@/lib/actions/admin/settings.actions";
 import { uploadFolders } from "@/lib/constants";
 import { emptyLocalized } from "@/lib/localize";
 import { notifyResult } from "@/lib/utils/notify";
